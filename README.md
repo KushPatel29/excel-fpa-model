@@ -1,7 +1,7 @@
 # Portland General Electric: a utility FP&A model in Excel and Power BI, on public data
 
 [![CI](https://github.com/KushPatel29/excel-fpa-model/actions/workflows/ci.yml/badge.svg)](https://github.com/KushPatel29/excel-fpa-model/actions/workflows/ci.yml)
-![Tests](https://img.shields.io/badge/tests-1%2C180%20passing-3B8C6E)
+![Tests](https://img.shields.io/badge/tests-1%2C183%20passing-3B8C6E)
 ![Excel](https://img.shields.io/badge/Excel-Power%20Query%20%C2%B7%20Power%20Pivot%20%C2%B7%20DAX-217346?logo=microsoftexcel&logoColor=white)
 ![Power BI](https://img.shields.io/badge/Power%20BI-PBIP%20%C2%B7%20TMDL%20%C2%B7%207%20pages-F2C811?logo=powerbi&logoColor=black)
 ![Checks](https://img.shields.io/badge/in--workbook%20checks-31%20of%2031%20pass-1E7B34)
@@ -30,7 +30,7 @@ independent pandas model holds the saved workbook to the cent.
 
 The same analysis is also a seven-page **Power BI report** (a PBIP project with a TMDL model).
 It reads tables written by that same reference model, and a test reads the workbook's own cells
-against them, so the two cannot publish different numbers. 1,180 tests in all.
+against them, so the two cannot publish different numbers. 1,183 tests in all.
 
 **[Download the workbook](workbook/PGE_Utility_FPA_Model.xlsx)** (Microsoft 365 Excel) ·
 **[Board pack PDF](docs/board_pack.pdf)** (13 pages, exported by Excel) ·
@@ -169,6 +169,21 @@ drifts from the spec. The report was opened in Power BI Desktop, fully refreshed
 table by table against the CSVs, and captured page by page. Microsoft's report validator
 (`powerbi-report-author validate`) found 0 errors and 0 warnings. The screenshots above are those
 captures.
+
+## A second Excel model in this repository
+
+[`examples/kestrel-bay/`](examples/kestrel-bay/) keeps the model this repository started with. It is
+an FP&A workbook for a **synthetic** BC food distributor, and it shows a different side of the job:
+- budget against actual, with a price-volume-mix bridge exact in each of 24 segments;
+- an 8+4 driver forecast and scenarios;
+- working capital down to stock held past half its shelf life;
+- channel economics computed twice, by formulas and by the Power Pivot data model.
+
+Its build code and 182 tests are preserved at the tag
+[`kestrel-bay-v1`](https://github.com/KushPatel29/excel-fpa-model/tree/kestrel-bay-v1), and a test
+here pins the kept workbook to the tagged, tested file.
+
+[![Kestrel Bay dashboard: revenue ahead of budget, EBITDA behind, the bridge and the scenarios](examples/kestrel-bay/img/dashboard.png)](examples/kestrel-bay/)
 
 ## The data
 
@@ -322,9 +337,10 @@ model/layout.py              names and positions shared by the builder and the t
 workbook/                    PGE_Utility_FPA_Model.xlsx
 docs/                        board_pack.pdf and the README images
 model/export_tables.py       the reference model's output as tables for Power BI
+examples/kestrel-bay/        the earlier synthetic-distributor workbook (code at tag kestrel-bay-v1)
 tables/                      those tables, committed
 powerbi/                     the PBIP generator, its model and report specs, and the project
-tests/                       1,180 tests: workbook tie-out and features, data, Power BI model,
+tests/                       1,183 tests: workbook tie-out and features, data, Power BI model,
                              report and cross-surface tie-out, badge
 ```
 

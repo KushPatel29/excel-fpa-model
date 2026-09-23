@@ -9,3 +9,6 @@ output/
 **/.pbi/localSettings.json
 **/.pbi/cache.abf
 **/.pbi/unappliedChanges.json
+
+# A local working copy of the earlier model; the tested one is examples/kestrel-bay/.
+workbook/Kestrel_Bay_FPA_Model.xlsx
