@@ -1,0 +1,47 @@
+table fact_weather
+	lineageTag: 8827174d-d542-5f4e-b74a-c56d08ab0282
+
+	column month
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 7b47becf-9cc1-5f0d-9fe0-f1538dcbfdc8
+		summarizeBy: none
+		sourceColumn: month
+
+	column hdd
+		dataType: double
+		formatString: #,0
+		lineageTag: 500bb561-6da0-591a-aa93-6bbf02d4104e
+		summarizeBy: sum
+		sourceColumn: hdd
+
+	column cdd
+		dataType: double
+		formatString: #,0
+		lineageTag: 897c8bc9-3c34-529e-9046-71c434632996
+		summarizeBy: sum
+		sourceColumn: cdd
+
+	column normal_hdd
+		dataType: double
+		formatString: #,0
+		lineageTag: 3b932eaf-8d38-5bd8-a3b0-43bdd29c7e18
+		summarizeBy: sum
+		sourceColumn: normal_hdd
+
+	column normal_cdd
+		dataType: double
+		formatString: #,0
+		lineageTag: 65d3dd07-c5ba-5c5f-a202-6f0c51862a91
+		summarizeBy: sum
+		sourceColumn: normal_cdd
+
+	partition fact_weather = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataPath & "\tables\fact_weather.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"month", type date}, {"hdd", type number}, {"cdd", type number}, {"normal_hdd", type number}, {"normal_cdd", type number}})
+				in
+				    Typed

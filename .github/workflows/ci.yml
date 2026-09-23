@@ -30,6 +30,11 @@ jobs:
       - name: Lint
         run: ruff check .
 
+      # The Power BI project is generated from powerbi/*_spec.py. If the committed
+      # project differs from what the spec writes today, one of them was edited alone.
+      - name: The Power BI project must match its spec
+        run: python -m powerbi.build_pbip --check
+
       - name: Run the pandas reference model
         run: python model/reference.py
 

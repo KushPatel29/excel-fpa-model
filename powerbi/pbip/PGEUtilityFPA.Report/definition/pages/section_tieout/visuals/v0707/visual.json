@@ -1,0 +1,158 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "v0707",
+  "position": {
+    "x": 20,
+    "y": 470,
+    "z": 1615,
+    "height": 234,
+    "width": 1240,
+    "tabOrder": 1615
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "tieout"
+                    }
+                  },
+                  "Property": "year_label"
+                }
+              },
+              "queryRef": "tieout.year_label",
+              "nativeQueryRef": "year_label",
+              "displayName": "Year"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "EIA MWh"
+                }
+              },
+              "queryRef": "_Measures.EIA MWh",
+              "nativeQueryRef": "EIA MWh"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "FERC MWh"
+                }
+              },
+              "queryRef": "_Measures.FERC MWh",
+              "nativeQueryRef": "FERC MWh"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "MWh gap %"
+                }
+              },
+              "queryRef": "_Measures.MWh gap %",
+              "nativeQueryRef": "MWh gap %"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "EIA revenue ($M)"
+                }
+              },
+              "queryRef": "_Measures.EIA revenue ($M)",
+              "nativeQueryRef": "EIA revenue ($M)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "FERC revenue ($M)"
+                }
+              },
+              "queryRef": "_Measures.FERC revenue ($M)",
+              "nativeQueryRef": "FERC revenue ($M)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Revenue gap %"
+                }
+              },
+              "queryRef": "_Measures.Revenue gap %",
+              "nativeQueryRef": "Revenue gap %"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'The reconciliation: MWh agree within 0.1%; revenue is billed against booked'"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Table titled The reconciliation. Lists year label, EIA MWh, FERC MWh, MWh gap %, EIA revenue, FERC revenue and revenue gap %.'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

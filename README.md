@@ -1,8 +1,9 @@
-# Portland General Electric: a utility FP&A model in Excel, on public data
+# Portland General Electric: a utility FP&A model in Excel and Power BI, on public data
 
 [![CI](https://github.com/KushPatel29/excel-fpa-model/actions/workflows/ci.yml/badge.svg)](https://github.com/KushPatel29/excel-fpa-model/actions/workflows/ci.yml)
-![Tests](https://img.shields.io/badge/tests-130%20passing-3B8C6E)
+![Tests](https://img.shields.io/badge/tests-1%2C180%20passing-3B8C6E)
 ![Excel](https://img.shields.io/badge/Excel-Power%20Query%20%C2%B7%20Power%20Pivot%20%C2%B7%20DAX-217346?logo=microsoftexcel&logoColor=white)
+![Power BI](https://img.shields.io/badge/Power%20BI-PBIP%20%C2%B7%20TMDL%20%C2%B7%207%20pages-F2C811?logo=powerbi&logoColor=black)
 ![Checks](https://img.shields.io/badge/in--workbook%20checks-31%20of%2031%20pass-1E7B34)
 ![Data](https://img.shields.io/badge/data-EIA%20%C2%B7%20FERC%20Form%201%20%C2%B7%20NOAA-1F3A5F)
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
@@ -24,11 +25,16 @@ It covers:
 It is built in Excel with Power Query, a Power Pivot data model with DAX measures, `LINEST`,
 dynamic arrays, named LAMBDA functions and what-if data tables.
 
-Every number is a live formula over the source extracts; nothing is pasted in. 130 tests hold
-the saved workbook to an independent pandas model to the cent.
+Every number is a live formula over the source extracts; nothing is pasted in. An
+independent pandas model holds the saved workbook to the cent.
+
+The same analysis is also a seven-page **Power BI report** (a PBIP project with a TMDL model).
+It reads tables written by that same reference model, and a test reads the workbook's own cells
+against them, so the two cannot publish different numbers. 1,180 tests in all.
 
 **[Download the workbook](workbook/PGE_Utility_FPA_Model.xlsx)** (Microsoft 365 Excel) ·
-**[Board pack PDF](docs/board_pack.pdf)** (13 pages, exported by Excel)
+**[Board pack PDF](docs/board_pack.pdf)** (13 pages, exported by Excel) ·
+**[Power BI project](powerbi/pbip/)** ([how to open it](powerbi/pbip/OPEN_ME_FIRST.md))
 
 > Independent analysis of public regulatory data. Not affiliated with or endorsed by Portland
 > General Electric.
@@ -114,6 +120,55 @@ test holds each sentence to the reference model.
 <tr><td><img src="docs/img/pvm.png" alt="Price, volume and mix by customer class"></td><td><img src="docs/img/scenarios.png" alt="Scenarios, rate by MW sensitivity grid, tornado"></td></tr>
 <tr><td><img src="docs/img/pnl.png" alt="Twelve-year FERC Form 1 P&L"></td><td><img src="docs/img/peers.png" alt="Peer benchmark on twelve FERC metrics"></td></tr>
 </table>
+
+## The same numbers in Power BI
+
+The Power BI report answers the workbook's questions for someone who wants to click rather
+than scroll. It has seven pages:
+
+1. Overview
+2. Plan and bridge
+3. Weather
+4. Price, volume and mix
+5. Forecast and scenarios
+6. FERC P&L and peers
+7. EIA against FERC
+
+The report adds:
+- class slicers;
+- a filter panel on every page;
+- two what-if sliders: a rate change, and an industrial load change in MW (a data center arriving
+  or a plant closing).
+
+![Power BI overview: outlook, against plan, weather and industrial load tiles; revenue by month; the plan-to-actual bridge; outlook by class](docs/img/powerbi-overview.png)
+
+<table>
+<tr><td><img src="docs/img/powerbi-plan.png" alt="Power BI: plan and bridge, month by month and by class, and the four-year backtest"></td><td><img src="docs/img/powerbi-scenarios.png" alt="Power BI: forecast, the what-if sliders, the tornado and the sensitivity grid"></td></tr>
+<tr><td><img src="docs/img/powerbi-weather.png" alt="Power BI: heating degree days against normal, weather revenue by month, use per customer against HDD"></td><td><img src="docs/img/powerbi-ferc.png" alt="Power BI: twelve-year FERC P&L and the five-utility peer benchmark"></td></tr>
+</table>
+
+**Two surfaces, one definition.** The report's model does no analysis of its own.
+[`model/export_tables.py`](model/export_tables.py) writes the reference model's output to
+[`tables/`](tables/), and every measure in [`powerbi/model_spec.py`](powerbi/model_spec.py) sums
+a column or divides two sums.
+[`tests/test_powerbi_tables.py`](tests/test_powerbi_tables.py) then reads the Excel workbook's
+cached cells against those tables to the cent. It covers:
+- the plan, the bridge by class and in total;
+- the outlook, the weather impact and the `LINEST` coefficients;
+- the tornado, the sensitivity grid and the backtest;
+- the PVM, the FERC P&L and the reconciliation.
+
+**The one calculation the report does itself** is the scenario outlook behind the sliders. The
+test replays that measure's DAX in pandas and holds it to the 49-cell sensitivity grid, which
+the reference model computed by re-running the whole forecast. It was also checked inside Power
+BI Desktop: +1% rate and +50 MW gives $3,044,353,720.98, the grid's cell to the cent.
+
+**Generated, not hand-drawn.** [`powerbi/build_pbip.py`](powerbi/build_pbip.py) writes every
+visual's JSON and every TMDL table from the two spec files, and CI fails if the committed project
+drifts from the spec. The report was opened in Power BI Desktop, fully refreshed, row-counted
+table by table against the CSVs, and captured page by page. Microsoft's report validator
+(`powerbi-report-author validate`) found 0 errors and 0 warnings. The screenshots above are those
+captures.
 
 ## The data
 
@@ -228,6 +283,13 @@ pip install -r requirements-pipeline.txt
 python pipeline/fetch_sources.py
 ```
 
+The Power BI project regenerates on any OS:
+
+```bash
+python model/export_tables.py         # tables/: the reference model's output, for the report
+python -m powerbi.build_pbip          # powerbi/pbip/, from powerbi/model_spec.py and report_spec.py
+```
+
 Rebuilding the workbook needs Windows with Microsoft 365 Excel and `pywin32`. It takes about a
 minute and also exports the board pack:
 
@@ -259,7 +321,11 @@ model/build_*.py, xl.py      the COM builder: setup, calculation, plan, analysis
 model/layout.py              names and positions shared by the builder and the tests
 workbook/                    PGE_Utility_FPA_Model.xlsx
 docs/                        board_pack.pdf and the README images
-tests/                       130 tests: tie-out, features, data, badge
+model/export_tables.py       the reference model's output as tables for Power BI
+tables/                      those tables, committed
+powerbi/                     the PBIP generator, its model and report specs, and the project
+tests/                       1,180 tests: workbook tie-out and features, data, Power BI model,
+                             report and cross-surface tie-out, badge
 ```
 
 ## Limits
@@ -270,8 +336,13 @@ tests/                       130 tests: tie-out, features, data, badge
 - EIA's 2026 months are preliminary.
 - CI cannot run Excel. It verifies the committed workbook's cached values and the committed
   extracts, but it cannot rebuild the workbook.
-- The DAX measures live inside the data model's binary. They are verified through what they
-  produce (the PivotTable cache and the `CUBEVALUE` results), not by reading their text.
+- The workbook's DAX measures live inside the data model's binary. They are verified through what
+  they produce (the PivotTable cache and the `CUBEVALUE` results), not by reading their text.
+- CI cannot run Power BI either. It regenerates the project and checks it against the spec, the
+  schemas and the tables, but it cannot render a visual. The rendering was checked in Desktop, not
+  in CI.
+- The Power BI project is not published to the Power BI service, which needs a work account and
+  a licence. It opens in the free Power BI Desktop.
 
 ## License
 

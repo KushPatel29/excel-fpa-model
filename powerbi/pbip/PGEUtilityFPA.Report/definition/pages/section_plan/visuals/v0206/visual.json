@@ -1,0 +1,158 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "v0206",
+  "position": {
+    "x": 654,
+    "y": 208,
+    "z": 1115,
+    "height": 246,
+    "width": 606,
+    "tabOrder": 1115
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_class"
+                    }
+                  },
+                  "Property": "class_label"
+                }
+              },
+              "queryRef": "dim_class.class_label",
+              "nativeQueryRef": "class_label",
+              "displayName": "Class"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Plan to date ($M)"
+                }
+              },
+              "queryRef": "_Measures.Plan to date ($M)",
+              "nativeQueryRef": "Plan to date ($M)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Customers ($M)"
+                }
+              },
+              "queryRef": "_Measures.Customers ($M)",
+              "nativeQueryRef": "Customers ($M)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Weather ($M)"
+                }
+              },
+              "queryRef": "_Measures.Weather ($M)",
+              "nativeQueryRef": "Weather ($M)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Usage ($M)"
+                }
+              },
+              "queryRef": "_Measures.Usage ($M)",
+              "nativeQueryRef": "Usage ($M)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Price ($M)"
+                }
+              },
+              "queryRef": "_Measures.Price ($M)",
+              "nativeQueryRef": "Price ($M)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Actual ($M)"
+                }
+              },
+              "queryRef": "_Measures.Actual ($M)",
+              "nativeQueryRef": "Actual ($M)"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'The bridge by class: plan, four effects, actual'"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Table titled The bridge by class. Lists class label, plan revenue to date, customer, weather, usage and price effect, and actual this year.'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

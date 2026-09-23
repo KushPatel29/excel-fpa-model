@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "PGEUtilityFPA"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "39f433b3-97a1-5e54-b9ad-2c2a44c7dc24"
+  }
+}

@@ -1,0 +1,60 @@
+table plan_monthly
+	lineageTag: 0375daa6-7a24-59b9-bede-0a761bf99537
+
+	column month
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 1fc9d4e8-a00a-5c69-ab6e-1736ea309355
+		summarizeBy: none
+		sourceColumn: month
+
+	column class
+		dataType: string
+		lineageTag: 0c60443a-0a78-5fe5-b6ca-14d144e6d8ee
+		summarizeBy: none
+		sourceColumn: class
+
+	column plan_customers
+		dataType: double
+		formatString: #,0
+		lineageTag: 63290a58-1c05-5efe-98e7-169ed9074ff4
+		summarizeBy: sum
+		sourceColumn: plan_customers
+
+	column plan_use
+		dataType: double
+		formatString: 0.000000
+		lineageTag: 50a4ee54-8647-51c6-aea4-33100e1db4f8
+		summarizeBy: sum
+		sourceColumn: plan_use
+
+	column plan_mwh
+		dataType: double
+		formatString: #,0
+		lineageTag: 0797576d-aec2-5d11-8c6f-e7de89213b38
+		summarizeBy: sum
+		sourceColumn: plan_mwh
+
+	column plan_price
+		dataType: double
+		formatString: \$#,0.00
+		lineageTag: 78e62747-f402-58b9-bb20-50aa43dbfa4d
+		summarizeBy: sum
+		sourceColumn: plan_price
+
+	column plan_revenue
+		dataType: double
+		formatString: \$#,0.00
+		lineageTag: c6bf22ae-75bf-5b33-a2a3-67a0d0560d25
+		summarizeBy: sum
+		sourceColumn: plan_revenue
+
+	partition plan_monthly = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataPath & "\tables\plan_monthly.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"month", type date}, {"class", type text}, {"plan_customers", type number}, {"plan_use", type number}, {"plan_mwh", type number}, {"plan_price", type number}, {"plan_revenue", type number}})
+				in
+				    Typed

@@ -1,0 +1,60 @@
+table weather_model
+	lineageTag: fbf92129-ddde-5de0-89f4-02b8b9118fe6
+
+	column class
+		dataType: string
+		lineageTag: 82042e51-1823-5b7b-bee5-154aa5f4ffb7
+		summarizeBy: none
+		sourceColumn: class
+
+	column intercept
+		dataType: double
+		formatString: 0.000000
+		lineageTag: 740c3ffa-9edf-51e5-99bc-d6d2d0ba329f
+		summarizeBy: sum
+		sourceColumn: intercept
+
+	column per_hdd
+		dataType: double
+		formatString: 0.000000
+		lineageTag: 0a7daa79-e0cc-593f-8bfa-8dba17d8e665
+		summarizeBy: sum
+		sourceColumn: per_hdd
+
+	column per_cdd
+		dataType: double
+		formatString: 0.000000
+		lineageTag: a2f6ff30-8c9b-5118-b37e-3d57c3a57b57
+		summarizeBy: sum
+		sourceColumn: per_cdd
+
+	column trend_per_year
+		dataType: double
+		formatString: 0.000000
+		lineageTag: 61d50f5a-3068-57ef-90fe-c71e10960b0b
+		summarizeBy: sum
+		sourceColumn: trend_per_year
+
+	column r_squared
+		dataType: double
+		formatString: 0.000
+		lineageTag: bb52bbf5-9994-5010-985e-a04715382103
+		summarizeBy: sum
+		sourceColumn: r_squared
+
+	column months_fitted
+		dataType: int64
+		formatString: 0
+		lineageTag: a92f6bf7-e7f9-5fd3-a4d8-470e35f445ab
+		summarizeBy: sum
+		sourceColumn: months_fitted
+
+	partition weather_model = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataPath & "\tables\weather_model.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"class", type text}, {"intercept", type number}, {"per_hdd", type number}, {"per_cdd", type number}, {"trend_per_year", type number}, {"r_squared", type number}, {"months_fitted", Int64.Type}})
+				in
+				    Typed

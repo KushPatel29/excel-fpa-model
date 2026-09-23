@@ -1,0 +1,16 @@
+table LoadChange
+	lineageTag: 637cebeb-c785-55a4-a25f-3e9203d1b62a
+
+	column 'Industrial load change (MW)'
+		dataType: double
+		isNameInferred
+		formatString: +#,0;-#,0;0
+		lineageTag: b41229d1-bda3-50bc-a8fc-12ecbb51f959
+		summarizeBy: none
+		sourceColumn: [Industrial load change (MW)]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition LoadChange = calculated
+		mode: import
+		source = SELECTCOLUMNS(GENERATESERIES(-100, 300, 25), "Industrial load change (MW)", [Value])

@@ -1,0 +1,133 @@
+year,line,line_order,section,value
+2014,Retail revenue,0,Revenue,1720993811
+2015,Retail revenue,0,Revenue,1735582869
+2016,Retail revenue,0,Revenue,1703927642
+2017,Retail revenue,0,Revenue,1774195410
+2018,Retail revenue,0,Revenue,1760150960
+2019,Retail revenue,0,Revenue,1789303774
+2020,Retail revenue,0,Revenue,1846082453
+2021,Retail revenue,0,Revenue,2039484924
+2022,Retail revenue,0,Revenue,2145143572
+2023,Retail revenue,0,Revenue,2379994297
+2024,Retail revenue,0,Revenue,2783029228
+2025,Retail revenue,0,Revenue,2969346620
+2014,Wholesale,1,Revenue,130021814
+2015,Wholesale,1,Revenue,109756221
+2016,Wholesale,1,Revenue,123165759
+2017,Wholesale,1,Revenue,122591295
+2018,Wholesale,1,Revenue,177074310
+2019,Wholesale,1,Revenue,203335776
+2020,Wholesale,1,Revenue,184596850
+2021,Wholesale,1,Revenue,287282619
+2022,Wholesale,1,Revenue,431426146
+2023,Wholesale,1,Revenue,476723920
+2024,Wholesale,1,Revenue,588094149
+2025,Wholesale,1,Revenue,406261710
+2014,Refund provision,2,Revenue,-3398715
+2015,Refund provision,2,Revenue,1197209
+2016,Refund provision,2,Revenue,7913648
+2017,Refund provision,2,Revenue,10337496
+2018,Refund provision,2,Revenue,-40343222
+2019,Refund provision,2,Revenue,24671723
+2020,Refund provision,2,Revenue,5767072
+2021,Refund provision,2,Revenue,-17402956
+2022,Refund provision,2,Revenue,23353262
+2023,Refund provision,2,Revenue,14313659
+2024,Refund provision,2,Revenue,-36929618
+2025,Refund provision,2,Revenue,20225849
+2014,Other operating revenue,3,Revenue,78961758
+2015,Other operating revenue,3,Revenue,68384771
+2016,Other operating revenue,3,Revenue,104159765
+2017,Other operating revenue,3,Revenue,115569351
+2018,Other operating revenue,3,Revenue,108227995
+2019,Other operating revenue,3,Revenue,130671136
+2020,Other operating revenue,3,Revenue,120765993
+2021,Other operating revenue,3,Revenue,105789779
+2022,Other operating revenue,3,Revenue,102501205
+2023,Other operating revenue,3,Revenue,95519144
+2024,Other operating revenue,3,Revenue,126520982
+2025,Other operating revenue,3,Revenue,152350066
+2014,Total operating revenue,4,Revenue,1926578668
+2015,Total operating revenue,4,Revenue,1914921070
+2016,Total operating revenue,4,Revenue,1939166814
+2017,Total operating revenue,4,Revenue,2022693552
+2018,Total operating revenue,4,Revenue,2005110043
+2019,Total operating revenue,4,Revenue,2147982409
+2020,Total operating revenue,4,Revenue,2157212368
+2021,Total operating revenue,4,Revenue,2415154366
+2022,Total operating revenue,4,Revenue,2702424185
+2023,Total operating revenue,4,Revenue,2966551020
+2024,Total operating revenue,4,Revenue,3460714741
+2025,Total operating revenue,4,Revenue,3548184245
+2014,Power cost,5,Costs,665660359
+2015,Power cost,5,Costs,600369607
+2016,Power cost,5,Costs,558929785
+2017,Power cost,5,Costs,524595736
+2018,Power cost,5,Costs,508183495
+2019,Power cost,5,Costs,569371730
+2020,Power cost,5,Costs,660241016
+2021,Power cost,5,Costs,766534380
+2022,Power cost,5,Costs,974734797
+2023,Power cost,5,Costs,1168041803
+2024,Power cost,5,Costs,1337624891
+2025,Power cost,5,Costs,1321756059
+2014,Gross margin,6,Margin,1260918309
+2015,Gross margin,6,Margin,1314551463
+2016,Gross margin,6,Margin,1380237029
+2017,Gross margin,6,Margin,1498097816
+2018,Gross margin,6,Margin,1496926548
+2019,Gross margin,6,Margin,1578610679
+2020,Gross margin,6,Margin,1496971352
+2021,Gross margin,6,Margin,1648619986
+2022,Gross margin,6,Margin,1727689388
+2023,Gross margin,6,Margin,1798509217
+2024,Gross margin,6,Margin,2123089850
+2025,Gross margin,6,Margin,2226428186
+2014,Other O&M,7,Costs,556588343
+2015,Other O&M,7,Costs,581874839
+2016,Other O&M,7,Costs,605520686
+2017,Other O&M,7,Costs,651229166
+2018,Other O&M,7,Costs,645493350
+2019,Other O&M,7,Costs,696324368
+2020,Other O&M,7,Costs,652220200
+2021,Other O&M,7,Costs,734683545
+2022,Other O&M,7,Costs,765292606
+2023,Other O&M,7,Costs,793914296
+2024,Other O&M,7,Costs,940629496
+2025,Other O&M,7,Costs,965606989
+2014,Depreciation and amortization,8,Costs,270700548
+2015,Depreciation and amortization,8,Costs,295789259
+2016,Depreciation and amortization,8,Costs,317600678
+2017,Depreciation and amortization,8,Costs,343699429
+2018,Depreciation and amortization,8,Costs,361731511
+2019,Depreciation and amortization,8,Costs,378993196
+2020,Depreciation and amortization,8,Costs,375712084
+2021,Depreciation and amortization,8,Costs,379591275
+2022,Depreciation and amortization,8,Costs,398863036
+2023,Depreciation and amortization,8,Costs,431040915
+2024,Depreciation and amortization,8,Costs,485456244
+2025,Depreciation and amortization,8,Costs,530444462
+2014,Taxes other than income,9,Costs,106846515
+2015,Taxes other than income,9,Costs,114643947
+2016,Taxes other than income,9,Costs,117893057
+2017,Taxes other than income,9,Costs,121629678
+2018,Taxes other than income,9,Costs,126448833
+2019,Taxes other than income,9,Costs,132404584
+2020,Taxes other than income,9,Costs,136443033
+2021,Taxes other than income,9,Costs,143889438
+2022,Taxes other than income,9,Costs,154021039
+2023,Taxes other than income,9,Costs,161434174
+2024,Taxes other than income,9,Costs,173230151
+2025,Taxes other than income,9,Costs,187937578
+2014,Operating income,10,Margin,326782903
+2015,Operating income,10,Margin,322243418
+2016,Operating income,10,Margin,339222608
+2017,Operating income,10,Margin,381539543
+2018,Operating income,10,Margin,363252854
+2019,Operating income,10,Margin,370888531
+2020,Operating income,10,Margin,332596035
+2021,Operating income,10,Margin,390455728
+2022,Operating income,10,Margin,409512707
+2023,Operating income,10,Margin,412119832
+2024,Operating income,10,Margin,523773959
+2025,Operating income,10,Margin,542439157

@@ -1,0 +1,1182 @@
+table _Measures
+	lineageTag: b3af0e1a-e074-5138-8219-b2afbf523da6
+
+	measure 'Fiscal year' = YEAR(CALCULATE(MAX(fact_sales[month]), REMOVEFILTERS()))
+		formatString: 0
+		lineageTag: 64554af1-987a-54a0-821c-46d02fd002b2
+		displayFolder: 00 Calendar
+
+	measure 'Months closed' = MONTH(CALCULATE(MAX(fact_sales[month]), REMOVEFILTERS()))
+		formatString: 0
+		lineageTag: e8337d18-d66b-576f-b3ac-f65978e83346
+		displayFolder: 00 Calendar
+
+	measure 'Retail revenue' = SUM(fact_sales[revenue])
+		formatString: \$#,0
+		lineageTag: 972ea86d-3cf6-55b6-ae84-6298377ebf34
+		displayFolder: 01 Sales
+
+	measure 'Retail MWh' = SUM(fact_sales[mwh])
+		formatString: #,0
+		lineageTag: 0339a589-f851-5a21-8ac5-33f583c95aa6
+		displayFolder: 01 Sales
+
+	measure 'Average customers' = AVERAGEX(VALUES(dim_month[month]), CALCULATE(SUM(fact_sales[customers])))
+		formatString: #,0
+		lineageTag: 0d8db750-2cc5-56d3-bb39-84fae37786ff
+		displayFolder: 01 Sales
+
+	measure 'Retail price (cents/kWh)' = DIVIDE([Retail revenue], [Retail MWh]) / 10
+		formatString: 0.00
+		lineageTag: 4599f376-1764-5046-a56f-bcae9307a494
+		displayFolder: 01 Sales
+
+	measure 'MWh per customer' = DIVIDE([Retail MWh], [Average customers])
+		formatString: 0.000
+		lineageTag: 0d451f54-0f33-5f22-87c4-f7ee25fa06d2
+		displayFolder: 01 Sales
+
+	measure 'Retail revenue last year' =
+			VAR vShift = 12
+			RETURN CALCULATE(
+			    [Retail revenue],
+			    ALL(dim_month),
+			    TREATAS(
+			        SELECTCOLUMNS(VALUES(dim_month[month_index]),
+			                      "month_index", dim_month[month_index] - vShift),
+			        dim_month[month_index]
+			    )
+			)
+		formatString: \$#,0
+		lineageTag: 0dd15e06-431c-5dbb-a9ae-ea1a9f25463f
+		displayFolder: 01 Sales
+
+	measure 'Revenue YoY %' = DIVIDE([Retail revenue] - [Retail revenue last year], [Retail revenue last year])
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: 9ab726c3-f595-5cea-b007-8a4eec36b243
+		displayFolder: 01 Sales
+
+	measure 'Actual this year' =
+			VAR vFY = [Fiscal year]
+			RETURN CALCULATE([Retail revenue], dim_month[year] = vFY)
+		formatString: \$#,0
+		lineageTag: 73b5a9ef-d9f7-5d93-a0bd-946dc7174c5f
+		displayFolder: 02 Plan
+
+	measure 'Actual last year' =
+			VAR vFY = [Fiscal year]
+			RETURN CALCULATE([Retail revenue], dim_month[year] = vFY - 1)
+		formatString: \$#,0
+		lineageTag: 4473b165-a97f-5f7f-b914-0513fbcb3aff
+		displayFolder: 02 Plan
+
+	measure 'MWh this year' =
+			VAR vFY = [Fiscal year]
+			RETURN CALCULATE([Retail MWh], dim_month[year] = vFY)
+		formatString: #,0
+		lineageTag: e6acb10d-a2fb-5ed7-a3fc-59d05b7f7047
+		displayFolder: 02 Plan
+
+	measure 'MWh last year to date' =
+			VAR vFY = [Fiscal year]
+			VAR vClosed = [Months closed]
+			RETURN CALCULATE([Retail MWh], dim_month[year] = vFY - 1, dim_month[month_number] <= vClosed)
+		formatString: #,0
+		lineageTag: 68c1089e-aaff-5ae1-a9c9-67b8d94d681b
+		displayFolder: 02 Plan
+
+	measure 'Industrial load growth' = CALCULATE(DIVIDE([MWh this year], [MWh last year to date]) - 1, dim_class[class] = "industrial")
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: cb147dc6-df1d-50c3-9106-891b4e4e30c2
+		displayFolder: 02 Plan
+
+	measure 'Plan revenue' = SUM(plan_monthly[plan_revenue])
+		formatString: \$#,0
+		lineageTag: da5a7af4-6de6-5a68-81ac-fd7c984d6d25
+		displayFolder: 02 Plan
+
+	measure 'Plan revenue to date' =
+			VAR vClosed = [Months closed]
+			RETURN CALCULATE([Plan revenue], dim_month[month_number] <= vClosed)
+		formatString: \$#,0
+		lineageTag: 2aa827e7-fd84-5b5e-8c08-c166b667b762
+		displayFolder: 02 Plan
+
+	measure 'Against plan' = [Actual this year] - [Plan revenue to date]
+		formatString: \$#,0
+		lineageTag: 2b3b1ece-83eb-5a06-9de1-b091c1c8a032
+		displayFolder: 02 Plan
+
+	measure 'Against plan %' = DIVIDE([Against plan], [Plan revenue to date])
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: c848e211-a79a-548a-b7af-5fe4349961de
+		displayFolder: 02 Plan
+
+	measure 'Forecast revenue' = SUM(forecast_monthly[forecast_revenue])
+		formatString: \$#,0
+		lineageTag: 414149fb-379c-5a41-9044-3cc3a6ac1d2b
+		displayFolder: 02 Plan
+
+	measure 'Outlook revenue' = [Actual this year] + [Forecast revenue]
+		formatString: \$#,0
+		lineageTag: 7483c80b-61d8-51a7-986a-9d80f2012181
+		displayFolder: 02 Plan
+
+	measure 'Outlook against plan' = [Outlook revenue] - [Plan revenue]
+		formatString: \$#,0
+		lineageTag: 955865d5-e625-576c-a091-750b237e4c80
+		displayFolder: 02 Plan
+
+	measure 'Outlook growth %' = DIVIDE([Outlook revenue], [Actual last year]) - 1
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: 33958dec-161c-537b-850f-ddca7b0d3f33
+		displayFolder: 02 Plan
+
+	measure 'Bridge amount' = SUM(plan_bridge[amount])
+		formatString: \$#,0
+		lineageTag: ddea1109-08eb-503e-85df-948fbd51db80
+		displayFolder: 03 Bridge
+
+	measure 'Bridge effect' = CALCULATE([Bridge amount], plan_bridge[step] <> "Plan")
+		formatString: \$#,0
+		lineageTag: 79f17974-07c6-598f-ae34-89dc9a5bc160
+		displayFolder: 03 Bridge
+
+	measure 'Customer effect' = CALCULATE([Bridge amount], plan_bridge[step] = "Customers")
+		formatString: \$#,0
+		lineageTag: 7ed7f64c-9de4-532e-b9f0-2035e5a8a2c5
+		displayFolder: 03 Bridge
+
+	measure 'Weather effect' = CALCULATE([Bridge amount], plan_bridge[step] = "Weather")
+		formatString: \$#,0
+		lineageTag: d67c1a4b-4074-561d-902c-2e91f8f9b0f3
+		displayFolder: 03 Bridge
+
+	measure 'Usage effect' = CALCULATE([Bridge amount], plan_bridge[step] = "Usage")
+		formatString: \$#,0
+		lineageTag: 5ffe04e7-d5d2-52d1-b470-d91c4c65f337
+		displayFolder: 03 Bridge
+
+	measure 'Price effect' = CALCULATE([Bridge amount], plan_bridge[step] = "Price")
+		formatString: \$#,0
+		lineageTag: 068d564a-16bb-5bf0-9334-b55fa802150a
+		displayFolder: 03 Bridge
+
+	measure 'Backtest variance' = AVERAGE(backtest[variance_pct])
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: 84f1e7e9-5cea-54e6-8a87-39cf3ebb42f1
+		displayFolder: 03 Bridge
+
+	measure 'Revenue WAPE' = AVERAGE(backtest[wape_revenue_pct])
+		formatString: 0.0%
+		lineageTag: a22af873-6a08-5782-9e2d-a2d98e480e4a
+		displayFolder: 03 Bridge
+
+	measure 'MWh WAPE' = AVERAGE(backtest[wape_mwh_pct])
+		formatString: 0.0%
+		lineageTag: 34c3c20a-15f9-598d-9d90-7e9ac8c89212
+		displayFolder: 03 Bridge
+
+	measure 'Heating degree days' = SUM(fact_weather[hdd])
+		formatString: #,0
+		lineageTag: 1c77f65b-3ca3-5b8c-8b41-a995fd936caa
+		displayFolder: 04 Weather
+
+	measure 'Normal heating degree days' = SUM(fact_weather[normal_hdd])
+		formatString: #,0
+		lineageTag: 7b0446e2-8392-53f2-9612-d60753265707
+		displayFolder: 04 Weather
+
+	measure 'Cooling degree days' = SUM(fact_weather[cdd])
+		formatString: #,0
+		lineageTag: e8b43e7a-9460-56bb-b393-55be6969c549
+		displayFolder: 04 Weather
+
+	measure 'HDD this year' =
+			VAR vFY = [Fiscal year]
+			RETURN CALCULATE([Heating degree days], dim_month[year] = vFY)
+		formatString: #,0
+		lineageTag: ca7dd597-1d4c-5c6d-ba29-4ada5d6a1f3f
+		displayFolder: 04 Weather
+
+	measure 'Normal HDD this year' =
+			VAR vFY = [Fiscal year]
+			RETURN CALCULATE([Normal heating degree days], dim_month[year] = vFY)
+		formatString: #,0
+		lineageTag: 367b559b-afba-5465-a829-9cc7ae867e77
+		displayFolder: 04 Weather
+
+	measure 'HDD against normal %' =
+			VAR vFY = [Fiscal year]
+			VAR vClosed = [Months closed]
+			VAR vActual = CALCULATE([Heating degree days], dim_month[year] = vFY, dim_month[month_number] <= vClosed)
+			VAR vNormal = CALCULATE([Normal heating degree days], dim_month[year] = vFY, dim_month[month_number] <= vClosed)
+			RETURN DIVIDE(vActual - vNormal, vNormal)
+		formatString: +0%;-0%;0%
+		lineageTag: 25e665b1-18d2-5baa-bd4d-54dc1f474c1b
+		displayFolder: 04 Weather
+
+	measure 'Weather load (GWh)' = SUM(weather_impact[weather_mwh]) / 1000
+		formatString: +#,0;-#,0;0
+		lineageTag: bb014eba-4704-5948-8e84-f3df8b34aaf7
+		displayFolder: 04 Weather
+
+	measure 'Weather revenue' = SUM(weather_impact[weather_revenue])
+		formatString: \$#,0
+		lineageTag: 99e6128e-ca4d-5940-9618-fd6f59bdbdeb
+		displayFolder: 04 Weather
+
+	measure 'Residential MWh per customer' = CALCULATE([MWh per customer], dim_class[class] = "residential")
+		formatString: 0.000
+		lineageTag: a5563607-9741-5fc2-b5dd-9eb33998b1eb
+		displayFolder: 04 Weather
+
+	measure 'Residential R²' = CALCULATE(MAX(weather_model[r_squared]), dim_class[class] = "residential")
+		formatString: 0.000
+		lineageTag: 813d72d3-f99c-560f-9680-8397db317d26
+		displayFolder: 04 Weather
+
+	measure 'Rate change value' = SELECTEDVALUE(RateChange[Rate change %], 0)
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: 6910759f-166c-5fa0-aeff-2e89361cd2bd
+		displayFolder: 05 Scenarios
+
+	measure 'Load change value' = SELECTEDVALUE(LoadChange[Industrial load change (MW)], 0)
+		formatString: +#,0;-#,0;0
+		lineageTag: bd0f3646-4b71-557a-916e-53c2c2730439
+		displayFolder: 05 Scenarios
+
+	measure 'Scenario outlook' =
+			VAR vRate = [Rate change value]
+			VAR vMW = [Load change value]
+			VAR vIndustrial = SUMX(FILTER(forecast_monthly, forecast_monthly[class] = "industrial"),
+			    forecast_monthly[days] * 24 * forecast_monthly[forecast_price])
+			RETURN [Actual this year] + ([Forecast revenue] + vMW * vIndustrial) * (1 + vRate)
+		formatString: \$#,0
+		lineageTag: 4893095d-a3eb-52ef-bae4-3c18d78d9afa
+		displayFolder: 05 Scenarios
+
+	measure 'Scenario against plan' = [Scenario outlook] - [Plan revenue]
+		formatString: \$#,0
+		lineageTag: 924747fe-9ca8-5d59-899e-752cac98f475
+		displayFolder: 05 Scenarios
+
+	measure 'Tornado impact' = SUM(tornado[impact])
+		formatString: \$#,0
+		lineageTag: 5580fe73-674b-5c76-984c-55fad0e203c0
+		displayFolder: 05 Scenarios
+
+	measure 'Sensitivity outlook' = SUM(sensitivity[outlook_revenue])
+		formatString: \$#,0
+		lineageTag: c6927ccf-781e-53f4-9d7e-eb3a21b6254c
+		displayFolder: 05 Scenarios
+
+	measure 'PVM amount' =
+			VAR vOrder = CALCULATE(MIN(pvm[period_order]), REMOVEFILTERS(pvm[revenue_class], pvm[step]))
+			RETURN CALCULATE(SUM(pvm[amount]), KEEPFILTERS(pvm[period_order] = vOrder))
+		formatString: \$#,0
+		lineageTag: 825af9fa-1d1e-5efb-827a-e40852e5648a
+		displayFolder: 06 PVM
+
+	measure 'PVM opening revenue' = CALCULATE([PVM amount], pvm[step] = "Opening revenue")
+		formatString: \$#,0
+		lineageTag: 77ac30a7-3eaf-5f50-a614-62b2c2738fc7
+		displayFolder: 06 PVM
+
+	measure 'PVM volume' = CALCULATE([PVM amount], pvm[step] = "Volume")
+		formatString: \$#,0
+		lineageTag: c3116b12-c141-58fd-9437-63b18a5a7b2d
+		displayFolder: 06 PVM
+
+	measure 'PVM mix' = CALCULATE([PVM amount], pvm[step] = "Mix")
+		formatString: \$#,0
+		lineageTag: 97388ef9-b536-5e36-b2be-f19c9ecd3f50
+		displayFolder: 06 PVM
+
+	measure 'PVM price' = CALCULATE([PVM amount], pvm[step] = "Price")
+		formatString: \$#,0
+		lineageTag: be77b70e-ef83-5f33-8aaa-05a2b8cb52f1
+		displayFolder: 06 PVM
+
+	measure 'P&L ($M)' = DIVIDE(SUM(ferc_pnl[value]), 1000000)
+		formatString: #,0.0
+		lineageTag: e42c0ab4-d931-51d7-8f7c-9d9e98971755
+		displayFolder: 07 FERC
+
+	measure 'Operating margin %' = DIVIDE(SUM(ferc_years[operating_income]), SUM(ferc_years[total_revenue]))
+		formatString: 0.0%
+		lineageTag: 5f64adc2-2b5b-5d69-9b44-9b2e37349d60
+		displayFolder: 07 FERC
+
+	measure 'FERC retail price (cents/kWh)' = DIVIDE(SUM(ferc_years[retail_revenue]), SUM(ferc_years[retail_mwh])) / 10
+		formatString: 0.00
+		lineageTag: a802ab40-fc20-5912-bd20-7fd902454f03
+		displayFolder: 07 FERC
+
+	measure 'Power cost per MWh' = DIVIDE(SUM(ferc_years[power_cost]), SUM(ferc_years[total_mwh]))
+		formatString: \$#,0.00
+		lineageTag: 64c5f16c-2084-5fd3-84cd-1a4c79202619
+		displayFolder: 07 FERC
+
+	measure 'Operating margin, latest year' =
+			VAR vYear = CALCULATE(MAX(ferc_years[year]), REMOVEFILTERS(ferc_years))
+			RETURN CALCULATE([Operating margin %], ferc_years[year] = vYear)
+		formatString: 0.0%
+		lineageTag: ccb05b6a-100a-5bc6-90d9-2623911af2c9
+		displayFolder: 07 FERC
+
+	measure 'Retail price, latest year (cents/kWh)' =
+			VAR vYear = CALCULATE(MAX(ferc_years[year]), REMOVEFILTERS(ferc_years))
+			RETURN CALCULATE([FERC retail price (cents/kWh)], ferc_years[year] = vYear)
+		formatString: 0.00
+		lineageTag: 72fc4a5a-6cd2-5a83-970d-000969fabc91
+		displayFolder: 07 FERC
+
+	measure 'Power cost per MWh, latest year' =
+			VAR vYear = CALCULATE(MAX(ferc_years[year]), REMOVEFILTERS(ferc_years))
+			RETURN CALCULATE([Power cost per MWh], ferc_years[year] = vYear)
+		formatString: \$#,0.00
+		lineageTag: 91040695-16d4-589a-b508-eeed53feed33
+		displayFolder: 07 FERC
+
+	measure 'PGE industrial load growth' = CALCULATE(AVERAGE(peers[industrial_mwh_cagr_pct]), REMOVEFILTERS(peers), peers[is_pge] = TRUE())
+		formatString: 0.0%
+		lineageTag: ec6e8548-6fff-5d91-9c44-689811f5f672
+		displayFolder: 07 FERC
+
+	measure 'Industrial load growth a year' = AVERAGE(peers[industrial_mwh_cagr_pct])
+		formatString: 0.0%
+		lineageTag: d36e9ce2-c1fe-51fd-9b0d-4ddb12320883
+		displayFolder: 07 FERC
+
+	measure 'Peer ¢/kWh' = AVERAGE(peers[retail_cents])
+		formatString: 0.00
+		lineageTag: 17455f89-7962-51e8-8bf9-45e44f554a48
+		displayFolder: 07 FERC
+
+	measure 'Peer margin' = AVERAGE(peers[operating_margin_pct])
+		formatString: 0.0%
+		lineageTag: 2950a225-588e-56a9-bbf1-40204a2aa73b
+		displayFolder: 07 FERC
+
+	measure 'Peer power $/MWh' = AVERAGE(peers[power_cost_per_mwh])
+		formatString: \$#,0.00
+		lineageTag: 9d1e8e3a-cabe-56a6-a698-d2aca7f02791
+		displayFolder: 07 FERC
+
+	measure 'EIA MWh' = SUM(tieout[eia_mwh])
+		formatString: #,0
+		lineageTag: c0e702f5-1a6f-521d-a309-8db5611e10e5
+		displayFolder: 08 Reconciliation
+
+	measure 'EIA revenue' = SUM(tieout[eia_revenue])
+		formatString: \$#,0
+		lineageTag: 253364ce-7736-58e7-812c-b940b4e62a36
+		displayFolder: 08 Reconciliation
+
+	measure 'FERC revenue' = SUM(tieout[ferc_revenue])
+		formatString: \$#,0
+		lineageTag: 0333d24b-454e-55e5-a2d4-910564eacab4
+		displayFolder: 08 Reconciliation
+
+	measure 'FERC MWh' = SUM(tieout[ferc_mwh])
+		formatString: #,0
+		lineageTag: a883a9f4-6d4c-5fd3-bf1d-0631a4631869
+		displayFolder: 08 Reconciliation
+
+	measure 'MWh gap %' = ROUND(DIVIDE(SUM(tieout[eia_mwh]) - SUM(tieout[ferc_mwh]), SUM(tieout[ferc_mwh])), 5)
+		formatString: +0.000%;-0.000%;0.000%
+		lineageTag: bb657ae9-ce66-5fd5-90cb-10c2fcbff088
+		displayFolder: 08 Reconciliation
+
+	measure 'Revenue gap %' = DIVIDE(SUM(tieout[eia_revenue]) - SUM(tieout[ferc_revenue]), SUM(tieout[ferc_revenue]))
+		formatString: +0.000%;-0.000%;0.000%
+		lineageTag: 9b091e00-0cfc-59eb-bb25-b410b4d81131
+		displayFolder: 08 Reconciliation
+
+	measure 'Outlook reference' = "plan " & FORMAT([Plan revenue] / 1000000000, "$0.00") & "B · " & FORMAT([Outlook growth %], "+0.0%;-0.0%") & " on last year"
+		lineageTag: 3dc516fd-0875-5834-acfe-a6dab012f049
+		displayFolder: 09 Captions
+
+	measure 'Against plan reference' =
+			VAR vFY = [Fiscal year]
+			VAR vClosed = [Months closed]
+			RETURN FORMAT([Against plan %], "+0.0%;-0.0%") & " · Jan–" & FORMAT(DATE(vFY, vClosed, 1), "mmm yyyy")
+		lineageTag: 77061e87-f24a-55e1-a36d-2e230b83de72
+		displayFolder: 09 Captions
+
+	measure 'Weather reference' = FORMAT([Weather revenue] / 1000000, "$#,0.0;-$#,0.0") & "M · HDD " & FORMAT([HDD against normal %], "+0%;-0%") & " vs normal"
+		lineageTag: 92bce352-85a7-5e5a-bffb-4eae4446b5e7
+		displayFolder: 09 Captions
+
+	measure 'Industrial reference' = "MWh against the same months last year"
+		lineageTag: b1d33721-b4f7-5a41-986f-1d710a1f570f
+		displayFolder: 09 Captions
+
+	measure 'Scenario reference' = FORMAT([Scenario against plan] / 1000000, "+$#,0.0;-$#,0.0") & "M against plan"
+		lineageTag: a395fefd-15fc-5e4c-ad62-6b5d19630a04
+		displayFolder: 09 Captions
+
+	measure 'Actual ($M)' = DIVIDE([Actual this year], 1000000)
+		formatString: \$#,0.0
+		lineageTag: b7ae9685-54a9-57a5-bc02-f0b85427946a
+		displayFolder: 10 Tables ($M)
+
+	measure 'Forecast ($M)' = DIVIDE([Forecast revenue], 1000000)
+		formatString: \$#,0.0
+		lineageTag: 0f8363ce-761a-5740-8cda-6149155ae5f3
+		displayFolder: 10 Tables ($M)
+
+	measure 'Outlook ($M)' = DIVIDE([Outlook revenue], 1000000)
+		formatString: \$#,0.0
+		lineageTag: 8ce82fd5-a295-57f7-af39-cb40c70e8f7d
+		displayFolder: 10 Tables ($M)
+
+	measure 'Full-year plan ($M)' = DIVIDE([Plan revenue], 1000000)
+		formatString: \$#,0.0
+		lineageTag: e9027b3b-6483-5e91-8caa-0de199ddd220
+		displayFolder: 10 Tables ($M)
+
+	measure 'Outlook vs plan ($M)' = DIVIDE([Outlook against plan], 1000000)
+		formatString: \$#,0.0
+		lineageTag: 234acdcc-8723-56ea-a693-eb9187b3e6b4
+		displayFolder: 10 Tables ($M)
+
+	measure 'Plan to date ($M)' = DIVIDE([Plan revenue to date], 1000000)
+		formatString: \$#,0.0
+		lineageTag: 37c9deeb-cca7-5d3f-b736-eec8162a4bc3
+		displayFolder: 10 Tables ($M)
+
+	measure 'Customers ($M)' = DIVIDE([Customer effect], 1000000)
+		formatString: \$#,0.0
+		lineageTag: a6758cad-36bc-5f72-aa34-ed52d9217374
+		displayFolder: 10 Tables ($M)
+
+	measure 'Weather ($M)' = DIVIDE([Weather effect], 1000000)
+		formatString: \$#,0.0
+		lineageTag: 9f523db0-d4d2-5e53-9090-108b476e0b25
+		displayFolder: 10 Tables ($M)
+
+	measure 'Usage ($M)' = DIVIDE([Usage effect], 1000000)
+		formatString: \$#,0.0
+		lineageTag: 14c9ddd9-06ba-5e3d-8c11-0d3c0c73015a
+		displayFolder: 10 Tables ($M)
+
+	measure 'Price ($M)' = DIVIDE([Price effect], 1000000)
+		formatString: \$#,0.0
+		lineageTag: d6349e16-233e-5c3d-9982-bf15803309c7
+		displayFolder: 10 Tables ($M)
+
+	measure 'Amount ($M)' = DIVIDE([PVM amount], 1000000)
+		formatString: \$#,0.0
+		lineageTag: f85b3206-3d91-547f-a307-67eea4132ac4
+		displayFolder: 10 Tables ($M)
+
+	measure 'Full-year revenue ($M)' = DIVIDE([Sensitivity outlook], 1000000)
+		formatString: \$#,0.0
+		lineageTag: 962b80f2-2392-5469-b7d0-cd7d3cb6d1bf
+		displayFolder: 10 Tables ($M)
+
+	measure 'EIA revenue ($M)' = DIVIDE([EIA revenue], 1000000)
+		formatString: \$#,0.0
+		lineageTag: d6ee5b21-10b1-5547-8f09-dcafb6bae55b
+		displayFolder: 10 Tables ($M)
+
+	measure 'FERC revenue ($M)' = DIVIDE([FERC revenue], 1000000)
+		formatString: \$#,0.0
+		lineageTag: e25b869c-5b13-58bf-99ed-79252766ab02
+		displayFolder: 10 Tables ($M)
+
+	measure 'Filter Context - Overview' =
+			VAR vText = IF(ISFILTERED('dim_class'[class_label]), CONCATENATEX(VALUES('dim_class'[class_label]), 'dim_class'[class_label], ", "), "all customer classes")
+			RETURN IF(LEN(vText) > 72, LEFT(vText, 70) & "…", vText)
+		lineageTag: 88934f45-4dd0-5ef5-b727-e1a43815090a
+		displayFolder: Report UI
+
+	measure 'Header SVG - Overview' =
+			VAR vContext = "Page 1 of 7 · " & SUBSTITUTE(SUBSTITUTE([Filter Context - Overview], "&", "&amp;"), "<", "&lt;")
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='720' height='56' viewBox='0 0 720 56'>"
+			        & "<text x='0' y='24' font-family='Segoe UI Semibold' font-size='18' fill='#f2f2f4'>Overview</text>"
+			        & "<text x='0' y='46' font-family='Segoe UI' font-size='11' fill='#7d7d85'>" & vContext & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: 84068c85-c20f-5257-aa09-411efde7e5e6
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'Filter Button Label - Overview' =
+			VAR vOn = INT(ISFILTERED('dim_class'[class_label]))
+			RETURN IF(vOn = 0, "Filters", "Filters · " & vOn)
+		lineageTag: 7c882a24-d274-5237-9513-14e295b0d22e
+		displayFolder: Report UI
+
+	measure 'KPI SVG Outlook revenue | Outlook reference @314' =
+			VAR vValue = [Outlook revenue]
+			VAR vShown = IF(ISBLANK(vValue), "—", IF(ABS(vValue) >= 1000000, FORMAT(vValue / 1000000, "\$#,0.00") & "M", FORMAT(vValue, "\$#,0")))
+			VAR vCaptionRaw = SUBSTITUTE(SUBSTITUTE(COALESCE([Outlook reference], ""), "&", "&amp;"), "<", "&lt;")
+			VAR vCaption = IF(LEN(vCaptionRaw) > 61, LEFT(vCaptionRaw, 59) & "…", vCaptionRaw)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='314' height='112' viewBox='0 0 314 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>Outlook revenue</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & ""
+			        & "<text x='16' y='90' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: 44f6fd9d-8053-5bbb-8148-228b953404b0
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'KPI SVG Against plan | Against plan reference @310' =
+			VAR vValue = [Against plan]
+			VAR vShown = IF(ISBLANK(vValue), "—", IF(ABS(vValue) >= 1000000, FORMAT(vValue / 1000000, "\$#,0.00") & "M", FORMAT(vValue, "\$#,0")))
+			VAR vCaptionRaw = SUBSTITUTE(SUBSTITUTE(COALESCE([Against plan reference], ""), "&", "&amp;"), "<", "&lt;")
+			VAR vCaption = IF(LEN(vCaptionRaw) > 61, LEFT(vCaptionRaw, 59) & "…", vCaptionRaw)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='310' height='112' viewBox='0 0 310 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>Against plan</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & ""
+			        & "<text x='16' y='90' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: 4a542787-ca2b-5ce0-9ee1-9846b9fcc749
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'KPI SVG Weather load (GWh) | Weather reference @314' =
+			VAR vValue = [Weather load (GWh)]
+			VAR vShown = IF(ISBLANK(vValue), "—", FORMAT(vValue, "+#,0;-#,0;0"))
+			VAR vCaptionRaw = SUBSTITUTE(SUBSTITUTE(COALESCE([Weather reference], ""), "&", "&amp;"), "<", "&lt;")
+			VAR vCaption = IF(LEN(vCaptionRaw) > 61, LEFT(vCaptionRaw, 59) & "…", vCaptionRaw)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='314' height='112' viewBox='0 0 314 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>Weather load (GWh)</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & ""
+			        & "<text x='16' y='90' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: ed25affa-d941-589e-8977-f883ef09f9ef
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'KPI SVG Industrial load growth | Industrial reference @333' =
+			VAR vValue = [Industrial load growth]
+			VAR vShown = IF(ISBLANK(vValue), "—", FORMAT(vValue, "+0.0%;-0.0%;0.0%"))
+			VAR vCaptionRaw = SUBSTITUTE(SUBSTITUTE(COALESCE([Industrial reference], ""), "&", "&amp;"), "<", "&lt;")
+			VAR vCaption = IF(LEN(vCaptionRaw) > 66, LEFT(vCaptionRaw, 64) & "…", vCaptionRaw)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='333' height='112' viewBox='0 0 333 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>Industrial load growth</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & ""
+			        & "<text x='16' y='90' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: c7a7a5a9-4ec8-5777-a690-c05ca933d52a
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'Filter Context - Plan and bridge' =
+			VAR vText = IF(ISFILTERED('dim_class'[class_label]), CONCATENATEX(VALUES('dim_class'[class_label]), 'dim_class'[class_label], ", "), "all customer classes")
+			RETURN IF(LEN(vText) > 72, LEFT(vText, 70) & "…", vText)
+		lineageTag: 4b993d11-9a25-50fe-9043-20f58a882f04
+		displayFolder: Report UI
+
+	measure 'Header SVG - Plan and bridge' =
+			VAR vContext = "Page 2 of 7 · " & SUBSTITUTE(SUBSTITUTE([Filter Context - Plan and bridge], "&", "&amp;"), "<", "&lt;")
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='720' height='56' viewBox='0 0 720 56'>"
+			        & "<text x='0' y='24' font-family='Segoe UI Semibold' font-size='18' fill='#f2f2f4'>Plan and bridge</text>"
+			        & "<text x='0' y='46' font-family='Segoe UI' font-size='11' fill='#7d7d85'>" & vContext & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: 94345dfe-f045-5444-bf83-72e33890845c
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'Filter Button Label - Plan and bridge' =
+			VAR vOn = INT(ISFILTERED('dim_class'[class_label]))
+			RETURN IF(vOn = 0, "Filters", "Filters · " & vOn)
+		lineageTag: 56364ee7-b534-5b25-a408-08b53b7bd736
+		displayFolder: Report UI
+
+	measure 'KPI SVG Plan revenue to date @314' =
+			VAR vValue = [Plan revenue to date]
+			VAR vShown = IF(ISBLANK(vValue), "—", IF(ABS(vValue) >= 1000000, FORMAT(vValue / 1000000, "\$#,0.00") & "M", FORMAT(vValue, "\$#,0")))
+			VAR vCaptionRaw = ""
+			VAR vCaption = IF(LEN(vCaptionRaw) > 61, LEFT(vCaptionRaw, 59) & "…", vCaptionRaw)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='314' height='112' viewBox='0 0 314 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>Plan revenue to date</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & ""
+			        & "<text x='16' y='90' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: f81f888d-ba8f-5843-a53b-1192ce17e86d
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'KPI SVG Actual this year | Against plan reference @310' =
+			VAR vValue = [Actual this year]
+			VAR vShown = IF(ISBLANK(vValue), "—", IF(ABS(vValue) >= 1000000, FORMAT(vValue / 1000000, "\$#,0.00") & "M", FORMAT(vValue, "\$#,0")))
+			VAR vCaptionRaw = SUBSTITUTE(SUBSTITUTE(COALESCE([Against plan reference], ""), "&", "&amp;"), "<", "&lt;")
+			VAR vCaption = IF(LEN(vCaptionRaw) > 61, LEFT(vCaptionRaw, 59) & "…", vCaptionRaw)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='310' height='112' viewBox='0 0 310 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>Actual this year</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & ""
+			        & "<text x='16' y='90' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: 158ea5e9-b0ab-56d8-b85b-80927a68444f
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'KPI SVG Weather effect @314' =
+			VAR vValue = [Weather effect]
+			VAR vShown = IF(ISBLANK(vValue), "—", IF(ABS(vValue) >= 1000000, FORMAT(vValue / 1000000, "\$#,0.00") & "M", FORMAT(vValue, "\$#,0")))
+			VAR vCaptionRaw = ""
+			VAR vCaption = IF(LEN(vCaptionRaw) > 61, LEFT(vCaptionRaw, 59) & "…", vCaptionRaw)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='314' height='112' viewBox='0 0 314 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>Weather effect</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & ""
+			        & "<text x='16' y='90' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: 7d539f04-cba7-5fba-870a-daee047529ad
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'KPI SVG Price effect @333' =
+			VAR vValue = [Price effect]
+			VAR vShown = IF(ISBLANK(vValue), "—", IF(ABS(vValue) >= 1000000, FORMAT(vValue / 1000000, "\$#,0.00") & "M", FORMAT(vValue, "\$#,0")))
+			VAR vCaptionRaw = ""
+			VAR vCaption = IF(LEN(vCaptionRaw) > 66, LEFT(vCaptionRaw, 64) & "…", vCaptionRaw)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='333' height='112' viewBox='0 0 333 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>Price effect</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & ""
+			        & "<text x='16' y='90' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: 2296e9c7-0bc2-5aae-bfac-b3d6cf4fdb95
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'Filter Context - Weather' =
+			VAR vText = IF(ISFILTERED('dim_month'[year]), CONCATENATEX(VALUES('dim_month'[year]), 'dim_month'[year], ", "), "all years")
+			RETURN IF(LEN(vText) > 72, LEFT(vText, 70) & "…", vText)
+		lineageTag: 0659345b-a588-5111-b933-878ffd1f625a
+		displayFolder: Report UI
+
+	measure 'Header SVG - Weather' =
+			VAR vContext = "Page 3 of 7 · " & SUBSTITUTE(SUBSTITUTE([Filter Context - Weather], "&", "&amp;"), "<", "&lt;")
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='720' height='56' viewBox='0 0 720 56'>"
+			        & "<text x='0' y='24' font-family='Segoe UI Semibold' font-size='18' fill='#f2f2f4'>Weather</text>"
+			        & "<text x='0' y='46' font-family='Segoe UI' font-size='11' fill='#7d7d85'>" & vContext & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: 28155d72-06d6-5a78-99da-39d831a677d9
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'Filter Button Label - Weather' =
+			VAR vOn = INT(ISFILTERED('dim_month'[year]))
+			RETURN IF(vOn = 0, "Filters", "Filters · " & vOn)
+		lineageTag: 7581bbb7-9df1-5aad-8f6b-12d35838f439
+		displayFolder: Report UI
+
+	measure 'KPI SVG HDD against normal % @314' =
+			VAR vValue = [HDD against normal %]
+			VAR vShown = IF(ISBLANK(vValue), "—", FORMAT(vValue, "+0%;-0%;0%"))
+			VAR vCaptionRaw = ""
+			VAR vCaption = IF(LEN(vCaptionRaw) > 61, LEFT(vCaptionRaw, 59) & "…", vCaptionRaw)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='314' height='112' viewBox='0 0 314 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>HDD against normal %</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & ""
+			        & "<text x='16' y='90' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: a9f09db7-4390-541f-89c9-e620ff625c2a
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'KPI SVG Weather load (GWh) @310' =
+			VAR vValue = [Weather load (GWh)]
+			VAR vShown = IF(ISBLANK(vValue), "—", FORMAT(vValue, "+#,0;-#,0;0"))
+			VAR vCaptionRaw = ""
+			VAR vCaption = IF(LEN(vCaptionRaw) > 61, LEFT(vCaptionRaw, 59) & "…", vCaptionRaw)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='310' height='112' viewBox='0 0 310 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>Weather load (GWh)</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & ""
+			        & "<text x='16' y='90' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: 18f2c20c-0ab7-50c3-85fa-2e05648a8b9e
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'KPI SVG Weather revenue @314' =
+			VAR vValue = [Weather revenue]
+			VAR vShown = IF(ISBLANK(vValue), "—", IF(ABS(vValue) >= 1000000, FORMAT(vValue / 1000000, "\$#,0.00") & "M", FORMAT(vValue, "\$#,0")))
+			VAR vCaptionRaw = ""
+			VAR vCaption = IF(LEN(vCaptionRaw) > 61, LEFT(vCaptionRaw, 59) & "…", vCaptionRaw)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='314' height='112' viewBox='0 0 314 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>Weather revenue</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & ""
+			        & "<text x='16' y='90' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: 77925c81-9d8e-514e-9189-e5842a1b1d85
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'KPI SVG Residential R² @333' =
+			VAR vValue = [Residential R²]
+			VAR vShown = IF(ISBLANK(vValue), "—", FORMAT(vValue, "0.000"))
+			VAR vCaptionRaw = ""
+			VAR vCaption = IF(LEN(vCaptionRaw) > 66, LEFT(vCaptionRaw, 64) & "…", vCaptionRaw)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='333' height='112' viewBox='0 0 333 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>Residential R²</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & ""
+			        & "<text x='16' y='90' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: 63d9a158-2049-51e9-97b5-09df77ef79c6
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'Filter Context - Price, volume and mix' =
+			VAR vText = IF(ISFILTERED('pvm'[period]), CONCATENATEX(VALUES('pvm'[period]), 'pvm'[period], ", "), "all periods")
+			RETURN IF(LEN(vText) > 72, LEFT(vText, 70) & "…", vText)
+		lineageTag: 9b22f2e7-ed8e-5467-84fc-81c0a00bbb4e
+		displayFolder: Report UI
+
+	measure 'Header SVG - Price, volume and mix' =
+			VAR vContext = "Page 4 of 7 · " & SUBSTITUTE(SUBSTITUTE([Filter Context - Price, volume and mix], "&", "&amp;"), "<", "&lt;")
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='720' height='56' viewBox='0 0 720 56'>"
+			        & "<text x='0' y='24' font-family='Segoe UI Semibold' font-size='18' fill='#f2f2f4'>Price, volume and mix</text>"
+			        & "<text x='0' y='46' font-family='Segoe UI' font-size='11' fill='#7d7d85'>" & vContext & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: 5d87fc19-97da-5777-b191-9a3965cc9149
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'Filter Button Label - Price, volume and mix' =
+			VAR vOn = INT(ISFILTERED('pvm'[period]))
+			RETURN IF(vOn = 0, "Filters", "Filters · " & vOn)
+		lineageTag: 91c2646e-0332-5071-8dfb-c630984b8dd8
+		displayFolder: Report UI
+
+	measure 'KPI SVG PVM opening revenue @314' =
+			VAR vValue = [PVM opening revenue]
+			VAR vShown = IF(ISBLANK(vValue), "—", IF(ABS(vValue) >= 1000000, FORMAT(vValue / 1000000, "\$#,0.00") & "M", FORMAT(vValue, "\$#,0")))
+			VAR vCaptionRaw = ""
+			VAR vCaption = IF(LEN(vCaptionRaw) > 61, LEFT(vCaptionRaw, 59) & "…", vCaptionRaw)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='314' height='112' viewBox='0 0 314 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>PVM opening revenue</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & ""
+			        & "<text x='16' y='90' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: cf5d09a9-e25b-5a53-bc08-ebcd247481d8
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'KPI SVG PVM volume @310' =
+			VAR vValue = [PVM volume]
+			VAR vShown = IF(ISBLANK(vValue), "—", IF(ABS(vValue) >= 1000000, FORMAT(vValue / 1000000, "\$#,0.00") & "M", FORMAT(vValue, "\$#,0")))
+			VAR vCaptionRaw = ""
+			VAR vCaption = IF(LEN(vCaptionRaw) > 61, LEFT(vCaptionRaw, 59) & "…", vCaptionRaw)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='310' height='112' viewBox='0 0 310 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>PVM volume</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & ""
+			        & "<text x='16' y='90' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: 2249057b-7436-56af-9c37-9612755ee995
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'KPI SVG PVM mix @314' =
+			VAR vValue = [PVM mix]
+			VAR vShown = IF(ISBLANK(vValue), "—", IF(ABS(vValue) >= 1000000, FORMAT(vValue / 1000000, "\$#,0.00") & "M", FORMAT(vValue, "\$#,0")))
+			VAR vCaptionRaw = ""
+			VAR vCaption = IF(LEN(vCaptionRaw) > 61, LEFT(vCaptionRaw, 59) & "…", vCaptionRaw)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='314' height='112' viewBox='0 0 314 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>PVM mix</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & ""
+			        & "<text x='16' y='90' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: a262cffc-c208-5e58-aed0-adae22f59bb3
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'KPI SVG PVM price @333' =
+			VAR vValue = [PVM price]
+			VAR vShown = IF(ISBLANK(vValue), "—", IF(ABS(vValue) >= 1000000, FORMAT(vValue / 1000000, "\$#,0.00") & "M", FORMAT(vValue, "\$#,0")))
+			VAR vCaptionRaw = ""
+			VAR vCaption = IF(LEN(vCaptionRaw) > 66, LEFT(vCaptionRaw, 64) & "…", vCaptionRaw)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='333' height='112' viewBox='0 0 333 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>PVM price</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & ""
+			        & "<text x='16' y='90' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: 149b191b-9aac-5b43-bfd6-bfd72c53039f
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'Header SVG - Forecast and scenarios' =
+			VAR vContext = "Page 5 of 7"
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='720' height='56' viewBox='0 0 720 56'>"
+			        & "<text x='0' y='24' font-family='Segoe UI Semibold' font-size='18' fill='#f2f2f4'>Forecast and scenarios</text>"
+			        & "<text x='0' y='46' font-family='Segoe UI' font-size='11' fill='#7d7d85'>" & vContext & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: 05f00c18-692d-55a8-a7b9-d5ef805c5543
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'KPI SVG Scenario outlook | Scenario reference @310' =
+			VAR vValue = [Scenario outlook]
+			VAR vShown = IF(ISBLANK(vValue), "—", IF(ABS(vValue) >= 1000000, FORMAT(vValue / 1000000, "\$#,0.00") & "M", FORMAT(vValue, "\$#,0")))
+			VAR vCaptionRaw = SUBSTITUTE(SUBSTITUTE(COALESCE([Scenario reference], ""), "&", "&amp;"), "<", "&lt;")
+			VAR vCaption = IF(LEN(vCaptionRaw) > 61, LEFT(vCaptionRaw, 59) & "…", vCaptionRaw)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='310' height='112' viewBox='0 0 310 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>Scenario outlook</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & ""
+			        & "<text x='16' y='90' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: d61c7c10-b9fd-5822-8b0e-2d7b3bd5da32
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'KPI SVG Forecast revenue @314' =
+			VAR vValue = [Forecast revenue]
+			VAR vShown = IF(ISBLANK(vValue), "—", IF(ABS(vValue) >= 1000000, FORMAT(vValue / 1000000, "\$#,0.00") & "M", FORMAT(vValue, "\$#,0")))
+			VAR vCaptionRaw = ""
+			VAR vCaption = IF(LEN(vCaptionRaw) > 61, LEFT(vCaptionRaw, 59) & "…", vCaptionRaw)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='314' height='112' viewBox='0 0 314 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>Forecast revenue</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & ""
+			        & "<text x='16' y='90' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: 1c0ce574-3ac6-5f09-897c-3a38bc2766c4
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'KPI SVG Outlook against plan @333' =
+			VAR vValue = [Outlook against plan]
+			VAR vShown = IF(ISBLANK(vValue), "—", IF(ABS(vValue) >= 1000000, FORMAT(vValue / 1000000, "\$#,0.00") & "M", FORMAT(vValue, "\$#,0")))
+			VAR vCaptionRaw = ""
+			VAR vCaption = IF(LEN(vCaptionRaw) > 66, LEFT(vCaptionRaw, 64) & "…", vCaptionRaw)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='333' height='112' viewBox='0 0 333 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>Outlook against plan</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & ""
+			        & "<text x='16' y='90' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: 424a2fd3-5f05-59db-9361-766d42d1de50
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'Filter Context - FERC P&L and peers' =
+			VAR vText = IF(ISFILTERED('peers'[utility]), CONCATENATEX(VALUES('peers'[utility]), 'peers'[utility], ", "), "all utilities")
+			RETURN IF(LEN(vText) > 72, LEFT(vText, 70) & "…", vText)
+		lineageTag: 11560099-c21f-5b45-a57d-9b5a4f9f17da
+		displayFolder: Report UI
+
+	measure 'Header SVG - FERC P&L and peers' =
+			VAR vContext = "Page 6 of 7 · " & SUBSTITUTE(SUBSTITUTE([Filter Context - FERC P&L and peers], "&", "&amp;"), "<", "&lt;")
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='720' height='56' viewBox='0 0 720 56'>"
+			        & "<text x='0' y='24' font-family='Segoe UI Semibold' font-size='18' fill='#f2f2f4'>FERC P&amp;L and peers</text>"
+			        & "<text x='0' y='46' font-family='Segoe UI' font-size='11' fill='#7d7d85'>" & vContext & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: 6e46d446-748b-5af0-bf5a-fd1ee9cbcb3d
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'Filter Button Label - FERC P&L and peers' =
+			VAR vOn = INT(ISFILTERED('peers'[utility]))
+			RETURN IF(vOn = 0, "Filters", "Filters · " & vOn)
+		lineageTag: 6545251f-ec1e-5cf3-b03b-c2307a3c4f1b
+		displayFolder: Report UI
+
+	measure 'KPI SVG Operating margin, latest year @314' =
+			VAR vValue = [Operating margin, latest year]
+			VAR vShown = IF(ISBLANK(vValue), "—", FORMAT(vValue, "0.0%"))
+			VAR vCaptionRaw = ""
+			VAR vCaption = IF(LEN(vCaptionRaw) > 61, LEFT(vCaptionRaw, 59) & "…", vCaptionRaw)
+			VAR vRail = ROUND(282 * MAX(0, MIN(1, COALESCE(vValue, 0))), 0)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='314' height='112' viewBox='0 0 314 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>Operating margin, latest year</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & "<rect x='16' y='76' width='282' height='6' rx='3' fill='#26262a'/>" & "<rect x='16' y='76' width='" & vRail & "' height='6' rx='3' fill='#3987e5'/>"
+			        & "<text x='16' y='100' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: 02e8dcef-d214-5bfb-b9d5-a6d6f03259d5
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'KPI SVG Retail price, latest year (cents/kWh) @310' =
+			VAR vValue = [Retail price, latest year (cents/kWh)]
+			VAR vShown = IF(ISBLANK(vValue), "—", FORMAT(vValue, "0.00"))
+			VAR vCaptionRaw = ""
+			VAR vCaption = IF(LEN(vCaptionRaw) > 61, LEFT(vCaptionRaw, 59) & "…", vCaptionRaw)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='310' height='112' viewBox='0 0 310 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>Retail price, latest year (cents/kWh)</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & ""
+			        & "<text x='16' y='90' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: 9b372210-a3af-5945-9f22-287f3432b087
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'KPI SVG Power cost per MWh, latest year @314' =
+			VAR vValue = [Power cost per MWh, latest year]
+			VAR vShown = IF(ISBLANK(vValue), "—", IF(ABS(vValue) >= 1000000, FORMAT(vValue / 1000000, "\$#,0.00") & "M", FORMAT(vValue, "\$#,0.00")))
+			VAR vCaptionRaw = ""
+			VAR vCaption = IF(LEN(vCaptionRaw) > 61, LEFT(vCaptionRaw, 59) & "…", vCaptionRaw)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='314' height='112' viewBox='0 0 314 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>Power cost per MWh, latest year</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & ""
+			        & "<text x='16' y='90' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: 2afa2f10-ec2f-5dfa-9907-33c2a39304c4
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'KPI SVG PGE industrial load growth @333' =
+			VAR vValue = [PGE industrial load growth]
+			VAR vShown = IF(ISBLANK(vValue), "—", FORMAT(vValue, "0.0%"))
+			VAR vCaptionRaw = ""
+			VAR vCaption = IF(LEN(vCaptionRaw) > 66, LEFT(vCaptionRaw, 64) & "…", vCaptionRaw)
+			VAR vRail = ROUND(301 * MAX(0, MIN(1, COALESCE(vValue, 0))), 0)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='333' height='112' viewBox='0 0 333 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>PGE industrial load growth</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & "<rect x='16' y='76' width='301' height='6' rx='3' fill='#26262a'/>" & "<rect x='16' y='76' width='" & vRail & "' height='6' rx='3' fill='#3987e5'/>"
+			        & "<text x='16' y='100' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: e468bb0e-2869-508b-b487-f048fa7e9a44
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'Filter Context - EIA against FERC' =
+			VAR vText = IF(ISFILTERED('tieout'[year_label]), CONCATENATEX(VALUES('tieout'[year_label]), 'tieout'[year_label], ", "), "all years")
+			RETURN IF(LEN(vText) > 72, LEFT(vText, 70) & "…", vText)
+		lineageTag: 5ff8263b-a9bb-55d9-a688-794041dc488f
+		displayFolder: Report UI
+
+	measure 'Header SVG - EIA against FERC' =
+			VAR vContext = "Page 7 of 7 · " & SUBSTITUTE(SUBSTITUTE([Filter Context - EIA against FERC], "&", "&amp;"), "<", "&lt;")
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='720' height='56' viewBox='0 0 720 56'>"
+			        & "<text x='0' y='24' font-family='Segoe UI Semibold' font-size='18' fill='#f2f2f4'>EIA against FERC</text>"
+			        & "<text x='0' y='46' font-family='Segoe UI' font-size='11' fill='#7d7d85'>" & vContext & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: 6f7c43c7-2ff8-5c5f-b879-967179782171
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'Filter Button Label - EIA against FERC' =
+			VAR vOn = INT(ISFILTERED('tieout'[year_label]))
+			RETURN IF(vOn = 0, "Filters", "Filters · " & vOn)
+		lineageTag: 2a6b97e0-3c6d-5c89-bfcb-cdfabc309f1e
+		displayFolder: Report UI
+
+	measure 'KPI SVG MWh gap % @314' =
+			VAR vValue = [MWh gap %]
+			VAR vShown = IF(ISBLANK(vValue), "—", FORMAT(vValue, "+0.000%;-0.000%;0.000%"))
+			VAR vCaptionRaw = ""
+			VAR vCaption = IF(LEN(vCaptionRaw) > 61, LEFT(vCaptionRaw, 59) & "…", vCaptionRaw)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='314' height='112' viewBox='0 0 314 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>MWh gap %</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & ""
+			        & "<text x='16' y='90' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: 78b227fb-56ff-538d-8cee-648a633e416e
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'KPI SVG Revenue gap % @310' =
+			VAR vValue = [Revenue gap %]
+			VAR vShown = IF(ISBLANK(vValue), "—", FORMAT(vValue, "+0.000%;-0.000%;0.000%"))
+			VAR vCaptionRaw = ""
+			VAR vCaption = IF(LEN(vCaptionRaw) > 61, LEFT(vCaptionRaw, 59) & "…", vCaptionRaw)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='310' height='112' viewBox='0 0 310 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>Revenue gap %</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & ""
+			        & "<text x='16' y='90' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: 3e6ccc4f-3e54-5e99-a139-11d8c9d197e9
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'KPI SVG EIA revenue @314' =
+			VAR vValue = [EIA revenue]
+			VAR vShown = IF(ISBLANK(vValue), "—", IF(ABS(vValue) >= 1000000, FORMAT(vValue / 1000000, "\$#,0.00") & "M", FORMAT(vValue, "\$#,0")))
+			VAR vCaptionRaw = ""
+			VAR vCaption = IF(LEN(vCaptionRaw) > 61, LEFT(vCaptionRaw, 59) & "…", vCaptionRaw)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='314' height='112' viewBox='0 0 314 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>EIA revenue</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & ""
+			        & "<text x='16' y='90' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: 4ea851bd-d41e-58f4-b6b7-2043d0c7699f
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	measure 'KPI SVG FERC revenue @333' =
+			VAR vValue = [FERC revenue]
+			VAR vShown = IF(ISBLANK(vValue), "—", IF(ABS(vValue) >= 1000000, FORMAT(vValue / 1000000, "\$#,0.00") & "M", FORMAT(vValue, "\$#,0")))
+			VAR vCaptionRaw = ""
+			VAR vCaption = IF(LEN(vCaptionRaw) > 66, LEFT(vCaptionRaw, 64) & "…", vCaptionRaw)
+			VAR vSvg =
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='333' height='112' viewBox='0 0 333 112'>"
+			        & "<rect x='0' y='18' width='3' height='76' rx='1.5' fill='#3987e5'/>"
+			        & "<text x='16' y='28' font-family='Segoe UI' font-size='11' fill='#a6a6ad'>FERC revenue</text>"
+			        & "<text x='16' y='64' font-family='Segoe UI Light' font-size='30' fill='#f2f2f4'>" & vShown & "</text>"
+			        & ""
+			        & "<text x='16' y='90' font-family='Segoe UI' font-size='10' fill='#7d7d85'>" & vCaption & "</text>"
+			        & "</svg>"
+			RETURN
+			    "data:image/svg+xml;utf8," & SUBSTITUTE(SUBSTITUTE(vSvg, "%", "%25"), "#", "%23")
+		lineageTag: 705102fc-e68c-5f74-9d44-f8a3f921807d
+		dataCategory: ImageUrl
+		displayFolder: Report UI
+
+	column _placeholder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: e1366f0d-34fb-5d66-ab46-e8e9e22bfa9a
+		summarizeBy: none
+		sourceColumn: _placeholder
+
+	partition _Measures = m
+		mode: import
+		source =
+				let
+				    Source = #table(type table [_placeholder = Int64.Type], {{0}})
+				in
+				    Source

@@ -1,0 +1,130 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "v0108",
+  "position": {
+    "x": 654,
+    "y": 470,
+    "z": 1016,
+    "height": 234,
+    "width": 606,
+    "tabOrder": 1016
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_class"
+                    }
+                  },
+                  "Property": "class_label"
+                }
+              },
+              "queryRef": "dim_class.class_label",
+              "nativeQueryRef": "class_label",
+              "displayName": "Class"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Actual ($M)"
+                }
+              },
+              "queryRef": "_Measures.Actual ($M)",
+              "nativeQueryRef": "Actual ($M)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Forecast ($M)"
+                }
+              },
+              "queryRef": "_Measures.Forecast ($M)",
+              "nativeQueryRef": "Forecast ($M)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Outlook ($M)"
+                }
+              },
+              "queryRef": "_Measures.Outlook ($M)",
+              "nativeQueryRef": "Outlook ($M)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Outlook vs plan ($M)"
+                }
+              },
+              "queryRef": "_Measures.Outlook vs plan ($M)",
+              "nativeQueryRef": "Outlook vs plan ($M)"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Full-year outlook by class'"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Table titled Full-year outlook by class. Lists class label, actual, forecast, outlook and outlook against plan, in $ millions.'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

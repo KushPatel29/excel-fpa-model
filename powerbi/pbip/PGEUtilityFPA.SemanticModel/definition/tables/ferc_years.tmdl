@@ -1,0 +1,75 @@
+table ferc_years
+	lineageTag: 7b0d8453-4b3b-56d1-9b19-56e81e4ba8bd
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 5708f533-7fc1-56b0-84a7-309655b14bec
+		summarizeBy: sum
+		sourceColumn: year
+
+	column year_label
+		dataType: string
+		lineageTag: 1fd53941-34f8-582c-bdea-28d6a8d26bc9
+		summarizeBy: none
+		sourceColumn: year_label
+		sortByColumn: year
+
+	column retail_revenue
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: 9b2afdb3-57ad-504c-9f1f-99114e12aa64
+		summarizeBy: sum
+		sourceColumn: retail_revenue
+
+	column total_revenue
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: e41dd97b-e555-55b9-9b4d-ea4975f55827
+		summarizeBy: sum
+		sourceColumn: total_revenue
+
+	column power_cost
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: 7ec42174-0674-55d7-8a65-9782b30f02be
+		summarizeBy: sum
+		sourceColumn: power_cost
+
+	column operating_income
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: 16357093-cbab-5689-b646-6a973cc93076
+		summarizeBy: sum
+		sourceColumn: operating_income
+
+	column retail_mwh
+		dataType: int64
+		formatString: #,0
+		lineageTag: d77cd488-e274-5010-8e18-61e225c0bb33
+		summarizeBy: sum
+		sourceColumn: retail_mwh
+
+	column total_mwh
+		dataType: int64
+		formatString: #,0
+		lineageTag: 258dabca-888b-5a04-8784-73df4e7af883
+		summarizeBy: sum
+		sourceColumn: total_mwh
+
+	column customers
+		dataType: int64
+		formatString: #,0
+		lineageTag: 9735566b-ef9f-56ab-bbd2-0a6a360037fb
+		summarizeBy: sum
+		sourceColumn: customers
+
+	partition ferc_years = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataPath & "\tables\ferc_years.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"year", Int64.Type}, {"year_label", type text}, {"retail_revenue", Int64.Type}, {"total_revenue", Int64.Type}, {"power_cost", Int64.Type}, {"operating_income", Int64.Type}, {"retail_mwh", Int64.Type}, {"total_mwh", Int64.Type}, {"customers", Int64.Type}})
+				in
+				    Typed

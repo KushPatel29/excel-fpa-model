@@ -1,0 +1,179 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "v0308",
+  "position": {
+    "x": 654,
+    "y": 470,
+    "z": 1217,
+    "height": 234,
+    "width": 606,
+    "tabOrder": 1217
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_class"
+                    }
+                  },
+                  "Property": "class_label"
+                }
+              },
+              "queryRef": "dim_class.class_label",
+              "nativeQueryRef": "class_label",
+              "displayName": "Class"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "weather_model"
+                    }
+                  },
+                  "Property": "intercept"
+                }
+              },
+              "queryRef": "weather_model.intercept",
+              "nativeQueryRef": "intercept",
+              "displayName": "Intercept"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "weather_model"
+                    }
+                  },
+                  "Property": "per_hdd"
+                }
+              },
+              "queryRef": "weather_model.per_hdd",
+              "nativeQueryRef": "per_hdd",
+              "displayName": "Per HDD"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "weather_model"
+                    }
+                  },
+                  "Property": "per_cdd"
+                }
+              },
+              "queryRef": "weather_model.per_cdd",
+              "nativeQueryRef": "per_cdd",
+              "displayName": "Per CDD"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "weather_model"
+                    }
+                  },
+                  "Property": "trend_per_year"
+                }
+              },
+              "queryRef": "weather_model.trend_per_year",
+              "nativeQueryRef": "trend_per_year",
+              "displayName": "Trend per year"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "weather_model"
+                    }
+                  },
+                  "Property": "r_squared"
+                }
+              },
+              "queryRef": "weather_model.r_squared",
+              "nativeQueryRef": "r_squared",
+              "displayName": "R²"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "weather_model"
+                    }
+                  },
+                  "Property": "months_fitted"
+                }
+              },
+              "queryRef": "weather_model.months_fitted",
+              "nativeQueryRef": "months_fitted",
+              "displayName": "Months fitted"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'The regression: MWh per customer on degree days and trend'"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Table titled The regression. Lists class label, intercept, per HDD, per CDD, trend per year, R squared and months fitted.'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "objects": {
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

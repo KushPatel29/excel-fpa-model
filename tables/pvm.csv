@@ -1,0 +1,49 @@
+period,period_order,revenue_class,step,step_order,amount
+2019 to 2025,0,Residential,Opening revenue,0,917792335
+2019 to 2025,0,Residential,Volume,1,12948669.3703023
+2019 to 2025,0,Residential,Mix,2,2435235.70669738
+2019 to 2025,0,Residential,Price,3,494508727.923
+2019 to 2025,0,Commercial,Opening revenue,0,638317031
+2019 to 2025,0,Commercial,Volume,1,-18340251.7272298
+2019 to 2025,0,Commercial,Mix,2,1194264.1228278
+2019 to 2025,0,Commercial,Price,3,345016710.604402
+2019 to 2025,0,Industrial,Opening revenue,0,221934941
+2019 to 2025,0,Industrial,Volume,1,281613421.668429
+2019 to 2025,0,Industrial,Mix,2,-91594832.6707868
+2019 to 2025,0,Industrial,Price,3,148543450.002358
+2019 to 2025,0,Street lighting,Opening revenue,0,11259467
+2019 to 2025,0,Street lighting,Volume,1,-818617.216496845
+2019 to 2025,0,Street lighting,Mix,2,-987322.820760043
+2019 to 2025,0,Street lighting,Price,3,5523391.03725689
+2024 to 2025,1,Residential,Opening revenue,0,1406370635
+2024 to 2025,1,Residential,Volume,1,-19537181.9377502
+2024 to 2025,1,Residential,Mix,2,-5073049.97988019
+2024 to 2025,1,Residential,Price,3,45924564.9176305
+2024 to 2025,1,Commercial,Opening revenue,0,904898637
+2024 to 2025,1,Commercial,Volume,1,-5793602.74157756
+2024 to 2025,1,Commercial,Mix,2,178796.501465485
+2024 to 2025,1,Commercial,Price,3,66903923.240112
+2024 to 2025,1,Industrial,Opening revenue,0,457455750
+2024 to 2025,1,Industrial,Volume,1,125940426.944753
+2024 to 2025,1,Industrial,Mix,2,-46660465.7279538
+2024 to 2025,1,Industrial,Price,3,23761268.7832012
+2024 to 2025,1,Street lighting,Opening revenue,0,14304206
+2024 to 2025,1,Street lighting,Volume,1,-170684.639977684
+2024 to 2025,1,Street lighting,Mix,2,-225973.928749588
+2024 to 2025,1,Street lighting,Price,3,1069370.56872727
+Jan–Jun 2026 vs 2025,2,Residential,Opening revenue,0,712293444
+Jan–Jun 2026 vs 2025,2,Residential,Volume,1,-17615752.3352502
+Jan–Jun 2026 vs 2025,2,Residential,Mix,2,-4810389.27699505
+Jan–Jun 2026 vs 2025,2,Residential,Price,3,5277459.61224521
+Jan–Jun 2026 vs 2025,2,Commercial,Opening revenue,0,468548856
+Jan–Jun 2026 vs 2025,2,Commercial,Volume,1,-7759197.779098
+Jan–Jun 2026 vs 2025,2,Commercial,Mix,2,-65821.0549543847
+Jan–Jun 2026 vs 2025,2,Commercial,Price,3,13581268.8340524
+Jan–Jun 2026 vs 2025,2,Industrial,Opening revenue,0,260794382
+Jan–Jun 2026 vs 2025,2,Industrial,Volume,1,50771596.3730986
+Jan–Jun 2026 vs 2025,2,Industrial,Mix,2,-19050213.9206062
+Jan–Jun 2026 vs 2025,2,Industrial,Price,3,7305027.54750761
+Jan–Jun 2026 vs 2025,2,Transportation,Opening revenue,0,727932
+Jan–Jun 2026 vs 2025,2,Transportation,Volume,1,-63796.8048414478
+Jan–Jun 2026 vs 2025,2,Transportation,Mix,2,8246.89479075998
+Jan–Jun 2026 vs 2025,2,Transportation,Price,3,19112.9100506878

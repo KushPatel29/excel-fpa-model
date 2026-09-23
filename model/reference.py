@@ -194,34 +194,36 @@ def closed_months(data: Data, year: int) -> int:
     return 12 if year < end.year else end.month
 
 
-def plan_bridge(data: Data, year: int) -> pd.DataFrame:
-    """Actual minus plan for the closed months of `year`, split four ways per class."""
+def plan_bridge_monthly(data: Data, year: int) -> pd.DataFrame:
+    """Actual minus plan for each closed month and class of `year`, split four ways."""
     p = plan(data, year)
     n = normals(data, year)
     out = []
     for cls in CLASSES:
         coef = regression(data, cls, year) if cls in WEATHER_CLASSES else None
-        eff = dict.fromkeys(["customers", "weather", "usage", "price"], 0.0)
-        plan_rev = actual_rev = 0.0
         for k in range(1, closed_months(data, year) + 1):
             d = pd.Timestamp(year, k, 1)
             a = data.monthly.loc[(d, cls)]
             pl = p.loc[(d, cls)]
             p_a = a["revenue"] / a["mwh"]
+            eff = dict.fromkeys(["customers", "weather", "usage", "price"], 0.0)
             if coef:
                 w = data.weather.loc[d]
                 weff = weather_effect(coef, w["hdd"], w["cdd"], n.loc[k])
                 u_a = a["mwh"] / a["customers"]
-                eff["customers"] += (a["customers"] - pl["customers"]) * pl["use"] * pl["price"]
-                eff["weather"] += a["customers"] * weff * pl["price"]
-                eff["usage"] += a["customers"] * (u_a - pl["use"] - weff) * pl["price"]
+                eff["customers"] = (a["customers"] - pl["customers"]) * pl["use"] * pl["price"]
+                eff["weather"] = a["customers"] * weff * pl["price"]
+                eff["usage"] = a["customers"] * (u_a - pl["use"] - weff) * pl["price"]
             else:
-                eff["usage"] += (a["mwh"] - pl["mwh"]) * pl["price"]
-            eff["price"] += a["mwh"] * (p_a - pl["price"])
-            plan_rev += pl["revenue"]
-            actual_rev += a["revenue"]
-        out.append({"cls": cls, "plan": plan_rev, **eff, "actual": actual_rev})
-    return pd.DataFrame(out).set_index("cls")
+                eff["usage"] = (a["mwh"] - pl["mwh"]) * pl["price"]
+            eff["price"] = a["mwh"] * (p_a - pl["price"])
+            out.append({"date": d, "cls": cls, "plan": pl["revenue"], **eff, "actual": a["revenue"]})
+    return pd.DataFrame(out).set_index(["date", "cls"])
+
+
+def plan_bridge(data: Data, year: int) -> pd.DataFrame:
+    """Actual minus plan for the closed months of `year`, split four ways per class."""
+    return plan_bridge_monthly(data, year).groupby(level="cls", sort=False).sum()
 
 
 def backtest(data: Data, year: int) -> dict[str, float]:

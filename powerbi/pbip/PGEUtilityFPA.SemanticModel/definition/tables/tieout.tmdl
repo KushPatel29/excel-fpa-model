@@ -1,0 +1,54 @@
+table tieout
+	lineageTag: 59e09335-e371-5797-8645-79afa0f441b3
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 033f030c-a5e3-5ba5-9778-58f6d99b534b
+		summarizeBy: sum
+		sourceColumn: year
+
+	column year_label
+		dataType: string
+		lineageTag: 9cdedc03-e755-5d64-8620-091e290e9613
+		summarizeBy: none
+		sourceColumn: year_label
+		sortByColumn: year
+
+	column eia_mwh
+		dataType: double
+		formatString: #,0
+		lineageTag: 4136d7c2-52c4-52a6-8ec7-ed92bfb7e16d
+		summarizeBy: sum
+		sourceColumn: eia_mwh
+
+	column ferc_mwh
+		dataType: int64
+		formatString: #,0
+		lineageTag: 8dcb6e5d-174e-54d7-908b-e039d21864d6
+		summarizeBy: sum
+		sourceColumn: ferc_mwh
+
+	column eia_revenue
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: 9032ffdb-25e5-5243-ac1b-aa57bfaa5e2e
+		summarizeBy: sum
+		sourceColumn: eia_revenue
+
+	column ferc_revenue
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: 5dc3e36d-b5a5-5d01-99dc-3c37e52e125e
+		summarizeBy: sum
+		sourceColumn: ferc_revenue
+
+	partition tieout = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataPath & "\tables\tieout.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"year", Int64.Type}, {"year_label", type text}, {"eia_mwh", type number}, {"ferc_mwh", Int64.Type}, {"eia_revenue", Int64.Type}, {"ferc_revenue", Int64.Type}})
+				in
+				    Typed

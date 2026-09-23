@@ -1,0 +1,61 @@
+table backtest
+	lineageTag: 24f31e18-74da-53f4-a469-44ffe1269f6e
+
+	column plan_year
+		dataType: int64
+		formatString: 0
+		lineageTag: 097d67ad-1389-5c0a-963f-478f054b5a83
+		summarizeBy: sum
+		sourceColumn: plan_year
+
+	column months
+		dataType: int64
+		formatString: 0
+		lineageTag: 62cd4991-4f67-509e-b802-215246f98dce
+		summarizeBy: sum
+		sourceColumn: months
+
+	column plan_revenue
+		dataType: double
+		formatString: \$#,0.00
+		lineageTag: f6d2fd30-8409-52be-a946-1ec0ec3dd302
+		summarizeBy: sum
+		sourceColumn: plan_revenue
+
+	column actual_revenue
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: c5e36db1-624d-569e-90d3-33d0215dc0eb
+		summarizeBy: sum
+		sourceColumn: actual_revenue
+
+	column variance_pct
+		dataType: double
+		formatString: 0.0%
+		lineageTag: ff1b600a-1a56-579f-b47e-93b43c58f6c1
+		summarizeBy: sum
+		sourceColumn: variance_pct
+
+	column wape_revenue_pct
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 24148ec7-4570-5232-b279-25480fc62df1
+		summarizeBy: sum
+		sourceColumn: wape_revenue_pct
+
+	column wape_mwh_pct
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 8f84674d-e164-5566-9912-5dc2d06c32aa
+		summarizeBy: sum
+		sourceColumn: wape_mwh_pct
+
+	partition backtest = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataPath & "\tables\backtest.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"plan_year", Int64.Type}, {"months", Int64.Type}, {"plan_revenue", type number}, {"actual_revenue", Int64.Type}, {"variance_pct", type number}, {"wape_revenue_pct", type number}, {"wape_mwh_pct", type number}})
+				in
+				    Typed

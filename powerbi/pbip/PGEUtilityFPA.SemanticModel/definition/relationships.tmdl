@@ -1,0 +1,47 @@
+relationship 05f47456-cf8f-5863-b7d3-a3f434361c9c
+	fromColumn: fact_sales.month
+	toColumn: dim_month.month
+
+relationship 495a496e-1506-50dd-905a-a5155bcf5d7f
+	fromColumn: fact_sales.class
+	toColumn: dim_class.class
+
+relationship beb36d51-ec7d-5634-aad3-6ee55abc8ccb
+	fromColumn: fact_weather.month
+	toColumn: dim_month.month
+
+relationship e84770f8-1482-563e-9b6d-62334b9fc5e5
+	fromColumn: weather_impact.month
+	toColumn: dim_month.month
+
+relationship 52b71fbc-c7a7-5579-b8d8-8f9561191aef
+	fromColumn: weather_impact.class
+	toColumn: dim_class.class
+
+relationship e242494a-ed6e-5a45-9fff-055c932ac3fe
+	fromColumn: weather_model.class
+	toColumn: dim_class.class
+
+relationship 5ee83734-f5ea-5f81-9d9c-4e969dac8145
+	fromColumn: plan_monthly.month
+	toColumn: dim_month.month
+
+relationship 903f8614-0223-561d-be85-b667757bc67d
+	fromColumn: plan_monthly.class
+	toColumn: dim_class.class
+
+relationship a8fd8f84-e7ff-5ad7-94ac-88c0d58d3ce3
+	fromColumn: plan_bridge.month
+	toColumn: dim_month.month
+
+relationship 6798e307-ab6f-51d6-8d21-38e720e9a995
+	fromColumn: plan_bridge.class
+	toColumn: dim_class.class
+
+relationship 09eb60f1-bf29-5208-bba2-6ebcdf1c774a
+	fromColumn: forecast_monthly.month
+	toColumn: dim_month.month
+
+relationship 9ec240cb-8d9c-5cf0-9393-2d98f813ef87
+	fromColumn: forecast_monthly.class
+	toColumn: dim_class.class

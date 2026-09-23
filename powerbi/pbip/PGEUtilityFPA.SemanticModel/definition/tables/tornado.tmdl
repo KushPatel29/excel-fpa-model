@@ -1,0 +1,39 @@
+table tornado
+	lineageTag: a7ac11f7-bca8-5df9-a5c8-fe89adf5b112
+
+	column lever
+		dataType: string
+		lineageTag: 282cff37-2652-57a0-b398-d0353961ca29
+		summarizeBy: none
+		sourceColumn: lever
+		sortByColumn: lever_order
+
+	column step
+		dataType: string
+		lineageTag: a49cd7d1-75ac-57bf-b5e5-6728e3a44ed7
+		summarizeBy: none
+		sourceColumn: step
+
+	column lever_order
+		dataType: int64
+		formatString: 0
+		lineageTag: f509b33c-bf21-55b4-866e-7835606e614e
+		summarizeBy: none
+		sourceColumn: lever_order
+
+	column impact
+		dataType: double
+		formatString: \$#,0.00
+		lineageTag: 263986e5-9e7c-5341-b197-1338a7264692
+		summarizeBy: sum
+		sourceColumn: impact
+
+	partition tornado = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataPath & "\tables\tornado.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"lever", type text}, {"step", type text}, {"lever_order", Int64.Type}, {"impact", type number}})
+				in
+				    Typed

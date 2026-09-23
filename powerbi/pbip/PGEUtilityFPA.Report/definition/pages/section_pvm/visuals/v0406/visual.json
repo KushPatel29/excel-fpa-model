@@ -1,0 +1,113 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "v0406",
+  "position": {
+    "x": 794,
+    "y": 208,
+    "z": 1315,
+    "height": 246,
+    "width": 466,
+    "tabOrder": 1315
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "pvm"
+                    }
+                  },
+                  "Property": "revenue_class"
+                }
+              },
+              "queryRef": "pvm.revenue_class",
+              "nativeQueryRef": "revenue_class",
+              "displayName": "Revenue class",
+              "active": true
+            }
+          ]
+        },
+        "Columns": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "pvm"
+                    }
+                  },
+                  "Property": "step"
+                }
+              },
+              "queryRef": "pvm.step",
+              "nativeQueryRef": "step",
+              "displayName": "Step",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Amount ($M)"
+                }
+              },
+              "queryRef": "_Measures.Amount ($M)",
+              "nativeQueryRef": "Amount ($M)"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'By revenue class'"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Matrix titled By revenue class. Shows PVM amount for each revenue class by step.'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

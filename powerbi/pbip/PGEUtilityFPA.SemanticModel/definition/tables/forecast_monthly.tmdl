@@ -1,0 +1,74 @@
+table forecast_monthly
+	lineageTag: 9dd073fa-ae33-5dd6-9c28-2c5d162d0d97
+
+	column month
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 19098aaa-b311-5594-9479-dfae1cd84af3
+		summarizeBy: none
+		sourceColumn: month
+
+	column class
+		dataType: string
+		lineageTag: 4bfa15dc-e2cc-5ced-bba1-0f14e201eefb
+		summarizeBy: none
+		sourceColumn: class
+
+	column forecast_customers
+		dataType: double
+		formatString: #,0
+		lineageTag: 16c64832-d0fd-535e-a3c1-324f2ff61725
+		summarizeBy: sum
+		sourceColumn: forecast_customers
+
+	column hdd
+		dataType: double
+		formatString: #,0
+		lineageTag: f6a7225f-df73-58d3-a817-a29d52f820d5
+		summarizeBy: sum
+		sourceColumn: hdd
+
+	column cdd
+		dataType: double
+		formatString: #,0
+		lineageTag: 915351c4-f644-5d34-869a-7553a531be4a
+		summarizeBy: sum
+		sourceColumn: cdd
+
+	column forecast_mwh
+		dataType: double
+		formatString: #,0
+		lineageTag: 8804ba02-60fe-58fb-ba3f-0709e2b176d7
+		summarizeBy: sum
+		sourceColumn: forecast_mwh
+
+	column forecast_price
+		dataType: double
+		formatString: \$#,0.00
+		lineageTag: ef12fa6b-4847-5894-a615-7bcc5dfa924c
+		summarizeBy: sum
+		sourceColumn: forecast_price
+
+	column forecast_revenue
+		dataType: double
+		formatString: \$#,0.00
+		lineageTag: a43ec66d-5b87-5484-be7e-636c5d38683e
+		summarizeBy: sum
+		sourceColumn: forecast_revenue
+
+	column days
+		dataType: int64
+		formatString: #,0
+		lineageTag: 8f15b4b5-a9c3-5480-a271-3fff988bdbd0
+		summarizeBy: sum
+		sourceColumn: days
+
+	partition forecast_monthly = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataPath & "\tables\forecast_monthly.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"month", type date}, {"class", type text}, {"forecast_customers", type number}, {"hdd", type number}, {"cdd", type number}, {"forecast_mwh", type number}, {"forecast_price", type number}, {"forecast_revenue", type number}, {"days", Int64.Type}})
+				in
+				    Typed

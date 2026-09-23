@@ -1,0 +1,46 @@
+table ferc_pnl
+	lineageTag: ba10bfc1-ced7-5bb0-91bf-88741a79df59
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 667bdf14-d380-530f-961a-f3c9ef5e0279
+		summarizeBy: sum
+		sourceColumn: year
+
+	column line
+		dataType: string
+		lineageTag: b1c8db9c-bdb1-5a26-9b21-0e47bc8bf60b
+		summarizeBy: none
+		sourceColumn: line
+		sortByColumn: line_order
+
+	column line_order
+		dataType: int64
+		formatString: 0
+		lineageTag: 2f8cc85e-7d7a-54d1-9db4-ed2591e630a5
+		summarizeBy: none
+		sourceColumn: line_order
+
+	column section
+		dataType: string
+		lineageTag: 6d1b75c4-a42d-572f-adea-84b93978757a
+		summarizeBy: none
+		sourceColumn: section
+
+	column value
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: 36c0c117-f347-5291-9c54-735c410c1960
+		summarizeBy: sum
+		sourceColumn: value
+
+	partition ferc_pnl = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataPath & "\tables\ferc_pnl.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"year", Int64.Type}, {"line", type text}, {"line_order", Int64.Type}, {"section", type text}, {"value", Int64.Type}})
+				in
+				    Typed

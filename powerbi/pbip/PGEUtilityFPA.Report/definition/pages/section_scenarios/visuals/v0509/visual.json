@@ -1,0 +1,135 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "v0509",
+  "position": {
+    "x": 20,
+    "y": 470,
+    "z": 1411,
+    "height": 234,
+    "width": 1240,
+    "tabOrder": 1411
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "sensitivity"
+                    }
+                  },
+                  "Property": "rate_change"
+                }
+              },
+              "queryRef": "sensitivity.rate_change",
+              "nativeQueryRef": "rate_change",
+              "displayName": "Rate change",
+              "active": true
+            }
+          ]
+        },
+        "Columns": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "sensitivity"
+                    }
+                  },
+                  "Property": "extra_mw"
+                }
+              },
+              "queryRef": "sensitivity.extra_mw",
+              "nativeQueryRef": "extra_mw",
+              "displayName": "Extra mw",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Full-year revenue ($M)"
+                }
+              },
+              "queryRef": "_Measures.Full-year revenue ($M)",
+              "nativeQueryRef": "Full-year revenue ($M)"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Full-year revenue: rate change down the side, new data-center MW across the top'"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Matrix titled Full-year revenue by rate change and new data-center MW. Shows Sensitivity outlook for each rate change by extra MW.'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "objects": {
+      "subTotals": [
+        {
+          "properties": {
+            "rowSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "columnSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

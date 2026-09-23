@@ -1,0 +1,5 @@
+class,class_label,class_order,weather_model
+residential,Residential,0,yes
+commercial,Commercial,1,yes
+industrial,Industrial,2,no
+transportation,Transportation,3,no

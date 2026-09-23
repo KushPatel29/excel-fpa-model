@@ -1,0 +1,38 @@
+table dim_class
+	lineageTag: 8b82cace-98fc-53fc-b87a-48ba5fa48ca8
+
+	column class
+		dataType: string
+		lineageTag: 84f96536-8478-5e14-8f7a-c05165d4d8d2
+		summarizeBy: none
+		sourceColumn: class
+
+	column class_label
+		dataType: string
+		lineageTag: e97a5002-eb28-59cf-870e-ce85f3c1e010
+		summarizeBy: none
+		sourceColumn: class_label
+		sortByColumn: class_order
+
+	column class_order
+		dataType: int64
+		formatString: 0
+		lineageTag: 27b02fba-a26f-5101-81d6-d3d9ff898e75
+		summarizeBy: none
+		sourceColumn: class_order
+
+	column weather_model
+		dataType: string
+		lineageTag: 73c3c0f6-16f0-507f-ae81-69d65ed0b9ec
+		summarizeBy: none
+		sourceColumn: weather_model
+
+	partition dim_class = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataPath & "\tables\dim_class.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"class", type text}, {"class_label", type text}, {"class_order", Int64.Type}, {"weather_model", type text}})
+				in
+				    Typed

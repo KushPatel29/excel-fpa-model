@@ -1,0 +1,53 @@
+table pvm
+	lineageTag: 85d85437-183b-5627-8b23-5391ca08169f
+
+	column period
+		dataType: string
+		lineageTag: e3d8ba34-3d0f-5eee-af77-e19f0443f0b7
+		summarizeBy: none
+		sourceColumn: period
+		sortByColumn: period_order
+
+	column period_order
+		dataType: int64
+		formatString: 0
+		lineageTag: 30cda3ec-24e3-5f35-879d-572f2a43da2e
+		summarizeBy: none
+		sourceColumn: period_order
+
+	column revenue_class
+		dataType: string
+		lineageTag: a579c246-98ce-570d-80fb-50c4af155d9b
+		summarizeBy: none
+		sourceColumn: revenue_class
+
+	column step
+		dataType: string
+		lineageTag: de651da2-52bd-5b33-9c3c-59d66cbd7f1d
+		summarizeBy: none
+		sourceColumn: step
+		sortByColumn: step_order
+
+	column step_order
+		dataType: int64
+		formatString: 0
+		lineageTag: b3dd8ac0-7abb-5b4a-8923-e5f0deb41ee7
+		summarizeBy: none
+		sourceColumn: step_order
+
+	column amount
+		dataType: double
+		formatString: \$#,0.00
+		lineageTag: 23c8902f-7093-5cff-95c0-37dcb979370d
+		summarizeBy: sum
+		sourceColumn: amount
+
+	partition pvm = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataPath & "\tables\pvm.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"period", type text}, {"period_order", Int64.Type}, {"revenue_class", type text}, {"step", type text}, {"step_order", Int64.Type}, {"amount", type number}})
+				in
+				    Typed

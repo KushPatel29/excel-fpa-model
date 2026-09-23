@@ -1,0 +1,6 @@
+lever,step,lever_order,impact
+Rate +1 point,+1 point,0,15377026.8184199
+Data-center load +50 MW,+50 MW,1,21100848.8299885
+HDD −10% (milder),−10%,2,-22084791.0659246
+CDD +10% (hotter),+10%,3,2013299.00330782
+Customers +1%,+1%,4,15377026.8184199

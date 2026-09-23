@@ -1,0 +1,46 @@
+table plan_bridge
+	lineageTag: aae3a664-3079-5b60-b9ce-c1d4622d52cf
+
+	column month
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 475a12bd-411b-53ce-9a48-a59c3d9d58f1
+		summarizeBy: none
+		sourceColumn: month
+
+	column class
+		dataType: string
+		lineageTag: db9b4b58-6310-542b-a13a-b306433da6ca
+		summarizeBy: none
+		sourceColumn: class
+
+	column step
+		dataType: string
+		lineageTag: 390b016a-f595-52d9-ad6a-0584524f984b
+		summarizeBy: none
+		sourceColumn: step
+		sortByColumn: step_order
+
+	column step_order
+		dataType: int64
+		formatString: 0
+		lineageTag: 76bbc886-26bd-5b99-b06d-e4f3d9dda9b6
+		summarizeBy: none
+		sourceColumn: step_order
+
+	column amount
+		dataType: double
+		formatString: \$#,0.00
+		lineageTag: 7d89136b-17c7-5677-9420-0adac5467e1c
+		summarizeBy: sum
+		sourceColumn: amount
+
+	partition plan_bridge = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataPath & "\tables\plan_bridge.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"month", type date}, {"class", type text}, {"step", type text}, {"step_order", Int64.Type}, {"amount", type number}})
+				in
+				    Typed

@@ -1,0 +1,108 @@
+table peers
+	lineageTag: 46fd7323-0e9c-56ed-b3ab-ecbcd279dc3e
+
+	column utility
+		dataType: string
+		lineageTag: fc8562da-8aad-5692-acaa-25f569d0fd00
+		summarizeBy: none
+		sourceColumn: utility
+
+	column is_pge
+		dataType: boolean
+		lineageTag: bf1b2ad1-fd99-55f4-a023-1a90320ad54c
+		summarizeBy: none
+		sourceColumn: is_pge
+
+	column retail_revenue
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: 0a3df1f5-69b1-5823-a62b-781d8da4b5c1
+		summarizeBy: sum
+		sourceColumn: retail_revenue
+
+	column retail_mwh
+		dataType: int64
+		formatString: #,0
+		lineageTag: b79b71d5-54f8-52bf-bb8d-53c86cbdf187
+		summarizeBy: sum
+		sourceColumn: retail_mwh
+
+	column customers
+		dataType: int64
+		formatString: #,0
+		lineageTag: 51755b2f-bd09-5a62-8a68-da5da7ad31b4
+		summarizeBy: sum
+		sourceColumn: customers
+
+	column retail_cents
+		dataType: double
+		formatString: 0.00
+		lineageTag: 2406e2af-3cbe-5bcd-967c-d363c69cfaf9
+		summarizeBy: sum
+		sourceColumn: retail_cents
+
+	column residential_cents
+		dataType: double
+		formatString: 0.00
+		lineageTag: 72f8edba-aad3-526b-89d6-cea129b393df
+		summarizeBy: sum
+		sourceColumn: residential_cents
+
+	column industrial_share_pct
+		dataType: double
+		formatString: 0.0%
+		lineageTag: f171f68b-8940-5b7f-9ae5-5d07fe2fb54d
+		summarizeBy: sum
+		sourceColumn: industrial_share_pct
+
+	column retail_mwh_cagr_pct
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 93eaaa98-3a3d-54ea-b00b-ee6d15b1de7f
+		summarizeBy: sum
+		sourceColumn: retail_mwh_cagr_pct
+
+	column industrial_mwh_cagr_pct
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 37489804-f210-5f88-bad6-3f3273dfbcfe
+		summarizeBy: sum
+		sourceColumn: industrial_mwh_cagr_pct
+
+	column retail_price_cagr_pct
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 68e54f67-6a65-55ed-9eac-bf84c17617ea
+		summarizeBy: sum
+		sourceColumn: retail_price_cagr_pct
+
+	column power_cost_per_mwh
+		dataType: double
+		formatString: \$#,0.00
+		lineageTag: bf0acc56-cc4b-5e19-984c-c9c17de0cd9a
+		summarizeBy: sum
+		sourceColumn: power_cost_per_mwh
+
+	column other_om_per_customer
+		dataType: double
+		formatString: \$#,0.00
+		lineageTag: a02f91b5-12a9-5614-9df6-d26a4d905f81
+		summarizeBy: sum
+		sourceColumn: other_om_per_customer
+
+	column operating_margin_pct
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 35eca1b8-9fe2-5093-ad75-3d618faa413f
+		summarizeBy: sum
+		sourceColumn: operating_margin_pct
+
+	partition peers = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataPath & "\tables\peers.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"utility", type text}, {"is_pge", type logical}, {"retail_revenue", Int64.Type}, {"retail_mwh", Int64.Type}, {"customers", Int64.Type}, {"retail_cents", type number}, {"residential_cents", type number}, {"industrial_share_pct", type number}, {"retail_mwh_cagr_pct", type number}, {"industrial_mwh_cagr_pct", type number}, {"retail_price_cagr_pct", type number}, {"power_cost_per_mwh", type number}, {"other_om_per_customer", type number}, {"operating_margin_pct", type number}})
+				in
+				    Typed

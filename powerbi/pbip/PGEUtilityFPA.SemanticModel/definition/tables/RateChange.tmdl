@@ -1,0 +1,16 @@
+table RateChange
+	lineageTag: 0fea6b2e-fae4-5c11-8ed3-b8f2d6f1d8cb
+
+	column 'Rate change %'
+		dataType: double
+		isNameInferred
+		formatString: 0.0%
+		lineageTag: aea13755-999d-5170-a33b-b9c18cd13819
+		summarizeBy: none
+		sourceColumn: [Rate change %]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition RateChange = calculated
+		mode: import
+		source = SELECTCOLUMNS(GENERATESERIES(-0.02, 0.04, 0.005), "Rate change %", [Value])

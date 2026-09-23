@@ -1,0 +1,39 @@
+table weather_impact
+	lineageTag: a33ce838-d903-5574-b10f-0b5c43a02f45
+
+	column month
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 9524e248-6df6-51ca-a00a-dbb28ab788a0
+		summarizeBy: none
+		sourceColumn: month
+
+	column class
+		dataType: string
+		lineageTag: db340fc1-3cd3-532a-bc84-be5faa35a5b0
+		summarizeBy: none
+		sourceColumn: class
+
+	column weather_mwh
+		dataType: double
+		formatString: #,0
+		lineageTag: bb5b3d0e-eaf0-54f9-840e-5327d3d8e5d8
+		summarizeBy: sum
+		sourceColumn: weather_mwh
+
+	column weather_revenue
+		dataType: double
+		formatString: \$#,0.00
+		lineageTag: 7dcd5b5b-5a54-5104-b717-d829eae87f92
+		summarizeBy: sum
+		sourceColumn: weather_revenue
+
+	partition weather_impact = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataPath & "\tables\weather_impact.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"month", type date}, {"class", type text}, {"weather_mwh", type number}, {"weather_revenue", type number}})
+				in
+				    Typed

@@ -1,0 +1,52 @@
+table fact_sales
+	lineageTag: 5eee3bb1-6a9c-5e8e-9e83-25dd7df8b865
+
+	column month
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: edeca2cf-035e-5f4b-94ea-13a737343435
+		summarizeBy: none
+		sourceColumn: month
+
+	column class
+		dataType: string
+		lineageTag: a9782985-cdee-51dd-b399-e6f788a79607
+		summarizeBy: none
+		sourceColumn: class
+
+	column revenue
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: 336d8c44-2925-5564-a6bb-fe7b3500d26d
+		summarizeBy: sum
+		sourceColumn: revenue
+
+	column mwh
+		dataType: double
+		formatString: #,0
+		lineageTag: 72e2fcb1-50f7-5df1-92b1-81e01564f317
+		summarizeBy: sum
+		sourceColumn: mwh
+
+	column customers
+		dataType: int64
+		formatString: #,0
+		lineageTag: 91c76917-c6a9-5e30-a5b1-2d604bd228db
+		summarizeBy: sum
+		sourceColumn: customers
+
+	column data_status
+		dataType: string
+		lineageTag: 5c73911d-0952-5481-8bbb-88529041688f
+		summarizeBy: none
+		sourceColumn: data_status
+
+	partition fact_sales = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataPath & "\tables\fact_sales.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"month", type date}, {"class", type text}, {"revenue", Int64.Type}, {"mwh", type number}, {"customers", Int64.Type}, {"data_status", type text}})
+				in
+				    Typed

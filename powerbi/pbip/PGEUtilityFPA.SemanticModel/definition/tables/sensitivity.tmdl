@@ -1,0 +1,47 @@
+table sensitivity
+	lineageTag: 8bc03a09-f111-50a0-ba0f-85187d313462
+
+	column rate_change
+		dataType: string
+		lineageTag: 8c192e41-c336-5e92-bc4e-e92a49ae922a
+		summarizeBy: none
+		sourceColumn: rate_change
+		sortByColumn: rate_order
+
+	column rate_order
+		dataType: int64
+		formatString: 0
+		lineageTag: 2248066e-c476-566e-a8a9-9bce1c170f78
+		summarizeBy: none
+		sourceColumn: rate_order
+
+	column extra_mw
+		dataType: string
+		lineageTag: 0eaf2cd9-bdae-51e9-96d2-464b146e3372
+		summarizeBy: none
+		sourceColumn: extra_mw
+		sortByColumn: mw_order
+
+	column mw_order
+		dataType: int64
+		formatString: 0
+		lineageTag: 9abe3bcf-a9cb-5e5e-ad39-c3f47fad549d
+		summarizeBy: none
+		sourceColumn: mw_order
+
+	column outlook_revenue
+		dataType: double
+		formatString: \$#,0.00
+		lineageTag: c8fcbefe-5c46-578e-adaf-b04dcbc288a7
+		summarizeBy: sum
+		sourceColumn: outlook_revenue
+
+	partition sensitivity = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataPath & "\tables\sensitivity.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"rate_change", type text}, {"rate_order", Int64.Type}, {"extra_mw", type text}, {"mw_order", Int64.Type}, {"outlook_revenue", type number}})
+				in
+				    Typed
