@@ -8,7 +8,7 @@ import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-WORKBOOK = ROOT / "workbook" / "Kestrel_Bay_FPA_Model.xlsx"
+WORKBOOK = ROOT / "workbook" / "PGE_Utility_FPA_Model.xlsx"
 
 
 def block(wb, name: str) -> list[list]:
@@ -71,6 +71,8 @@ def power_query_m(wb_parts: dict) -> str:
 
 def money(x: float) -> str:
     """Python twin of the workbook's MONEY LAMBDA, for checking written commentary."""
+    if abs(x) >= 999_500_000:
+        return f"{'-' if x < 0 else ''}${abs(x) / 1e9:,.2f}B"
     if abs(x) >= 999_500:
         return f"{'-' if x < 0 else ''}${abs(x) / 1e6:,.1f}M"
     return f"{'-' if x < 0 else ''}${abs(x) / 1e3:,.0f}K"

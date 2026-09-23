@@ -1,0 +1,6 @@
+utility_id_ferc1,utility,short_name,states,role
+250,Portland General Electric Company,PGE,OR,company
+303,PacifiCorp,PacifiCorp,"OR, WA, UT, WY, ID, CA",peer
+162,"Puget Sound Energy, Inc.",Puget Sound Energy,WA,peer
+182,Avista Corporation,Avista,"WA, ID",peer
+216,Idaho Power Company,Idaho Power,"ID, OR",peer

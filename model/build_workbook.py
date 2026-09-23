@@ -1,10 +1,10 @@
-"""Build workbook/Kestrel_Bay_FPA_Model.xlsx by driving desktop Excel over COM.
+"""Build workbook/PGE_Utility_FPA_Model.xlsx by driving desktop Excel over COM.
 
     python model/build_workbook.py [--visible] [--no-pdf]
 
 Needs Windows and Microsoft 365 Excel. Python only lays the workbook out:
 every figure in it is an Excel formula, a Power Query step, a Power Pivot
-measure or a what-if data table over the CSVs in data/, and tests/ holds the
+measure or a what-if data table over the extracts in data/, and tests/ holds the
 saved workbook to model/reference.py. The workbook's content is deterministic;
 its bytes are not (Excel stamps times), so CI checks values, never bytes.
 """
@@ -26,6 +26,7 @@ sys.path.insert(0, str(HERE))
 
 import build_analysis as analysis  # noqa: E402
 import build_calc as calc  # noqa: E402
+import build_plan as plan  # noqa: E402
 import build_setup as setup  # noqa: E402
 import build_views as views  # noqa: E402
 import layout as L  # noqa: E402
@@ -37,15 +38,20 @@ PDF = ROOT / "docs" / "board_pack.pdf"
 
 
 def control_totals() -> dict:
-    """Totals from the source CSVs, keyed into the Checks sheet like a system report."""
-    with open(ROOT / "data" / "fact_sales.csv", newline="", encoding="utf-8") as fh:
-        rows = list(csv.DictReader(fh))
+    """Totals read straight from the extracts, keyed into Checks like a source-system report."""
+    with open(ROOT / "data" / "eia_pge_monthly.csv", newline="", encoding="utf-8") as fh:
+        eia = list(csv.DictReader(fh))
+    ferc = sum(sum(1 for _ in open(ROOT / "data" / f"ferc_{t}.csv", encoding="utf-8")) - 1
+               for t in ("revenue", "expense", "income"))
+    noaa = len((ROOT / "data" / "noaa_willamette_valley_degree_days.txt").read_text().splitlines())
     return {
-        "ctrl_sales_rows": ("Sales rows", len(rows), "data/fact_sales.csv, row count"),
-        "ctrl_sales_units": ("Sales cases", sum(int(r["units"]) for r in rows),
-                             "data/fact_sales.csv, sum of units"),
-        "ctrl_sales_revenue": ("Sales net revenue", round(sum(float(r["net_revenue"]) for r in rows), 2),
-                               "data/fact_sales.csv, sum of net_revenue"),
+        "ctrl_eia_rows": ("EIA monthly rows", len(eia), "data/eia_pge_monthly.csv, row count"),
+        "ctrl_eia_mwh": ("EIA total MWh", round(sum(float(r["total_mwh"]) for r in eia), 3),
+                         "data/eia_pge_monthly.csv, sum of total_mwh"),
+        "ctrl_eia_revenue_k": ("EIA total revenue ($000)", round(sum(float(r["total_revenue_k"]) for r in eia), 3),
+                               "data/eia_pge_monthly.csv, sum of total_revenue_k"),
+        "ctrl_ferc_rows": ("FERC rows, three schedules", ferc, "data/ferc_*.csv, row counts"),
+        "ctrl_noaa_lines": ("NOAA lines", noaa, "data/noaa_willamette_valley_degree_days.txt"),
     }
 
 
@@ -115,21 +121,15 @@ def main() -> None:
         setup.power_query(wb)
         step("Power Query", t0)
         setup.data_model(wb)
-        analysis.channel_pivot(wb)
+        setup.explore_pivot(wb)
         step("data model, PivotTable and slicers", t0)
         pos: dict = {}
-        calc.forecast(wb, pos)
-        step("Forecast", t0)
-        calc.pnl(wb, pos)
-        step("PnL", t0)
-        calc.pvm(wb, pos)
-        step("PVM", t0)
-        analysis.scenarios(wb, pos)
-        step("Scenarios", t0)
-        analysis.working_capital(wb, pos)
-        step("WorkingCapital", t0)
-        analysis.channels(wb, pos)
-        step("Channels", t0)
+        for label, build in (("PnL", calc.pnl), ("PVM", calc.pvm), ("Monthly", calc.monthly),
+                             ("Weather", calc.weather), ("Plan", plan.plan), ("Forecast", plan.forecast),
+                             ("Scenarios", analysis.scenarios), ("Peers", analysis.peers),
+                             ("Explore", analysis.explore)):
+            build(wb, pos)
+            step(label, t0)
         analysis.checks(wb, pos, control_totals())
         step("Checks", t0)
         views.dashboard(wb, pos)
@@ -139,10 +139,10 @@ def main() -> None:
         calculate(xl)
         step("calculated", t0)
         views.finish(xl, wb, pos)
-        wb.BuiltinDocumentProperties("Title").Value = f"{L.COMPANY}: FY2026 FP&A model"
+        wb.BuiltinDocumentProperties("Title").Value = f"{L.COMPANY}: utility FP&A model on public data"
         wb.BuiltinDocumentProperties("Author").Value = "Kush Patel"
         wb.BuiltinDocumentProperties("Subject").Value = (
-            "Budget vs actual, price-volume-mix, rolling forecast, scenarios, working capital")
+            "Plan vs actual, weather normalization, price-volume-mix, forecast, scenarios, peers")
         OUT.parent.mkdir(exist_ok=True)
         wb.SaveAs(str(OUT), XL_WORKBOOK)
         step(f"saved {OUT.relative_to(ROOT)}", t0)

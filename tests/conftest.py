@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "model"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-WORKBOOK = ROOT / "workbook" / "Kestrel_Bay_FPA_Model.xlsx"
+WORKBOOK = ROOT / "workbook" / "PGE_Utility_FPA_Model.xlsx"
 
 
 def _load(data_only: bool):

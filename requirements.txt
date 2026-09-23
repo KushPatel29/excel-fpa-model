@@ -1,6 +1,7 @@
-# What the tests and the data generator need, pinned to the versions they were run on.
+# What the tests and the reference model need, pinned to the versions they were run on.
 # The workbook build itself (model/build_workbook.py) runs on Windows with Microsoft 365
-# Excel and pywin32; model/render_previews.py needs pymupdf and pillow. CI needs neither.
+# Excel and pywin32; model/render_previews.py needs pymupdf and pillow; pipeline/fetch_sources.py
+# needs requirements-pipeline.txt. CI needs none of them: the extracts are committed.
 numpy==2.5.3
 pandas==3.0.3
 openpyxl==3.1.5

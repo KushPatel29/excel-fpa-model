@@ -1,5 +1,5 @@
 """Workbook skeleton: sheets, source tables, inputs, named functions, Power Query
-and the Power Pivot data model. Everything the calculation sheets stand on.
+and the Power Pivot data model. Everything the analysis sheets stand on.
 """
 from __future__ import annotations
 
@@ -8,156 +8,145 @@ from pathlib import Path
 
 import layout as L
 from xl import (
-    AMBER, BODY_FONT, F_DATE, F_MONTH_LONG, GREY, MUTED, NAVY, TEAL, UNFAV,
-    FAV, MSO_THEME_ACCENT, XL_BETWEEN, XL_SRC_MODEL, XL_SRC_RANGE, XL_VALID_ALERT_STOP,
-    XL_VALIDATE_DATE, XL_VALIDATE_DECIMAL, XL_VALIDATE_LIST, XL_YES, band,
-    font, fx, header, input_cell, numfmt, put, rgb, serial, title, widths,
+    AMBER, BODY_FONT, F_DATE, F_MONTH_LONG, FAV, GREY, MSO_THEME_ACCENT, MUTED, NAVY, TEAL, UNFAV,
+    XL_BETWEEN, XL_SRC_MODEL, XL_SRC_RANGE, XL_VALID_ALERT_STOP, XL_VALIDATE_DECIMAL, XL_VALIDATE_LIST,
+    XL_YES, band, font, fx, header, input_cell, numfmt, place, put, rgb, title, widths,
 )
 
 DATA = Path(__file__).resolve().parent.parent / "data"
-
 TAB_COLOURS = {"Cover": NAVY, "Dashboard": NAVY, "Checks": FAV, "Assumptions": AMBER}
+KIND_FORMAT = {"date": F_DATE, "int": "0", "num": "#,##0.000", "text": "@"}
 
-# sheet, table, csv, column kinds, per-column formats, title
-SOURCES = [
-    ("Data_Sales", "tbl_Sales", "fact_sales.csv",
-     "date text text text text int num num num num num num",
-     {"discount_pct": "0.0%"}, "Sales by month, SKU, channel and region"),
-    ("Data_BudgetUnits", "tbl_BudgetUnits", "budget_units_fy2026.csv",
-     "text text text" + " int" * 12, {}, "FY2026 budget: cases by SKU, channel and region (wide)"),
-    ("Data_BudgetRates", "tbl_BudgetRates", "budget_rates_fy2026.csv",
-     "text text text num num num", {}, "FY2026 budget rates per case"),
-    ("Data_Opex", "tbl_Opex", "fact_opex.csv", "date text text num", {},
-     "Operating expenses by department: actual and budget"),
-    ("Data_Balances", "tbl_Balances", "balances.csv", "date text text num", {},
-     "Month-end balances: receivables, inventory by category, payables"),
-]
-DIMS = [  # table, csv, kinds, formats, first column
-    ("tbl_Product", "dim_product.csv", "text text text text int", {}, "B"),
-    ("tbl_Channel", "dim_channel.csv", "text num int", {"price_index": "0.00"}, "H"),
-    ("tbl_Region", "dim_region.csv", "text num", {}, "L"),
-]
-KIND_FORMAT = {"date": F_DATE, "int": "#,##0", "num": "#,##0.00", "text": "@"}
-
-# Named LAMBDA functions: readable formulas instead of repeated IF(d=0,...) boilerplate.
 LAMBDAS = {
-    "SAFEDIV": ("=LAMBDA(n,d,IF(d=0,0,n/d))",
-                "n ÷ d, or 0 when d is 0."),
-    "FAVVAR": ("=LAMBDA(actual,plan,is_cost,IF(is_cost,plan-actual,actual-plan))",
-               "Variance signed so favourable is positive, for revenue and cost lines alike."),
-    "ISCLOSED": ("=LAMBDA(month,month<=AsOfMonth)",
-                 "TRUE when a month is closed (actuals), FALSE when it is forecast."),
-    "DAYSOF": ("=LAMBDA(balance,flow,days,IF(flow=0,0,balance/flow*days))",
-               "Days of flow a balance represents: DSO, DIO, DPO."),
-    "MONEY": ('=LAMBDA(x,IF(ABS(x)>=999500,TEXT(x/1000000,"$#,##0.0")&"M",TEXT(x/1000,"$#,##0")&"K"))',
-              "$1.2M / $350K style amounts for written commentary."),
-    "SIGNMONEY": ('=LAMBDA(x,IF(x<0,"−","+")&MONEY(ABS(x)))',
-                  "MONEY with an explicit sign."),
+    "SAFEDIV": ("=LAMBDA(n,d,IF(d=0,0,n/d))", "n ÷ d, or 0 when d is 0."),
+    "ISCLOSED": ("=LAMBDA(month,month<=AsOfMonth)", "TRUE for a month with actuals, FALSE for a forecast month."),
+    "CPK": ("=LAMBDA(revenue,mwh,SAFEDIV(revenue,mwh)/10)", "Revenue ($) and MWh to cents per kWh."),
+    "TRENDYEARS": ("=LAMBDA(month,YEAR(month)-YEAR(FitStart)+(MONTH(month)-1)/12)",
+                   "Years since the start of the fit window: the weather model's trend term."),
+    "MONEY": ('=LAMBDA(x,IF(ABS(x)>=999500000,TEXT(x/1000000000,"$#,##0.00")&"B",IF(ABS(x)>=999500,'
+              'TEXT(x/1000000,"$#,##0.0")&"M",TEXT(x/1000,"$#,##0")&"K")))',
+              "$3.01B / $40.4M / $350K style amounts for written commentary."),
+    "SIGNMONEY": ('=LAMBDA(x,IF(x<0,"−","+")&MONEY(ABS(x)))', "MONEY with an explicit sign."),
 }
 
 CONN = 'OLEDB;Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location={};Extended Properties=""'
 
-M_SALES = """let
-    Source = Excel.CurrentWorkbook(){[Name="tbl_Sales"]}[Content],
-    Typed = Table.TransformColumnTypes(Source, {
-        {"month", type date}, {"sku", type text}, {"category", type text},
-        {"channel", type text}, {"region", type text}, {"units", Int64.Type},
-        {"list_price", type number}, {"discount_pct", type number},
-        {"net_revenue", type number}, {"unit_cost", type number},
-        {"cogs", type number}, {"freight", type number}})
-in
-    Typed"""
-
-M_BUDGET = """// The budget arrives wide (a column per month) and priced separately. Unpivot it,
-// attach each row's rate and category, and price it: one long table the P&L,
-// the price-volume-mix and the data model can all read.
+M_MONTHLY = """// EIA publishes one row per month with the classes side by side. Unpivot it,
+// split each column name into class and measure, and pivot the measures back:
+// one row per month and customer class, in dollars.
 let
-    Units = Excel.CurrentWorkbook(){[Name="tbl_BudgetUnits"]}[Content],
-    Long = Table.UnpivotOtherColumns(Units, {"sku", "channel", "region"}, "period", "units"),
-    Dated = Table.AddColumn(Long, "month", each Date.FromText([period] & "-01"), type date),
-    Rates = Excel.CurrentWorkbook(){[Name="tbl_BudgetRates"]}[Content],
-    WithRates = Table.NestedJoin(Dated, {"sku", "channel", "region"}, Rates,
-        {"sku", "channel", "region"}, "rate", JoinKind.LeftOuter),
-    Rated = Table.ExpandTableColumn(WithRates, "rate", {"net_price", "unit_cost", "freight_per_case"}),
-    Products = Excel.CurrentWorkbook(){[Name="tbl_Product"]}[Content],
-    WithProduct = Table.NestedJoin(Rated, {"sku"}, Products, {"sku"}, "product", JoinKind.LeftOuter),
-    Categorised = Table.ExpandTableColumn(WithProduct, "product", {"category"}),
-    Revenue = Table.AddColumn(Categorised, "revenue", each [units] * [net_price], type number),
-    Cogs = Table.AddColumn(Revenue, "cogs", each [units] * [unit_cost], type number),
-    Freight = Table.AddColumn(Cogs, "freight", each [units] * [freight_per_case], type number),
-    Selected = Table.SelectColumns(Freight, {"month", "sku", "category", "channel", "region",
-        "units", "net_price", "unit_cost", "freight_per_case", "revenue", "cogs", "freight"}),
-    Typed = Table.TransformColumnTypes(Selected, {{"sku", type text}, {"category", type text},
-        {"channel", type text}, {"region", type text}, {"units", Int64.Type},
-        {"net_price", type number}, {"unit_cost", type number}, {"freight_per_case", type number}}),
-    Sorted = Table.Sort(Typed, {{"month", Order.Ascending}, {"sku", Order.Ascending},
-        {"channel", Order.Ascending}, {"region", Order.Ascending}})
+    Source = Excel.CurrentWorkbook(){[Name="tbl_EIA"]}[Content],
+    Long = Table.UnpivotOtherColumns(Source, {"year", "month", "data_status"}, "field", "value"),
+    WithClass = Table.AddColumn(Long, "class", each Text.BeforeDelimiter([field], "_"), type text),
+    WithMeasure = Table.AddColumn(WithClass, "measure", each Text.AfterDelimiter([field], "_"), type text),
+    Classes = Table.SelectRows(WithMeasure, each [class] <> "total"),
+    Slim = Table.RemoveColumns(Classes, {"field"}),
+    Wide = Table.Pivot(Slim, List.Sort(List.Distinct(Slim[measure])), "measure", "value", List.Sum),
+    Dated = Table.AddColumn(Wide, "month_start", each #date([year], [month], 1), type date),
+    Dollars = Table.AddColumn(Dated, "revenue", each [revenue_k] * 1000, type number),
+    Selected = Table.SelectColumns(Dollars, {"month_start", "class", "revenue", "mwh", "customers", "data_status"}),
+    Renamed = Table.RenameColumns(Selected, {{"month_start", "month"}}),
+    Typed = Table.TransformColumnTypes(Renamed, {{"mwh", type number}, {"customers", Int64.Type},
+        {"data_status", type text}}),
+    Sorted = Table.Sort(Typed, {{"month", Order.Ascending}, {"class", Order.Ascending}})
 in
     Sorted"""
 
-M_CALENDAR = """// Month calendar for the data model, three fiscal years ending at FiscalYear.
-// status reads AsOfMonth from the Assumptions sheet, so Refresh All re-cuts the
-// closed/open split after the as-of month changes.
+M_WEATHER = """// NOAA's nClimDiv file is fixed-width text: division, element, year, then twelve
+// seven-character monthly values, -9999 where a month has not happened yet.
+// Split by position, unpivot the months, drop the placeholders, and pivot the
+// two elements (25 heating, 26 cooling degree days) into columns.
 let
-    FiscalYear = Int64.From(Excel.CurrentWorkbook(){[Name="FiscalYear"]}[Content]{0}[Column1]),
+    Source = Excel.CurrentWorkbook(){[Name="tbl_NOAA"]}[Content],
+    Split = Table.SplitColumn(Source, "line", Splitter.SplitTextByPositions(
+        {0, 4, 6, 10, 17, 24, 31, 38, 45, 52, 59, 66, 73, 80, 87}),
+        {"division", "element", "year", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}),
+    Long = Table.UnpivotOtherColumns(Split, {"division", "element", "year"}, "month_no", "raw"),
+    Parsed = Table.AddColumn(Long, "value",
+        each Number.FromText(Text.TrimEnd(Text.Trim([raw]), "."), "en-US"), type number),
+    Observed = Table.SelectRows(Parsed, each [value] > -9999),
+    Dated = Table.AddColumn(Observed, "month",
+        each #date(Number.FromText([year]), Number.FromText([month_no]), 1), type date),
+    Named = Table.AddColumn(Dated, "degree_days", each if [element] = "25" then "hdd" else "cdd", type text),
+    Slim = Table.SelectColumns(Named, {"month", "degree_days", "value"}),
+    Wide = Table.Pivot(Slim, {"hdd", "cdd"}, "degree_days", "value", List.Sum),
+    Typed = Table.TransformColumnTypes(Wide, {{"hdd", type number}, {"cdd", type number}}),
+    Sorted = Table.Sort(Typed, {{"month", Order.Ascending}})
+in
+    Sorted"""
+
+M_CALENDAR = """// Month calendar for the data model: the fit window's start to the end of the
+// fiscal year. status reads AsOfMonth, so Refresh All re-cuts closed and open.
+let
     AsOf = Date.From(Excel.CurrentWorkbook(){[Name="AsOfMonth"]}[Content]{0}[Column1]),
-    First = #date(FiscalYear - 2, 1, 1),
-    Months = List.Transform({0..35}, each Date.AddMonths(First, _)),
+    First = Date.From(Excel.CurrentWorkbook(){[Name="FitStart"]}[Content]{0}[Column1]),
+    Last = #date(Date.Year(AsOf), 12, 1),
+    Count = (Date.Year(Last) - Date.Year(First)) * 12 + Date.Month(Last) - Date.Month(First) + 1,
+    Months = List.Transform({0..Count - 1}, each Date.AddMonths(First, _)),
     Base = Table.TransformColumnTypes(
         Table.FromList(Months, Splitter.SplitByNothing(), {"month"}), {{"month", type date}}),
     Year = Table.AddColumn(Base, "year", each Date.Year([month]), Int64.Type),
     MonthNo = Table.AddColumn(Year, "month_no", each Date.Month([month]), Int64.Type),
     MonthName = Table.AddColumn(MonthNo, "month_name", each Date.ToText([month], "MMM", "en-US"), type text),
     Quarter = Table.AddColumn(MonthName, "quarter", each "Q" & Text.From(Date.QuarterOfYear([month])), type text),
-    Index = Table.AddColumn(Quarter, "month_index", each ([year] - Date.Year(First)) * 12 + [month_no], Int64.Type),
+    Index = Table.AddColumn(Quarter, "month_index",
+        each ([year] - Date.Year(First)) * 12 + [month_no], Int64.Type),
     Status = Table.AddColumn(Index, "status", each if [month] <= AsOf then "Closed" else "Open", type text)
 in
     Status"""
 
+M_CLASS = """let
+    Source = Excel.CurrentWorkbook(){[Name="tbl_Class"]}[Content],
+    Typed = Table.TransformColumnTypes(Source, {{"class", type text}, {"label", type text},
+        {"sort", Int64.Type}, {"weather_model", type text}})
+in
+    Typed"""
 
-def m_dimension(table: str, types: str) -> str:
-    return (f'let\n    Source = Excel.CurrentWorkbook(){{[Name="{table}"]}}[Content],\n'
-            f'    Typed = Table.TransformColumnTypes(Source, {{{types}}})\nin\n    Typed')
-
-
-QUERIES = [  # name, M, loads a worksheet table too?
-    ("Sales", M_SALES, False),
-    ("Product", m_dimension("tbl_Product", '{"sku", type text}, {"product", type text}, '
-                            '{"category", type text}, {"case_description", type text}, '
-                            '{"shelf_life_days", Int64.Type}'), False),
-    ("Channel", m_dimension("tbl_Channel", '{"channel", type text}, {"price_index", type number}, '
-                            '{"payment_terms_days", Int64.Type}'), False),
-    ("Region", m_dimension("tbl_Region", '{"region", type text}, '
-                           '{"freight_per_case_2024", type number}'), False),
-    ("Calendar", M_CALENDAR, False),
-    ("Budget", M_BUDGET, True),
+QUERIES = [  # name, M, worksheet to load to (or None), table name
+    ("Monthly", M_MONTHLY, "PQ_Monthly", "tbl_Monthly"),
+    ("Weather", M_WEATHER, "PQ_Weather", "tbl_Weather"),
+    ("Calendar", M_CALENDAR, None, None),
+    ("Class", M_CLASS, None, None),
 ]
 
 CLOSED = "'Calendar'[status] = \"Closed\""
-MEASURES = [  # name, home table, DAX, format, description
-    ("Revenue", "Sales", "SUM ( Sales[net_revenue] )", "money", "Net revenue after discounts."),
-    ("Gross Margin", "Sales", "[Revenue] - SUM ( Sales[cogs] )", "money", "Revenue less cost of goods."),
-    ("GM %", "Sales", "DIVIDE ( [Gross Margin], [Revenue] )", "pct", "Gross margin as a share of revenue."),
-    ("Contribution", "Sales", "[Gross Margin] - SUM ( Sales[freight] )", "money",
-     "Gross margin less outbound freight: what a channel earns before overheads."),
-    ("Contribution %", "Sales", "DIVIDE ( [Contribution], [Revenue] )", "pct", ""),
-    ("Cases", "Sales", "SUM ( Sales[units] )", "int", "Cases shipped."),
-    ("Contribution per Case", "Sales", "DIVIDE ( [Contribution], [Cases] )", "dec", ""),
-    ("Budget Revenue", "Budget", f"CALCULATE ( SUM ( Budget[revenue] ), {CLOSED} )", "money",
-     "Budget revenue for closed months only, so it compares like for like with actuals."),
-    ("Revenue vs Budget %", "Budget", "DIVIDE ( [Revenue] - [Budget Revenue], [Budget Revenue] )", "pct", ""),
-    ("Budget Contribution", "Budget",
-     f"CALCULATE ( SUM ( Budget[revenue] ) - SUM ( Budget[cogs] ) - SUM ( Budget[freight] ), {CLOSED} )",
-     "money", "Budget contribution for closed months."),
-    ("Contribution vs Budget", "Budget", "[Contribution] - [Budget Contribution]", "money", ""),
-    ("Revenue PY", "Sales",
+MEASURES = [  # name, home table, DAX, format, description (measure names must not repeat a column name)
+    ("Retail Revenue", "Monthly", "SUM ( Monthly[revenue] )", "money", "Retail revenue, dollars."),
+    ("Retail MWh", "Monthly", "SUM ( Monthly[mwh] )", "int", "Retail sales, megawatt-hours."),
+    ("Price c/kWh", "Monthly", "DIVIDE ( [Retail Revenue], [Retail MWh] ) / 10", "dec",
+     "Average retail price, cents per kWh."),
+    ("Avg Customers", "Monthly",
+     "AVERAGEX ( VALUES ( 'Calendar'[month] ), CALCULATE ( SUM ( Monthly[customers] ) ) )", "int",
+     "Average monthly customer count."),
+    ("MWh per Customer", "Monthly", "DIVIDE ( [Retail MWh], [Avg Customers] )", "dec", "Use per average customer."),
+    ("Retail Revenue PY", "Monthly",
      "VAR shifted = SELECTCOLUMNS ( CALCULATETABLE ( VALUES ( 'Calendar'[month_index] ), "
      f"{CLOSED} ), \"month_index\", 'Calendar'[month_index] - 12 ) "
-     "RETURN CALCULATE ( [Revenue], ALL ( 'Calendar' ), TREATAS ( shifted, 'Calendar'[month_index] ) )",
+     "RETURN CALCULATE ( [Retail Revenue], ALL ( 'Calendar' ), TREATAS ( shifted, 'Calendar'[month_index] ) )",
      "money", "Revenue for the same closed months one year earlier."),
-    ("Revenue YoY %", "Sales", "DIVIDE ( [Revenue] - [Revenue PY], [Revenue PY] )", "pct",
-     "Growth against the same months last year."),
+    ("Revenue YoY %", "Monthly", "DIVIDE ( [Retail Revenue] - [Retail Revenue PY], [Retail Revenue PY] )", "pct", ""),
+    ("Retail MWh PY", "Monthly",
+     "VAR shifted = SELECTCOLUMNS ( CALCULATETABLE ( VALUES ( 'Calendar'[month_index] ), "
+     f"{CLOSED} ), \"month_index\", 'Calendar'[month_index] - 12 ) "
+     "RETURN CALCULATE ( [Retail MWh], ALL ( 'Calendar' ), TREATAS ( shifted, 'Calendar'[month_index] ) )",
+     "int", "MWh for the same closed months one year earlier."),
+    ("MWh YoY %", "Monthly", "DIVIDE ( [Retail MWh] - [Retail MWh PY], [Retail MWh PY] )", "pct", ""),
+    ("Heating Degree Days", "Weather", "SUM ( Weather[hdd] )", "int", "Heating degree days, Willamette Valley."),
+    ("Cooling Degree Days", "Weather", "SUM ( Weather[cdd] )", "int", "Cooling degree days, Willamette Valley."),
 ]
+
+SOURCES = [  # sheet, table, csv, kinds, first column, caption
+    ("Data_EIA", "tbl_EIA", "eia_pge_monthly.csv", "int int text" + " num num int" * 5, "B",
+     "EIA-861M: PGE monthly retail sales by class, as published"),
+    ("Data_FERC", "tbl_FERC_Revenue", "ferc_revenue.csv", "int int text num num num", "B",
+     "FERC Form 1 via PUDL: revenue (sched. 300), expenses (sched. 320), income statement (sched. 114)"),
+    ("Data_FERC", "tbl_FERC_Expense", "ferc_expense.csv", "int int text num", "J", None),
+    ("Data_FERC", "tbl_FERC_Income", "ferc_income.csv", "int int text num", "P", None),
+    ("Data_Utilities", "tbl_Utilities", "utilities.csv", "int text text text text", "B",
+     "The FERC respondents in the model, and the customer classes"),
+]
+CLASS_ROWS = [("residential", "Residential", 1, "yes"), ("commercial", "Commercial", 2, "yes"),
+              ("industrial", "Industrial", 3, "no"), ("transportation", "Transportation", 4, "no")]
 
 
 def read_rows(name: str):
@@ -167,18 +156,17 @@ def read_rows(name: str):
 
 
 def convert(value: str, kind: str):
-    if kind == "date":
-        return serial(value)
+    if value == "":
+        return None
     if kind == "int":
-        return int(value)
+        return int(float(value))
     if kind == "num":
         return float(value)
-    return value if value != "" else None
+    return value
 
 
 def create_sheets(wb) -> None:
-    first = wb.Worksheets(1)
-    first.Name = L.SHEETS[0]
+    wb.Worksheets(1).Name = L.SHEETS[0]
     for name in L.SHEETS[1:]:
         wb.Worksheets.Add(After=wb.Worksheets(wb.Worksheets.Count)).Name = name
     for name in L.SHEETS:
@@ -187,8 +175,8 @@ def create_sheets(wb) -> None:
 
 
 def theme(wb) -> None:
-    """Body font and the waterfall's colours. Excel's waterfall paints increases,
-    decreases and totals with theme accents 1-3, so those carry meaning here."""
+    """Body font, and the waterfall's colours: Excel paints increases, decreases and
+    totals with theme accents 1-3, so those carry meaning here."""
     normal = wb.Styles("Normal").Font
     normal.Name = BODY_FONT
     normal.Size = 10
@@ -197,17 +185,14 @@ def theme(wb) -> None:
         scheme.Colors(MSO_THEME_ACCENT[accent]).RGB = rgb(colour)
 
 
-def write_table(ws, first_col: str, first_row: int, name: str, csv_name: str,
-                kinds: str, formats: dict):
-    head, body = read_rows(csv_name)
-    kinds = kinds.split()
+def write_table(ws, first_col: str, first_row: int, name: str, head, body, kinds) -> int:
     values = tuple(tuple(convert(v, k) for v, k in zip(r, kinds)) for r in body)
     top = ws.Range(f"{first_col}{first_row}")
     hdr = top.GetResize(1, len(head))
-    hdr.NumberFormat = "@"                 # '2026-01' must stay a heading, not a date
+    hdr.NumberFormat = "@"
     hdr.Value = (tuple(head),)
-    for j, (h, k) in enumerate(zip(head, kinds)):
-        top.GetOffset(1, j).GetResize(len(values), 1).NumberFormat = formats.get(h, KIND_FORMAT[k])
+    for j, k in enumerate(kinds):
+        top.GetOffset(1, j).GetResize(len(values), 1).NumberFormat = KIND_FORMAT[k]
     top.GetOffset(1, 0).GetResize(len(values), len(head)).Value = values
     lo = ws.ListObjects.Add(SourceType=XL_SRC_RANGE, Source=top.GetResize(len(values) + 1, len(head)),
                             XlListObjectHasHeaders=XL_YES)
@@ -217,60 +202,67 @@ def write_table(ws, first_col: str, first_row: int, name: str, csv_name: str,
 
 
 def data_sheets(wb) -> dict:
-    """Load every CSV into an Excel table. Returns row counts for the control totals."""
     counts = {}
-    for sheet, table, csv_name, kinds, formats, caption in SOURCES:
+    for sheet, table, csv_name, kinds, first, caption in SOURCES:
         ws = wb.Worksheets(sheet)
-        title(ws, caption, f"Loaded unchanged from data/{csv_name} as the table {table}. "
-                           "Formulas and Power Query read the table by name.")
-        counts[table] = write_table(ws, "B", 4, table, csv_name, kinds, formats)
+        if caption:
+            title(ws, caption, f"Loaded unchanged from data/{csv_name}. Formulas and Power Query read "
+                               "these tables by name; data/sources.json records where each came from.")
+        head, body = read_rows(csv_name)
+        counts[table] = write_table(ws, first, 4, table, head, body, kinds.split())
+    ws = wb.Worksheets("Data_Utilities")
+    write_table(ws, "I", 4, "tbl_Class", ["class", "label", "sort", "weather_model"],
+                [[str(v) for v in r] for r in CLASS_ROWS], ["text", "text", "int", "text"])
+    ws = wb.Worksheets("Data_NOAA")
+    title(ws, "NOAA nClimDiv degree days, Oregon division 2 (Willamette Valley), as published",
+          "Fixed-width lines: division, element (25 heating, 26 cooling), year, twelve monthly values. "
+          "Power Query parses them into tbl_Weather.")
+    lines = (DATA / "noaa_willamette_valley_degree_days.txt").read_text().splitlines()
+    ws.Range("B4").Value = "line"
+    body = ws.Range("B5").GetResize(len(lines), 1)
+    body.NumberFormat = "@"
+    body.Value = tuple((line,) for line in lines)
+    lo = ws.ListObjects.Add(SourceType=XL_SRC_RANGE, Source=ws.Range("B4").GetResize(len(lines) + 1, 1),
+                            XlListObjectHasHeaders=XL_YES)
+    lo.Name = "tbl_NOAA"
+    lo.TableStyle = "TableStyleLight1"
+    font(body, name="Consolas", size=9)
+    counts["tbl_NOAA"] = len(lines)
+    for sheet in ("Data_EIA", "Data_FERC", "Data_Utilities", "Data_NOAA"):
+        ws = wb.Worksheets(sheet)
         ws.Columns("A").ColumnWidth = 2
-        ws.Range("B4").CurrentRegion.Columns.AutoFit()
-    ws = wb.Worksheets("Data_Dims")
-    title(ws, "Dimensions: products, channels, regions",
-          "Loaded from data/dim_*.csv. Shelf life per product drives the inventory risk flags.")
-    for table, csv_name, kinds, formats, first in DIMS:
-        counts[table] = write_table(ws, first, 4, table, csv_name, kinds, formats)
-    ws.Columns("A").ColumnWidth = 2
-    ws.Range("B4:N30").Columns.AutoFit()
+        ws.Range("B4:X4").EntireColumn.AutoFit()
+    wb.Worksheets("Data_NOAA").Columns("B").ColumnWidth = 96
     return counts
-
-
-def names(wb, specs: dict) -> None:
-    for name, ref in specs.items():
-        wb.Names.Add(Name=name, RefersTo="=" + ref)
 
 
 def assumptions(wb) -> None:
     ws = wb.Worksheets("Assumptions")
-    title(ws, "Assumptions and scenario drivers",
-          "Blue-on-yellow cells are inputs. Everything else in the workbook is calculated "
-          "from them and from the source tables.")
+    title(ws, "Assumptions and model controls",
+          "Blue-on-yellow cells are inputs. The as-of month is read from the data: the latest month EIA has "
+          "published for PGE.")
     band(ws, 4, "Model controls", "B", "G")
     header(ws, 5, ["Input", "Value", "Unit", "What it does"], "B", wrap=False)
-    ws.Range("E5").HorizontalAlignment = -4131
+    ws.Range("D5:E5").HorizontalAlignment = -4131
     controls = [  # label, value, unit, note, is_input, format, name
-        ("As-of month (last closed)", serial("2026-08-01"), "month",
-         "Months up to here are actuals, later months are forecast. After changing it, "
-         "use Data > Refresh All so the data model's calendar follows.", True, F_MONTH_LONG, "AsOfMonth"),
-        ("Fiscal year", 2026, "year", "The year the budget and the forecast cover.", True, "0", "FiscalYear"),
+        ("Latest month with actuals", '=DATE(MAX(tbl_EIA[year]),MAXIFS(tbl_EIA[month],tbl_EIA[year],'
+         'MAX(tbl_EIA[year])),1)', "month", "EIA's latest published month for PGE. Everything after it is forecast.",
+         False, F_MONTH_LONG, "AsOfMonth"),
+        ("Fiscal year", "=YEAR(AsOfMonth)", "year", "PGE reports on the calendar year.", False, "0", "FiscalYear"),
         ("Fiscal year starts", "=DATE(FiscalYear,1,1)", "date", "", False, F_DATE, "FYStart"),
-        ("Months closed", "=(YEAR(AsOfMonth)-FiscalYear)*12+MONTH(AsOfMonth)", "months", "",
-         False, "0", "MonthsClosed"),
-        ("Trailing window for rates", 3, "months",
-         "Forecast price, cost and freight per case are these closed months' averages.",
-         True, "0", "TrailMonths"),
-        ("Trailing window starts", "=EDATE(AsOfMonth,1-TrailMonths)", "month", "", False,
-         F_MONTH_LONG, "TrailStart"),
-        ("Days in the trailing window", 91, "days",
-         "Days of flow behind DSO, DIO and DPO: 13 weeks.", True, "0", "WCDays"),
-        ("Shelf-life risk line", 0.5, "share",
-         "Inventory holding more than this share of its shelf life is flagged at risk.",
-         True, "0%", "ShelfRisk"),
-        ("Check tolerance", 0.01, "$", "How far two figures may differ before a check fails.",
-         True, "0.00", "Tol"),
-        ("Last month in the data", "=MAX(tbl_Sales[month])", "month", "", False, F_MONTH_LONG,
-         "LastDataMonth"),
+        ("Months closed", "=MONTH(AsOfMonth)", "months", "", False, "0", "MonthsClosed"),
+        ("Weather model fit starts", "=DATE(2017,1,1)", "month",
+         "First month of the regression window; the window ends the December before the year planned.",
+         True, F_MONTH_LONG, "FitStart"),
+        ("Years in a weather normal", 10, "years", "Normal weather is this many years' average for each month.",
+         True, "0", "NormalYears"),
+        ("Company (FERC respondent id)", L.COMPANY_ID, "id", "Portland General Electric Company in FERC Form 1.",
+         True, "0", "CompanyId"),
+        ("Long-bridge base year", 2019, "year", "The earlier year of the long price-volume-mix bridge.",
+         True, "0", "BaseYear"),
+        ("Latest FERC year", "=MAX(tbl_FERC_Revenue[report_year])", "year", "The latest annual filing loaded.",
+         False, "0", "FercYear"),
+        ("Check tolerance", 0.01, "$", "How far two figures may differ before a check fails.", True, "0.00", "Tol"),
     ]
     for i, (label, value, unit, note, is_input, fmt, name) in enumerate(controls):
         r = 6 + i
@@ -284,72 +276,68 @@ def assumptions(wb) -> None:
         wb.Names.Add(Name=name, RefersTo=f"=Assumptions!$C${r}")
     font(ws.Range("D6:E15"), color=MUTED)
 
-    band(ws, 17, "Scenario drivers: change on top of the trailing-rate forecast", "B", "G")
-    header(ws, 18, ["Driver", *L.SCENARIO_NAMES, "Live", "Applies to"], "B", wrap=False)
-    ws.Range("G18").HorizontalAlignment = -4131
-    drivers = [  # label, base, upside, downside, live formula, note, name
-        ("Volume", 0.0, 0.03, -0.04, "=INDEX(C19:E19,ScenarioNo)+sens_volume",
-         "Forecast cases, on top of budget cases × YTD run-rate", "sel_volume"),
-        ("Price", 0.0, 0.015, -0.01, "=INDEX(C20:E20,ScenarioNo)+sens_price",
-         "Net price per case against the trailing months", "sel_price"),
-        ("Unit cost", 0.0, -0.01, 0.025, "=INDEX(C21:E21,ScenarioNo)",
-         "Cost per case against the trailing months (positive = dearer)", "sel_cost"),
-        ("Freight per case", 0.0, -0.02, 0.05, "=INDEX(C22:E22,ScenarioNo)",
-         "Freight per case against the trailing months", "sel_freight"),
-        ("Operating expenses", 0.0, -0.01, 0.02, "=INDEX(C23:E23,ScenarioNo)",
-         "Budget × each department's YTD run-rate", "sel_opex"),
-    ]
-    for i, (label, base, up, down, live, note, name) in enumerate(drivers):
+    band(ws, 17, "Weather scenarios for the months NOAA has not yet observed", "B", "G")
+    header(ws, 18, ["Scenario", "HDD scale", "CDD scale", "Meaning"], "B", wrap=False)
+    ws.Range("E18").HorizontalAlignment = -4131
+    notes = {"Normal": "Ten-year normal degree days.",
+             "Mild": "A winter like 2026's: about 12% fewer heating degree days than normal.",
+             "Cold": "A cold snap: 12% more heating degree days than normal."}
+    for i, (name, hdd, cdd) in enumerate(L.WEATHER_SCENARIOS):
         r = 19 + i
-        put(ws, f"B{r}", label)
-        ws.Range(f"C{r}:E{r}").Value = ((base, up, down),)
-        input_cell(ws.Range(f"C{r}:E{r}"))
-        fx(ws, f"F{r}", live)
-        put(ws, f"G{r}", note)
-        wb.Names.Add(Name=name, RefersTo=f"=Assumptions!$F${r}")
-    numfmt(ws.Range("C19:F23"), '+0.0%;-0.0%;0.0%')
-    font(ws.Range("F19:F23"), bold=True)
-    font(ws.Range("G19:G23"), color=MUTED)
-    wb.Names.Add(Name="ScenarioList", RefersTo="=Assumptions!$C$18:$E$18")
-    dv = ws.Range("C19:E23").Validation
+        ws.Range(f"B{r}:D{r}").Value = ((name, hdd, cdd),)
+        input_cell(ws.Range(f"C{r}:D{r}"))
+        put(ws, f"E{r}", notes[name])
+    numfmt(ws.Range("C19:D21"), "0.00")
+    font(ws.Range("E19:E21"), color=MUTED)
+    wb.Names.Add(Name="ScenarioList", RefersTo="=Assumptions!$B$19:$B$21")
+    wb.Names.Add(Name="ScenarioHdd", RefersTo="=Assumptions!$C$19:$C$21")
+    wb.Names.Add(Name="ScenarioCdd", RefersTo="=Assumptions!$D$19:$D$21")
+    dv = ws.Range("C19:D21").Validation
     dv.Delete()
-    dv.Add(XL_VALIDATE_DECIMAL, XL_VALID_ALERT_STOP, XL_BETWEEN, "-0.5", "0.5")
-    dv = ws.Range("C6").Validation
-    dv.Delete()
-    dv.Add(XL_VALIDATE_DATE, XL_VALID_ALERT_STOP, XL_BETWEEN, "=FYStart", "=LastDataMonth")
-    dv.ErrorMessage = "Pick a month in the fiscal year that has actuals."
-    widths(ws, {"A": 2, "B": 30, "C:E": 12, "F": 10, "G": 60})
-    ws.Range("E6:E15").WrapText = False
+    dv.Add(XL_VALIDATE_DECIMAL, XL_VALID_ALERT_STOP, XL_BETWEEN, "0.5", "1.5")
+    widths(ws, {"A": 2, "B": 30, "C": 14, "D": 11, "E": 70, "F:G": 4})
 
 
 def scenario_inputs(wb) -> None:
-    """The three cells the what-if data tables vary. A data table's input cells
-    must sit on its own sheet, so they live on Scenarios, not Assumptions."""
+    """The cells the what-if data tables vary. A data table's input cells must be on
+    its own sheet, so the levers live on Scenarios, not Assumptions."""
     ws = wb.Worksheets("Scenarios")
-    put(ws, "B4", "Scenario")
-    put(ws, "C4", "Base")
-    put(ws, "B5", "Price overlay")
-    put(ws, "C5", 0)
-    put(ws, "B6", "Volume overlay")
-    put(ws, "C6", 0)
-    fx(ws, "D4", "=MATCH(C4,ScenarioList,0)")
-    numfmt(ws.Range("C5:C6"), '+0.0%;-0.0%;0.0%')
-    numfmt(ws.Range("D4"), '"scenario "0')
-    input_cell(ws.Range("C4:C6"))
-    font(ws.Range("B4:B6"), bold=True)
-    font(ws.Range("D4"), color=MUTED)
-    names(wb, {"ScenarioName": "Scenarios!$C$4", "ScenarioNo": "Scenarios!$D$4",
-               "sens_price": "Scenarios!$C$5", "sens_volume": "Scenarios!$C$6"})
-    dv = ws.Range("C4").Validation
-    dv.Delete()
-    dv.Add(XL_VALIDATE_LIST, XL_VALID_ALERT_STOP, XL_BETWEEN, "=ScenarioList")
-    dv.InputTitle = "Scenario"
-    dv.InputMessage = "Every sheet follows the scenario picked here."
-    for addr in ("C5", "C6"):
-        dv = ws.Range(addr).Validation
+    levers = [  # label, value, format, name, validation, note
+        ("Weather, months not yet observed", "Normal", "@", "WeatherScenario", None,
+         "Normal, Mild or Cold: the multipliers are on Assumptions."),
+        ("Rate change on open months", 0, '+0.0%;-0.0%;0.0%', "RateChange", ("-0.2", "0.2"),
+         "Added to every class's price from the first open month."),
+        ("Extra data-center load", 0, '0" MW"', "ExtraMW", ("0", "2000"),
+         "Average megawatts of new industrial load, running around the clock."),
+        ("Customer growth overlay", 0, '+0.0%;-0.0%;0.0%', "CustOverlay", ("-0.2", "0.2"),
+         "Scales open-month customers (and industrial volume) up or down."),
+        ("Heating degree-day overlay", 1, "0.00x", "HddOverlay", ("0.5", "1.5"),
+         "Multiplies the scenario's heating degree days."),
+        ("Cooling degree-day overlay", 1, "0.00x", "CddOverlay", ("0.5", "1.5"),
+         "Multiplies the scenario's cooling degree days."),
+    ]
+    for i, (label, value, fmt, name, valid, note) in enumerate(levers):
+        r = 4 + i
+        put(ws, f"B{r}", label)
+        put(ws, f"C{r}", value)
+        numfmt(ws.Range(f"C{r}"), fmt)
+        put(ws, f"E{r}", note)
+        input_cell(ws.Range(f"C{r}"))
+        wb.Names.Add(Name=name, RefersTo=f"=Scenarios!$C${r}")
+        dv = ws.Range(f"C{r}").Validation
         dv.Delete()
-        dv.Add(XL_VALIDATE_DECIMAL, XL_VALID_ALERT_STOP, XL_BETWEEN, "-0.2", "0.2")
-        dv.InputMessage = "Added to the scenario's own driver. Try 1% or -2%."
+        if valid:
+            dv.Add(XL_VALIDATE_DECIMAL, XL_VALID_ALERT_STOP, XL_BETWEEN, *valid)
+        else:
+            dv.Add(XL_VALIDATE_LIST, XL_VALID_ALERT_STOP, XL_BETWEEN, "=ScenarioList")
+    font(ws.Range("B4:B9"), bold=True)
+    font(ws.Range("E4:E9"), color=MUTED)
+    fx(ws, "D4", "=MATCH(WeatherScenario,ScenarioList,0)")
+    numfmt(ws.Range("D4"), '"scenario "0')
+    font(ws.Range("D4"), color=MUTED)
+    wb.Names.Add(Name="ScenarioNo", RefersTo="=Scenarios!$D$4")
+    wb.Names.Add(Name="HddScale", RefersTo="=INDEX(ScenarioHdd,ScenarioNo)*HddOverlay")
+    wb.Names.Add(Name="CddScale", RefersTo="=INDEX(ScenarioCdd,ScenarioNo)*CddOverlay")
 
 
 def lambdas(wb) -> None:
@@ -359,16 +347,18 @@ def lambdas(wb) -> None:
 
 
 def power_query(wb) -> None:
-    """Six queries into the data model; Budget also lands on PQ_Budget as tbl_Budget."""
-    ws = wb.Worksheets("PQ_Budget")
-    title(ws, "Budget, unpivoted and priced by Power Query",
-          "Output of the Budget query (Data > Queries & Connections). The P&L, the "
-          "price-volume-mix and the data model all read this table, tbl_Budget.")
-    for name, m, to_sheet in QUERIES:
-        wb.Queries.Add(name, m, f"Kestrel Bay FP&A model: {name}")
+    for sheet, caption in (("PQ_Monthly", "EIA monthly sales, one row per month and class (Power Query)"),
+                           ("PQ_Weather", "Degree days by month, parsed from NOAA's fixed-width file (Power Query)")):
+        ws = wb.Worksheets(sheet)
+        title(ws, caption, "Output of a Power Query query (Data > Queries & Connections). Formulas and the "
+                           "data model read this table.")
+        ws.Columns("A").ColumnWidth = 2
+    for name, m, sheet, table in QUERIES:
+        wb.Queries.Add(name, m, f"PGE utility FP&A model: {name}")
         conn = wb.Connections.Add2(f"Query - {name}", f"Connection to the '{name}' query.",
                                    CONN.format(name), f'"{name}"', 6, True, False)
-        if to_sheet:
+        if sheet:
+            ws = wb.Worksheets(sheet)
             lo = ws.ListObjects.Add(SourceType=XL_SRC_MODEL, Source=conn, Destination=ws.Range("B4"))
             lo.TableStyle = "TableStyleLight1"
             to = lo.TableObject
@@ -376,10 +366,9 @@ def power_query(wb) -> None:
             to.PreserveFormatting = True
             to.RefreshStyle = 1
             to.AdjustColumnWidth = True
-            lo.DisplayName = "tbl_Budget"
+            lo.DisplayName = table
             to.Refresh()
             lo.ListColumns("month").DataBodyRange.NumberFormat = F_DATE
-    ws.Columns("A").ColumnWidth = 2
 
 
 def data_model(wb) -> None:
@@ -389,10 +378,9 @@ def data_model(wb) -> None:
     def column_(table: str, name: str):
         return tables(table).ModelTableColumns(name)
 
-    for fact in ("Sales", "Budget"):
-        for key, dim in (("month", "Calendar"), ("sku", "Product"), ("channel", "Channel"),
-                         ("region", "Region")):
-            model.ModelRelationships.Add(column_(fact, key), column_(dim, key))
+    model.ModelRelationships.Add(column_("Monthly", "month"), column_("Calendar", "month"))
+    model.ModelRelationships.Add(column_("Monthly", "class"), column_("Class", "class"))
+    model.ModelRelationships.Add(column_("Weather", "month"), column_("Calendar", "month"))
     formats = {
         "money": model.GetModelFormatCurrency("$", 0),
         "pct": model.GetModelFormatPercentageNumber(False, 1),
@@ -403,3 +391,37 @@ def data_model(wb) -> None:
         model.ModelMeasures.Add(name, tables(home), dax, formats[fmt], description)
 
 
+PIVOT_MEASURES = ["Retail Revenue", "Revenue YoY %", "Retail MWh", "MWh YoY %", "Price c/kWh", "Avg Customers"]
+
+
+def explore_pivot(wb) -> None:
+    """The data-model PivotTable and its slicers, created as soon as the model exists:
+    Excel refuses a model PivotCache once the sheets hold thousands of uncalculated formulas."""
+    ws = wb.Worksheets("Explore")
+    pc = wb.PivotCaches().Create(2, wb.Connections("ThisWorkbookDataModel"), 8)
+    pt = pc.CreatePivotTable(TableDestination=ws.Range("B16"), TableName="ptExplore")
+    pt.ManualUpdate = True
+    pt.CubeFields("[Class].[label]").Orientation = 1
+    for m in PIVOT_MEASURES:
+        pt.CubeFields(f"[Measures].[{m}]").Orientation = 4
+    pt.ManualUpdate = False
+    pt.RowAxisLayout(1)
+    pt.TableStyle2 = "PivotStyleLight16"
+    pt.GrandTotalName = "All classes"
+    pt.PivotFields("[Class].[label].[label]").Caption = "Class"
+    for measure, caption in zip(PIVOT_MEASURES, ("Revenue ", "Revenue YoY", "MWh ", "MWh YoY", "¢/kWh",
+                                                 "Customers ")):
+        pt.PivotFields(f"[Measures].[{measure}]").Caption = caption
+    fiscal_year = str(int(wb.Names("FiscalYear").RefersToRange.Value))
+    slicers = [("[Calendar].[year]", "[Calendar].[year].[year]", "Year", "B6", "F13", fiscal_year),
+               ("[Calendar].[quarter]", "[Calendar].[quarter].[quarter]", "Quarter", "G6", "I13", None)]
+    for field, level, caption, tl, br, select in slicers:
+        cache = wb.SlicerCaches.Add2(pt, field, f"Slicer_{caption}")
+        left, top, width, height = place(ws, tl, br)
+        sl = cache.Slicers.Add(ws, level, caption, caption, top, left, width - 6, height)
+        sl.Style = "SlicerStyleLight1"
+        sl.NumberOfColumns = 5 if caption == "Year" else 2
+        if select:
+            items = cache.SlicerCacheLevels(1).SlicerItems
+            cache.VisibleSlicerItemsList = [items(i).Name for i in range(1, items.Count + 1)
+                                            if items(i).Caption == select]

@@ -1,0 +1,112 @@
+{
+  "retrieved_utc": "2026-09-23T19:24:04Z",
+  "as_of_month": "2026-06",
+  "pudl_release": "v2026.9.0",
+  "eia_utility_number": 15248,
+  "noaa_division": "3502",
+  "rows": {
+    "eia_pge_monthly": 114,
+    "noaa_lines": 40,
+    "ferc_revenue": 651,
+    "ferc_expense": 651,
+    "ferc_income": 404
+  },
+  "sources": [
+    {
+      "source": "EIA-861M 2017",
+      "url": "https://www.eia.gov/electricity/data/eia861m/archive/xls/retail_sales_2017.xlsx",
+      "bytes": 1396735,
+      "sha256": "679d8149a5ac23cbff63519406ba6360db58c64732f5fee2a259dc367351b184"
+    },
+    {
+      "source": "EIA-861M 2018",
+      "url": "https://www.eia.gov/electricity/data/eia861m/archive/xls/retail_sales_2018.xlsx",
+      "bytes": 1437953,
+      "sha256": "42afd53bd5f4f8a8e9ad1d973add208e052af9b84c403d8b37e9447a7d31d683"
+    },
+    {
+      "source": "EIA-861M 2019",
+      "url": "https://www.eia.gov/electricity/data/eia861m/archive/xls/retail_sales_2019.xlsx",
+      "bytes": 1442566,
+      "sha256": "39524378d0be24c64ca53e57938afa4136489cdc1c7280d57d4528406ac4b4d9"
+    },
+    {
+      "source": "EIA-861M 2020",
+      "url": "https://www.eia.gov/electricity/data/eia861m/archive/xls/retail_sales_2020.xlsx",
+      "bytes": 1436351,
+      "sha256": "015da31d07fa6854d9115a127a04fd6f6589b1eb3acb13703ca9b835aed94d68"
+    },
+    {
+      "source": "EIA-861M 2021",
+      "url": "https://www.eia.gov/electricity/data/eia861m/archive/xls/sales_ult_cust_2021.xlsx",
+      "bytes": 1405682,
+      "sha256": "b8f9393eef44bb4896f6ad900161c4cf4bfe8abc89cbca8cef5669140c2f8e88"
+    },
+    {
+      "source": "EIA-861M 2022",
+      "url": "https://www.eia.gov/electricity/data/eia861m/archive/xls/sales_ult_cust_2022.xlsx",
+      "bytes": 1416984,
+      "sha256": "8f503dd5196ab6a99bfedb5282366f93837f2e6dcb0a94870bd9ed5d374dcb2e"
+    },
+    {
+      "source": "EIA-861M 2023",
+      "url": "https://www.eia.gov/electricity/data/eia861m/archive/xls/sales_ult_cust_2023.xlsx",
+      "bytes": 1442249,
+      "sha256": "c0e3144005cb66f3a796a80dec9321f48d6dd23b73cd16b1418ad5bb561c1eeb"
+    },
+    {
+      "source": "EIA-861M 2024",
+      "url": "https://www.eia.gov/electricity/data/eia861m/archive/xls/sales_ult_cust_2024.xlsx",
+      "bytes": 1493780,
+      "sha256": "bdcd1164b00dd70a09b83b753d45766ea2a92c5385feb30268217312c210379f"
+    },
+    {
+      "source": "EIA-861M 2025",
+      "url": "https://www.eia.gov/electricity/data/eia861m/archive/xls/sales_ult_cust_2025.xlsx",
+      "bytes": 1503948,
+      "sha256": "b43f08a1cdfb1f2d193fdb925b1180607b3734918fc74f7cf5a90087bb557f23"
+    },
+    {
+      "source": "EIA-861M 2026",
+      "url": "https://www.eia.gov/electricity/data/eia861m/xls/sales_ult_cust_2026.xlsx",
+      "bytes": 737659,
+      "sha256": "4eea25b5f020bc5a653c2cefa4f8b73ce6d6f8bf0478e4561bfb6c38bec37062"
+    },
+    {
+      "source": "NOAA nClimDiv file listing",
+      "url": "https://www.ncei.noaa.gov/pub/data/cirs/climdiv/",
+      "bytes": 21151,
+      "sha256": "db337d0de408bf45d99c265bd5a9ca20885ced78a68d4d64602e7f79de102568"
+    },
+    {
+      "source": "NOAA nClimDiv HDD by division",
+      "url": "https://www.ncei.noaa.gov/pub/data/cirs/climdiv/climdiv-hddcdv-v1.0.0-20260904",
+      "bytes": 4579932,
+      "sha256": "8bb19bb95d0f6ec66a6756cc7884dc87ca9f72cbaaa50bece830f1eefb2e5580"
+    },
+    {
+      "source": "NOAA nClimDiv CDD by division",
+      "url": "https://www.ncei.noaa.gov/pub/data/cirs/climdiv/climdiv-cddcdv-v1.0.0-20260904",
+      "bytes": 4579932,
+      "sha256": "57b0ea6ad032042dbf342c18d346038734e7a8afdf4ccdbbfee2f012806b2dd6"
+    },
+    {
+      "source": "PUDL v2026.9.0 core_ferc1__yearly_operating_revenues_sched300",
+      "url": "https://s3.us-west-2.amazonaws.com/pudl.catalyst.coop/v2026.9.0/core_ferc1__yearly_operating_revenues_sched300.parquet",
+      "bytes": 1575998,
+      "sha256": "a11044a7f75cec40a3111cb761d23fc2d6a317e7eed594454f472c29a2ff8531"
+    },
+    {
+      "source": "PUDL v2026.9.0 core_ferc1__yearly_operating_expenses_sched320",
+      "url": "https://s3.us-west-2.amazonaws.com/pudl.catalyst.coop/v2026.9.0/core_ferc1__yearly_operating_expenses_sched320.parquet",
+      "bytes": 6029153,
+      "sha256": "be24e540e57155acc77bfc69973c5aecc023cda20ecb58af7255fae442eda102"
+    },
+    {
+      "source": "PUDL v2026.9.0 core_ferc1__yearly_income_statements_sched114",
+      "url": "https://s3.us-west-2.amazonaws.com/pudl.catalyst.coop/v2026.9.0/core_ferc1__yearly_income_statements_sched114.parquet",
+      "bytes": 4388601,
+      "sha256": "03209eb7b6c14a817aa14389f223f474313dd9ffdabaf015b01df056460f5e7c"
+    }
+  ]
+}

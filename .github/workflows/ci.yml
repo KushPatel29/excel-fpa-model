@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   verify:
-    name: Regenerate the data and hold the workbook to the reference model
+    name: Hold the workbook to the public data and the reference model
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -29,14 +29,6 @@ jobs:
 
       - name: Lint
         run: ruff check .
-
-      - name: Regenerate the dataset
-        run: python generator/generate_data.py
-
-      # The CSVs were written on Windows. If Linux produces different bytes, the
-      # data is not reproducible and every figure in the README is an accident.
-      - name: The regenerated data must match the committed data byte for byte
-        run: git diff --exit-code -- data/
 
       - name: Run the pandas reference model
         run: python model/reference.py

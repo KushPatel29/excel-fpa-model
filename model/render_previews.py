@@ -16,15 +16,17 @@ ROOT = Path(__file__).resolve().parent.parent
 PDF = ROOT / "docs" / "board_pack.pdf"
 OUT = ROOT / "docs" / "img"
 
-PAGES = {  # first line of the page -> image name
-    "Kestrel Bay Provisions": "cover",
-    "Kestrel Bay Provisions: FY2026 performance and outlook": "dashboard",
-    "Profit and loss, FY2026: outlook against budget and prior year": "pnl",
-    "Price-volume-mix: why margin moved against budget": "pvm",
-    "Rolling forecast by driver": "forecast",
-    "Scenarios, sensitivities and the gap to budget": "scenarios",
-    "Working capital: cash tied up, and stock close to its shelf life": "working-capital",
-    "Channel economics: where the growth came from, and what it earned": "channels",
+PAGES = {  # first line of the page -> image name (continuation pages are left out)
+    "Portland General Electric": "cover",
+    "Portland General Electric: 2026 retail revenue, plan and outlook": "dashboard",
+    "Profit and loss: Portland General Electric, electric utility (FERC Form 1)": "pnl",
+    "Price, volume and mix: where retail revenue growth came from": "pvm",
+    "Monthly retail sales: EIA-861M, and how it ties to the FERC filing": "monthly",
+    "Weather: how much of the load is the thermostat": "weather",
+    "Plan against actual: the 2026 plan, built only from data through December 2025": "plan",
+    "Rolling forecast: June 2026 actuals, 6 months forecast": "forecast",
+    "Scenarios: what moves the 2026 outlook": "scenarios",
+    "Peers: PGE against four Pacific Northwest utilities (FERC Form 1)": "peers",
     "Checks: the model proves its own numbers": "checks",
 }
 

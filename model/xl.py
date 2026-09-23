@@ -236,3 +236,67 @@ def place(ws, top_left: str, bottom_right: str):
     """Points (left, top, width, height) covering a cell block, for charts and slicers."""
     a, b = ws.Range(top_left), ws.Range(bottom_right)
     return a.Left, a.Top, b.Left + b.Width - a.Left, b.Top + b.Height - a.Top
+
+
+# ---- charts ------------------------------------------------------------------------
+def new_chart(ws, chart_type: int, top_left: str, bottom_right: str, series, categories: str,
+              title_text: str):
+    """A chart with explicitly defined series. Letting Excel guess the source from a
+    range fails when the range is a spill Excel has not calculated yet."""
+    chart = ws.Shapes.AddChart2(-1, chart_type, *place(ws, top_left, bottom_right)).Chart
+    existing = chart.SeriesCollection()
+    while existing.Count:
+        existing(1).Delete()
+    def resolve(address: str):
+        if "!" in address:
+            sheet, cells = address.split("!")
+            return ws.Parent.Worksheets(sheet.strip("'")).Range(cells)
+        return ws.Range(address)
+
+    for name, values in series:
+        s = chart.SeriesCollection().NewSeries()
+        s.Name = name
+        s.Values = resolve(values)
+        s.XValues = resolve(categories)
+    chart.HasTitle = True
+    chart.ChartTitle.Text = title_text
+    return chart
+
+
+def style_chart(chart, size: int = 9) -> None:
+    """Quiet chart chrome: small type, light gridlines, Excel's default title and border.
+
+    Excel's COM cannot restyle a waterfall's title or border (the calls succeed
+    and are not saved), so every other chart is matched to the waterfalls
+    rather than the dashboard mixing two looks. Each step stands alone because
+    a waterfall refuses some of them.
+    """
+    def attempt(step):
+        try:
+            step()
+        except Exception:  # noqa: BLE001 - not every chart type has every part
+            pass
+
+    def title():
+        tf = chart.ChartTitle.Format.TextFrame2.TextRange.Font
+        tf.Size = 14
+        tf.Bold = False
+        tf.Fill.ForeColor.RGB = rgb("#595959")
+
+    def border():
+        line = chart.ChartArea.Format.Line
+        line.Visible = True
+        line.ForeColor.RGB = rgb("#D9D9D9")
+        line.Weight = 0.75
+
+    def text():
+        chart.ChartArea.Font.Size = size
+        chart.ChartArea.Font.Color = rgb(INK)
+
+    def grid():
+        chart.Axes(2).MajorGridlines.Format.Line.ForeColor.RGB = rgb("#E4E8EE")
+
+    for step in (border, text, grid):   # text first: the chart-wide font would reset the title
+        attempt(step)
+    if chart.HasTitle:
+        attempt(title)
