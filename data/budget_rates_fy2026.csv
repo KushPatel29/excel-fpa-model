@@ -1,0 +1,289 @@
+sku,channel,region,net_price,unit_cost,freight_per_case
+B01,Grocery Retail,BC Interior,246.33,210.34,4.10
+B01,Grocery Retail,Lower Mainland,249.14,210.41,1.66
+B01,Grocery Retail,Vancouver Island,247.22,210.23,3.53
+B01,Hotels & Institutions,BC Interior,270.61,210.51,4.05
+B01,Hotels & Institutions,Lower Mainland,270.65,210.49,1.67
+B01,Hotels & Institutions,Vancouver Island,270.78,210.42,3.54
+B01,Online Direct,BC Interior,319.03,210.53,12.69
+B01,Online Direct,Lower Mainland,319.06,210.51,10.34
+B01,Online Direct,Vancouver Island,319.90,210.33,12.25
+B01,Restaurants,BC Interior,284.74,210.41,4.02
+B01,Restaurants,Lower Mainland,285.13,210.29,1.67
+B01,Restaurants,Vancouver Island,285.56,210.53,3.56
+B02,Grocery Retail,BC Interior,108.95,92.01,4.06
+B02,Grocery Retail,Lower Mainland,108.52,92.08,1.66
+B02,Grocery Retail,Vancouver Island,109.08,92.00,3.53
+B02,Hotels & Institutions,BC Interior,119.30,92.01,4.08
+B02,Hotels & Institutions,Lower Mainland,119.12,92.06,1.65
+B02,Hotels & Institutions,Vancouver Island,119.27,92.12,3.53
+B02,Online Direct,BC Interior,140.67,91.95,12.66
+B02,Online Direct,Lower Mainland,140.78,91.90,10.31
+B02,Online Direct,Vancouver Island,140.65,92.12,12.17
+B02,Restaurants,BC Interior,125.46,91.97,4.07
+B02,Restaurants,Lower Mainland,125.77,92.05,1.65
+B02,Restaurants,Vancouver Island,125.69,91.98,3.54
+B03,Grocery Retail,BC Interior,181.04,154.93,4.09
+B03,Grocery Retail,Lower Mainland,179.37,155.06,1.67
+B03,Grocery Retail,Vancouver Island,181.74,154.90,3.54
+B03,Hotels & Institutions,BC Interior,197.38,155.01,4.07
+B03,Hotels & Institutions,Lower Mainland,197.83,154.83,1.69
+B03,Hotels & Institutions,Vancouver Island,197.77,154.87,3.52
+B03,Online Direct,BC Interior,233.13,154.82,12.74
+B03,Online Direct,Lower Mainland,233.76,154.78,10.32
+B03,Online Direct,Vancouver Island,233.06,154.96,12.17
+B03,Restaurants,BC Interior,208.01,154.94,4.06
+B03,Restaurants,Lower Mainland,207.90,154.99,1.67
+B03,Restaurants,Vancouver Island,207.92,154.86,3.56
+B04,Grocery Retail,BC Interior,317.46,272.18,4.06
+B04,Grocery Retail,Lower Mainland,315.90,272.13,1.66
+B04,Grocery Retail,Vancouver Island,316.19,272.13,3.52
+B04,Hotels & Institutions,BC Interior,344.70,272.19,4.06
+B04,Hotels & Institutions,Lower Mainland,346.11,272.28,1.66
+B04,Hotels & Institutions,Vancouver Island,344.72,272.01,3.53
+B04,Online Direct,BC Interior,407.97,272.36,12.61
+B04,Online Direct,Lower Mainland,408.18,272.08,10.36
+B04,Online Direct,Vancouver Island,407.30,272.35,12.19
+B04,Restaurants,BC Interior,363.02,271.90,4.06
+B04,Restaurants,Lower Mainland,363.59,272.15,1.65
+B04,Restaurants,Vancouver Island,363.84,272.05,3.54
+C01,Grocery Retail,BC Interior,71.97,60.09,4.08
+C01,Grocery Retail,Lower Mainland,71.74,59.94,1.66
+C01,Grocery Retail,Vancouver Island,71.89,59.96,3.56
+C01,Hotels & Institutions,BC Interior,78.78,60.01,4.05
+C01,Hotels & Institutions,Lower Mainland,78.86,60.00,1.68
+C01,Hotels & Institutions,Vancouver Island,78.66,60.06,3.53
+C01,Online Direct,BC Interior,93.01,60.04,12.69
+C01,Online Direct,Lower Mainland,93.05,59.96,10.34
+C01,Online Direct,Vancouver Island,92.88,59.99,12.18
+C01,Restaurants,BC Interior,83.02,60.04,4.06
+C01,Restaurants,Lower Mainland,82.98,59.99,1.66
+C01,Restaurants,Vancouver Island,83.04,60.02,3.53
+C02,Grocery Retail,BC Interior,114.62,94.75,4.06
+C02,Grocery Retail,Lower Mainland,114.32,94.72,1.67
+C02,Grocery Retail,Vancouver Island,114.80,94.74,3.55
+C02,Hotels & Institutions,BC Interior,125.05,94.78,4.04
+C02,Hotels & Institutions,Lower Mainland,124.91,94.73,1.66
+C02,Hotels & Institutions,Vancouver Island,125.20,94.74,3.53
+C02,Online Direct,BC Interior,147.89,94.72,12.83
+C02,Online Direct,Lower Mainland,147.85,94.76,10.39
+C02,Online Direct,Vancouver Island,147.51,94.60,12.21
+C02,Restaurants,BC Interior,131.59,94.70,4.08
+C02,Restaurants,Lower Mainland,132.08,94.74,1.68
+C02,Restaurants,Vancouver Island,131.74,94.68,3.51
+C03,Grocery Retail,BC Interior,88.72,72.85,4.07
+C03,Grocery Retail,Lower Mainland,88.94,72.82,1.66
+C03,Grocery Retail,Vancouver Island,88.96,72.84,3.56
+C03,Hotels & Institutions,BC Interior,96.99,72.93,4.07
+C03,Hotels & Institutions,Lower Mainland,96.83,72.86,1.66
+C03,Hotels & Institutions,Vancouver Island,97.12,72.81,3.51
+C03,Online Direct,BC Interior,114.31,72.85,12.69
+C03,Online Direct,Lower Mainland,114.40,72.90,10.30
+C03,Online Direct,Vancouver Island,114.62,72.81,12.20
+C03,Restaurants,BC Interior,102.16,72.86,4.04
+C03,Restaurants,Lower Mainland,101.96,72.82,1.66
+C03,Restaurants,Vancouver Island,102.04,72.82,3.54
+C04,Grocery Retail,BC Interior,173.25,139.56,4.02
+C04,Grocery Retail,Lower Mainland,173.47,139.53,1.68
+C04,Grocery Retail,Vancouver Island,174.74,139.65,3.54
+C04,Hotels & Institutions,BC Interior,190.14,139.64,4.04
+C04,Hotels & Institutions,Lower Mainland,189.80,139.67,1.66
+C04,Hotels & Institutions,Vancouver Island,190.41,139.55,3.53
+C04,Online Direct,BC Interior,223.62,139.60,12.76
+C04,Online Direct,Lower Mainland,223.48,139.46,10.29
+C04,Online Direct,Vancouver Island,223.70,139.59,12.12
+C04,Restaurants,BC Interior,200.18,139.62,4.05
+C04,Restaurants,Lower Mainland,199.50,139.64,1.67
+C04,Restaurants,Vancouver Island,199.96,139.55,3.52
+D01,Grocery Retail,BC Interior,130.91,93.47,4.06
+D01,Grocery Retail,Lower Mainland,130.95,93.45,1.66
+D01,Grocery Retail,Vancouver Island,131.07,93.42,3.55
+D01,Hotels & Institutions,BC Interior,143.34,93.38,4.05
+D01,Hotels & Institutions,Lower Mainland,143.26,93.49,1.67
+D01,Hotels & Institutions,Vancouver Island,143.16,93.41,3.52
+D01,Online Direct,BC Interior,169.11,93.43,12.71
+D01,Online Direct,Lower Mainland,169.35,93.34,10.32
+D01,Online Direct,Vancouver Island,168.91,93.36,12.17
+D01,Restaurants,BC Interior,150.86,93.35,4.07
+D01,Restaurants,Lower Mainland,150.78,93.41,1.66
+D01,Restaurants,Vancouver Island,150.92,93.37,3.57
+D02,Grocery Retail,BC Interior,109.21,77.01,4.08
+D02,Grocery Retail,Lower Mainland,109.23,76.96,1.68
+D02,Grocery Retail,Vancouver Island,108.97,77.01,3.55
+D02,Hotels & Institutions,BC Interior,119.46,77.01,4.05
+D02,Hotels & Institutions,Lower Mainland,119.54,76.94,1.67
+D02,Hotels & Institutions,Vancouver Island,118.92,76.92,3.54
+D02,Online Direct,BC Interior,140.59,76.99,12.78
+D02,Online Direct,Lower Mainland,140.64,77.08,10.30
+D02,Online Direct,Vancouver Island,140.56,76.95,12.04
+D02,Restaurants,BC Interior,125.40,77.01,4.05
+D02,Restaurants,Lower Mainland,125.27,76.95,1.66
+D02,Restaurants,Vancouver Island,125.33,77.00,3.55
+D03,Grocery Retail,BC Interior,216.85,157.64,4.07
+D03,Grocery Retail,Lower Mainland,215.91,157.72,1.67
+D03,Grocery Retail,Vancouver Island,217.73,157.78,3.56
+D03,Hotels & Institutions,BC Interior,238.20,157.64,4.06
+D03,Hotels & Institutions,Lower Mainland,238.19,157.66,1.66
+D03,Hotels & Institutions,Vancouver Island,238.74,157.66,3.53
+D03,Online Direct,BC Interior,281.45,157.73,12.73
+D03,Online Direct,Lower Mainland,281.55,157.86,10.36
+D03,Online Direct,Vancouver Island,280.86,157.61,12.16
+D03,Restaurants,BC Interior,250.69,157.92,4.05
+D03,Restaurants,Lower Mainland,251.20,157.88,1.67
+D03,Restaurants,Vancouver Island,251.50,157.90,3.56
+D04,Grocery Retail,BC Interior,79.37,55.63,4.08
+D04,Grocery Retail,Lower Mainland,79.06,55.64,1.66
+D04,Grocery Retail,Vancouver Island,79.41,55.63,3.56
+D04,Hotels & Institutions,BC Interior,87.15,55.62,4.03
+D04,Hotels & Institutions,Lower Mainland,86.65,55.72,1.66
+D04,Hotels & Institutions,Vancouver Island,86.83,55.64,3.51
+D04,Online Direct,BC Interior,102.23,55.62,12.63
+D04,Online Direct,Lower Mainland,102.57,55.62,10.42
+D04,Online Direct,Vancouver Island,102.44,55.60,12.21
+D04,Restaurants,BC Interior,91.58,55.67,4.09
+D04,Restaurants,Lower Mainland,91.21,55.66,1.67
+D04,Restaurants,Vancouver Island,91.43,55.60,3.55
+H01,Grocery Retail,BC Interior,173.04,115.75,4.09
+H01,Grocery Retail,Lower Mainland,175.01,115.69,1.66
+H01,Grocery Retail,Vancouver Island,174.14,115.67,3.52
+H01,Hotels & Institutions,BC Interior,189.46,115.62,4.05
+H01,Hotels & Institutions,Lower Mainland,189.66,115.70,1.67
+H01,Hotels & Institutions,Vancouver Island,189.99,115.74,3.54
+H01,Online Direct,BC Interior,223.33,115.87,12.76
+H01,Online Direct,Lower Mainland,224.21,115.69,10.31
+H01,Online Direct,Vancouver Island,223.93,115.66,12.20
+H01,Restaurants,BC Interior,199.99,115.69,4.06
+H01,Restaurants,Lower Mainland,199.72,115.67,1.67
+H01,Restaurants,Vancouver Island,199.94,115.61,3.55
+H02,Grocery Retail,BC Interior,143.61,95.25,4.08
+H02,Grocery Retail,Lower Mainland,143.64,95.16,1.66
+H02,Grocery Retail,Vancouver Island,144.28,95.15,3.51
+H02,Hotels & Institutions,BC Interior,157.20,95.19,4.06
+H02,Hotels & Institutions,Lower Mainland,157.56,95.16,1.66
+H02,Hotels & Institutions,Vancouver Island,157.84,95.16,3.51
+H02,Online Direct,BC Interior,185.58,95.16,12.73
+H02,Online Direct,Lower Mainland,185.86,95.15,10.33
+H02,Online Direct,Vancouver Island,185.97,95.19,12.25
+H02,Restaurants,BC Interior,166.04,95.15,4.05
+H02,Restaurants,Lower Mainland,165.85,95.14,1.65
+H02,Restaurants,Vancouver Island,165.36,95.12,3.51
+H03,Grocery Retail,BC Interior,188.29,127.67,4.05
+H03,Grocery Retail,Lower Mainland,187.34,127.54,1.66
+H03,Grocery Retail,Vancouver Island,188.36,127.73,3.55
+H03,Hotels & Institutions,BC Interior,205.67,127.84,4.04
+H03,Hotels & Institutions,Lower Mainland,205.48,127.70,1.67
+H03,Hotels & Institutions,Vancouver Island,205.77,127.72,3.52
+H03,Online Direct,BC Interior,243.14,127.72,12.85
+H03,Online Direct,Lower Mainland,243.30,127.88,10.34
+H03,Online Direct,Vancouver Island,241.99,127.72,12.28
+H03,Restaurants,BC Interior,217.61,127.79,4.07
+H03,Restaurants,Lower Mainland,216.95,127.67,1.66
+H03,Restaurants,Vancouver Island,216.73,127.71,3.55
+H04,Grocery Retail,BC Interior,88.50,58.06,4.03
+H04,Grocery Retail,Lower Mainland,88.62,58.04,1.67
+H04,Grocery Retail,Vancouver Island,88.37,58.07,3.54
+H04,Hotels & Institutions,BC Interior,96.96,58.02,4.07
+H04,Hotels & Institutions,Lower Mainland,96.84,57.96,1.67
+H04,Hotels & Institutions,Vancouver Island,96.75,58.04,3.56
+H04,Online Direct,BC Interior,114.26,58.11,12.65
+H04,Online Direct,Lower Mainland,114.56,58.06,10.41
+H04,Online Direct,Vancouver Island,114.25,58.03,12.17
+H04,Restaurants,BC Interior,102.30,58.03,4.05
+H04,Restaurants,Lower Mainland,102.21,58.05,1.66
+H04,Restaurants,Vancouver Island,101.97,57.99,3.49
+P01,Grocery Retail,BC Interior,121.98,97.96,4.05
+P01,Grocery Retail,Lower Mainland,122.21,98.08,1.67
+P01,Grocery Retail,Vancouver Island,122.05,98.04,3.51
+P01,Hotels & Institutions,BC Interior,133.66,98.00,4.06
+P01,Hotels & Institutions,Lower Mainland,133.29,98.07,1.65
+P01,Hotels & Institutions,Vancouver Island,132.72,98.10,3.54
+P01,Online Direct,BC Interior,157.05,98.04,12.73
+P01,Online Direct,Lower Mainland,156.94,98.04,10.32
+P01,Online Direct,Vancouver Island,156.89,97.99,12.21
+P01,Restaurants,BC Interior,140.14,98.07,4.06
+P01,Restaurants,Lower Mainland,140.03,98.04,1.66
+P01,Restaurants,Vancouver Island,140.12,98.02,3.60
+P02,Grocery Retail,BC Interior,96.44,76.10,4.06
+P02,Grocery Retail,Lower Mainland,96.23,76.15,1.66
+P02,Grocery Retail,Vancouver Island,96.70,76.08,3.51
+P02,Hotels & Institutions,BC Interior,104.90,76.19,4.05
+P02,Hotels & Institutions,Lower Mainland,104.98,76.09,1.65
+P02,Hotels & Institutions,Vancouver Island,104.71,76.15,3.55
+P02,Online Direct,BC Interior,123.83,76.10,12.80
+P02,Online Direct,Lower Mainland,123.96,76.11,10.35
+P02,Online Direct,Vancouver Island,123.62,76.15,12.22
+P02,Restaurants,BC Interior,110.74,76.18,4.08
+P02,Restaurants,Lower Mainland,110.79,76.12,1.67
+P02,Restaurants,Vancouver Island,110.57,76.11,3.54
+P03,Grocery Retail,BC Interior,135.04,109.19,4.06
+P03,Grocery Retail,Lower Mainland,134.91,109.14,1.67
+P03,Grocery Retail,Vancouver Island,134.81,109.18,3.53
+P03,Hotels & Institutions,BC Interior,147.37,109.21,4.06
+P03,Hotels & Institutions,Lower Mainland,147.84,109.20,1.66
+P03,Hotels & Institutions,Vancouver Island,148.05,109.19,3.56
+P03,Online Direct,BC Interior,174.21,109.13,12.79
+P03,Online Direct,Lower Mainland,173.83,109.22,10.30
+P03,Online Direct,Vancouver Island,173.67,109.28,12.08
+P03,Restaurants,BC Interior,155.11,109.22,4.03
+P03,Restaurants,Lower Mainland,155.16,109.17,1.67
+P03,Restaurants,Vancouver Island,155.41,109.20,3.53
+P04,Grocery Retail,BC Interior,85.54,67.84,4.06
+P04,Grocery Retail,Lower Mainland,85.08,67.83,1.66
+P04,Grocery Retail,Vancouver Island,85.27,67.84,3.54
+P04,Hotels & Institutions,BC Interior,93.03,67.89,4.08
+P04,Hotels & Institutions,Lower Mainland,92.53,67.87,1.67
+P04,Hotels & Institutions,Vancouver Island,93.08,67.86,3.54
+P04,Online Direct,BC Interior,109.38,67.84,12.84
+P04,Online Direct,Lower Mainland,109.58,67.86,10.30
+P04,Online Direct,Vancouver Island,109.57,67.77,12.21
+P04,Restaurants,BC Interior,97.73,67.81,4.09
+P04,Restaurants,Lower Mainland,98.05,67.90,1.68
+P04,Restaurants,Vancouver Island,97.82,67.86,3.52
+S01,Grocery Retail,BC Interior,161.39,140.95,4.08
+S01,Grocery Retail,Lower Mainland,163.06,141.09,1.68
+S01,Grocery Retail,Vancouver Island,162.90,140.93,3.53
+S01,Hotels & Institutions,BC Interior,178.12,141.06,4.08
+S01,Hotels & Institutions,Lower Mainland,177.33,140.93,1.68
+S01,Hotels & Institutions,Vancouver Island,178.33,141.08,3.56
+S01,Online Direct,BC Interior,210.13,141.01,12.80
+S01,Online Direct,Lower Mainland,210.17,140.91,10.31
+S01,Online Direct,Vancouver Island,209.75,140.98,12.19
+S01,Restaurants,BC Interior,187.17,140.83,4.07
+S01,Restaurants,Lower Mainland,187.04,140.94,1.65
+S01,Restaurants,Vancouver Island,186.68,140.87,3.55
+S02,Grocery Retail,BC Interior,198.20,170.18,4.03
+S02,Grocery Retail,Lower Mainland,197.25,170.20,1.67
+S02,Grocery Retail,Vancouver Island,196.25,170.37,3.53
+S02,Hotels & Institutions,BC Interior,216.46,170.18,4.06
+S02,Hotels & Institutions,Lower Mainland,216.22,170.29,1.67
+S02,Hotels & Institutions,Vancouver Island,216.14,170.20,3.53
+S02,Online Direct,BC Interior,254.22,170.42,12.63
+S02,Online Direct,Lower Mainland,255.36,170.29,10.38
+S02,Online Direct,Vancouver Island,254.81,170.19,12.14
+S02,Restaurants,BC Interior,227.43,170.24,4.04
+S02,Restaurants,Lower Mainland,227.69,170.21,1.67
+S02,Restaurants,Vancouver Island,227.86,170.29,3.52
+S03,Grocery Retail,BC Interior,280.39,240.87,4.03
+S03,Grocery Retail,Lower Mainland,280.95,241.25,1.67
+S03,Grocery Retail,Vancouver Island,282.51,240.98,3.54
+S03,Hotels & Institutions,BC Interior,308.39,241.13,4.03
+S03,Hotels & Institutions,Lower Mainland,307.55,240.93,1.66
+S03,Hotels & Institutions,Vancouver Island,308.19,240.99,3.55
+S03,Online Direct,BC Interior,362.25,240.97,12.68
+S03,Online Direct,Lower Mainland,363.27,241.21,10.30
+S03,Online Direct,Vancouver Island,362.54,241.11,12.29
+S03,Restaurants,BC Interior,324.67,240.92,4.07
+S03,Restaurants,Lower Mainland,324.18,240.89,1.66
+S03,Restaurants,Vancouver Island,323.24,241.11,3.55
+S04,Grocery Retail,BC Interior,127.48,109.88,4.04
+S04,Grocery Retail,Lower Mainland,126.64,109.69,1.65
+S04,Grocery Retail,Vancouver Island,127.56,109.83,3.55
+S04,Hotels & Institutions,BC Interior,139.77,109.84,4.06
+S04,Hotels & Institutions,Lower Mainland,139.60,109.88,1.66
+S04,Hotels & Institutions,Vancouver Island,139.59,109.76,3.53
+S04,Online Direct,BC Interior,164.09,109.79,12.69
+S04,Online Direct,Lower Mainland,164.47,109.80,10.33
+S04,Online Direct,Vancouver Island,164.55,109.89,12.14
+S04,Restaurants,BC Interior,146.50,109.82,4.05
+S04,Restaurants,Lower Mainland,147.02,109.80,1.66
+S04,Restaurants,Vancouver Island,146.98,109.72,3.54

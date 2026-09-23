@@ -1,0 +1,257 @@
+month,account,category,balance
+2024-01-01,Accounts receivable,,3131892.63
+2024-01-01,Inventory,Beef,342963.20
+2024-01-01,Inventory,Pork,161615.79
+2024-01-01,Inventory,Poultry,100863.82
+2024-01-01,Inventory,Seafood,37475.95
+2024-01-01,Inventory,Charcuterie,239376.06
+2024-01-01,Inventory,Cheese & Dairy,263265.09
+2024-01-01,Accounts payable,,2011217.79
+2024-02-01,Accounts receivable,,3162568.69
+2024-02-01,Inventory,Beef,352304.40
+2024-02-01,Inventory,Pork,155280.11
+2024-02-01,Inventory,Poultry,100561.21
+2024-02-01,Inventory,Seafood,35894.83
+2024-02-01,Inventory,Charcuterie,226475.58
+2024-02-01,Inventory,Cheese & Dairy,246729.05
+2024-02-01,Accounts payable,,2029455.03
+2024-03-01,Accounts receivable,,3407872.96
+2024-03-01,Inventory,Beef,367382.08
+2024-03-01,Inventory,Pork,165343.35
+2024-03-01,Inventory,Poultry,102070.17
+2024-03-01,Inventory,Seafood,41430.09
+2024-03-01,Inventory,Charcuterie,238269.66
+2024-03-01,Inventory,Cheese & Dairy,268225.08
+2024-03-01,Accounts payable,,2140313.14
+2024-04-01,Accounts receivable,,3491666.68
+2024-04-01,Inventory,Beef,403612.08
+2024-04-01,Inventory,Pork,176452.92
+2024-04-01,Inventory,Poultry,102134.72
+2024-04-01,Inventory,Seafood,45659.59
+2024-04-01,Inventory,Charcuterie,261917.99
+2024-04-01,Inventory,Cheese & Dairy,267399.95
+2024-04-01,Accounts payable,,2213779.64
+2024-05-01,Accounts receivable,,3862971.88
+2024-05-01,Inventory,Beef,449482.46
+2024-05-01,Inventory,Pork,183614.38
+2024-05-01,Inventory,Poultry,101249.55
+2024-05-01,Inventory,Seafood,58420.00
+2024-05-01,Inventory,Charcuterie,255071.45
+2024-05-01,Inventory,Cheese & Dairy,264760.12
+2024-05-01,Accounts payable,,2480329.72
+2024-06-01,Accounts receivable,,3801176.49
+2024-06-01,Inventory,Beef,490756.19
+2024-06-01,Inventory,Pork,180528.92
+2024-06-01,Inventory,Poultry,104093.99
+2024-06-01,Inventory,Seafood,60507.24
+2024-06-01,Inventory,Charcuterie,253269.71
+2024-06-01,Inventory,Cheese & Dairy,264438.12
+2024-06-01,Accounts payable,,2542639.48
+2024-07-01,Accounts receivable,,3788496.26
+2024-07-01,Inventory,Beef,495551.13
+2024-07-01,Inventory,Pork,184102.86
+2024-07-01,Inventory,Poultry,102791.49
+2024-07-01,Inventory,Seafood,56575.50
+2024-07-01,Inventory,Charcuterie,252216.30
+2024-07-01,Inventory,Cheese & Dairy,263579.94
+2024-07-01,Accounts payable,,2548487.55
+2024-08-01,Accounts receivable,,3700225.29
+2024-08-01,Inventory,Beef,455665.36
+2024-08-01,Inventory,Pork,177113.54
+2024-08-01,Inventory,Poultry,102906.55
+2024-08-01,Inventory,Seafood,50645.31
+2024-08-01,Inventory,Charcuterie,252211.58
+2024-08-01,Inventory,Cheese & Dairy,269943.16
+2024-08-01,Accounts payable,,2462962.05
+2024-09-01,Accounts receivable,,3470606.45
+2024-09-01,Inventory,Beef,397587.38
+2024-09-01,Inventory,Pork,175104.20
+2024-09-01,Inventory,Poultry,102244.73
+2024-09-01,Inventory,Seafood,46295.34
+2024-09-01,Inventory,Charcuterie,264698.76
+2024-09-01,Inventory,Cheese & Dairy,274777.54
+2024-09-01,Accounts payable,,2264637.59
+2024-10-01,Accounts receivable,,3540997.91
+2024-10-01,Inventory,Beef,392882.06
+2024-10-01,Inventory,Pork,169297.98
+2024-10-01,Inventory,Poultry,99076.25
+2024-10-01,Inventory,Seafood,40693.27
+2024-10-01,Inventory,Charcuterie,301272.41
+2024-10-01,Inventory,Cheese & Dairy,292410.46
+2024-10-01,Accounts payable,,2149387.44
+2024-11-01,Accounts receivable,,3523496.16
+2024-11-01,Inventory,Beef,361395.89
+2024-11-01,Inventory,Pork,169181.66
+2024-11-01,Inventory,Poultry,100661.52
+2024-11-01,Inventory,Seafood,39248.77
+2024-11-01,Inventory,Charcuterie,342940.98
+2024-11-01,Inventory,Cheese & Dairy,331275.65
+2024-11-01,Accounts payable,,2195793.15
+2024-12-01,Accounts receivable,,3800257.10
+2024-12-01,Inventory,Beef,375397.79
+2024-12-01,Inventory,Pork,192801.34
+2024-12-01,Inventory,Poultry,112532.96
+2024-12-01,Inventory,Seafood,43670.80
+2024-12-01,Inventory,Charcuterie,382298.10
+2024-12-01,Inventory,Cheese & Dairy,354064.66
+2024-12-01,Accounts payable,,2476430.76
+2025-01-01,Accounts receivable,,3320383.11
+2025-01-01,Inventory,Beef,376306.15
+2025-01-01,Inventory,Pork,174426.18
+2025-01-01,Inventory,Poultry,105769.70
+2025-01-01,Inventory,Seafood,39908.48
+2025-01-01,Inventory,Charcuterie,256178.41
+2025-01-01,Inventory,Cheese & Dairy,285528.62
+2025-01-01,Accounts payable,,2219222.95
+2025-02-01,Accounts receivable,,3244412.05
+2025-02-01,Inventory,Beef,365187.72
+2025-02-01,Inventory,Pork,167641.27
+2025-02-01,Inventory,Poultry,106512.40
+2025-02-01,Inventory,Seafood,37854.35
+2025-02-01,Inventory,Charcuterie,240543.11
+2025-02-01,Inventory,Cheese & Dairy,268099.28
+2025-02-01,Accounts payable,,2139731.34
+2025-03-01,Accounts receivable,,3563376.19
+2025-03-01,Inventory,Beef,390033.75
+2025-03-01,Inventory,Pork,175229.46
+2025-03-01,Inventory,Poultry,108877.42
+2025-03-01,Inventory,Seafood,43896.04
+2025-03-01,Inventory,Charcuterie,257219.77
+2025-03-01,Inventory,Cheese & Dairy,286729.16
+2025-03-01,Accounts payable,,2281362.72
+2025-04-01,Accounts receivable,,3686582.21
+2025-04-01,Inventory,Beef,436845.47
+2025-04-01,Inventory,Pork,178799.62
+2025-04-01,Inventory,Poultry,106913.06
+2025-04-01,Inventory,Seafood,48013.04
+2025-04-01,Inventory,Charcuterie,276999.71
+2025-04-01,Inventory,Cheese & Dairy,288332.86
+2025-04-01,Accounts payable,,2382341.07
+2025-05-01,Accounts receivable,,3951637.99
+2025-05-01,Inventory,Beef,460951.43
+2025-05-01,Inventory,Pork,190556.63
+2025-05-01,Inventory,Poultry,109320.62
+2025-05-01,Inventory,Seafood,59700.14
+2025-05-01,Inventory,Charcuterie,275714.41
+2025-05-01,Inventory,Cheese & Dairy,280263.38
+2025-05-01,Accounts payable,,2636016.49
+2025-06-01,Accounts receivable,,4127171.87
+2025-06-01,Inventory,Beef,508417.84
+2025-06-01,Inventory,Pork,191222.29
+2025-06-01,Inventory,Poultry,112798.79
+2025-06-01,Inventory,Seafood,64450.47
+2025-06-01,Inventory,Charcuterie,272157.67
+2025-06-01,Inventory,Cheese & Dairy,280191.00
+2025-06-01,Accounts payable,,2641102.01
+2025-07-01,Accounts receivable,,4157320.79
+2025-07-01,Inventory,Beef,504515.48
+2025-07-01,Inventory,Pork,188124.06
+2025-07-01,Inventory,Poultry,108554.13
+2025-07-01,Inventory,Seafood,60152.97
+2025-07-01,Inventory,Charcuterie,273699.19
+2025-07-01,Inventory,Cheese & Dairy,281622.93
+2025-07-01,Accounts payable,,2573455.09
+2025-08-01,Accounts receivable,,3884003.28
+2025-08-01,Inventory,Beef,496990.52
+2025-08-01,Inventory,Pork,189320.51
+2025-08-01,Inventory,Poultry,106541.26
+2025-08-01,Inventory,Seafood,54832.27
+2025-08-01,Inventory,Charcuterie,270420.29
+2025-08-01,Inventory,Cheese & Dairy,280243.07
+2025-08-01,Accounts payable,,2517050.61
+2025-09-01,Accounts receivable,,3814133.42
+2025-09-01,Inventory,Beef,428558.27
+2025-09-01,Inventory,Pork,178344.69
+2025-09-01,Inventory,Poultry,107526.38
+2025-09-01,Inventory,Seafood,48555.27
+2025-09-01,Inventory,Charcuterie,287953.32
+2025-09-01,Inventory,Cheese & Dairy,295749.27
+2025-09-01,Accounts payable,,2367141.54
+2025-10-01,Accounts receivable,,3764948.11
+2025-10-01,Inventory,Beef,403803.79
+2025-10-01,Inventory,Pork,175072.88
+2025-10-01,Inventory,Poultry,105820.81
+2025-10-01,Inventory,Seafood,43807.82
+2025-10-01,Inventory,Charcuterie,317284.57
+2025-10-01,Inventory,Cheese & Dairy,317247.78
+2025-10-01,Accounts payable,,2313271.60
+2025-11-01,Accounts receivable,,3688045.00
+2025-11-01,Inventory,Beef,389736.64
+2025-11-01,Inventory,Pork,185559.36
+2025-11-01,Inventory,Poultry,107988.05
+2025-11-01,Inventory,Seafood,40641.52
+2025-11-01,Inventory,Charcuterie,366128.21
+2025-11-01,Inventory,Cheese & Dairy,348835.83
+2025-11-01,Accounts payable,,2380026.21
+2025-12-01,Accounts receivable,,4056965.96
+2025-12-01,Inventory,Beef,403159.21
+2025-12-01,Inventory,Pork,202172.66
+2025-12-01,Inventory,Poultry,115172.91
+2025-12-01,Inventory,Seafood,46073.50
+2025-12-01,Inventory,Charcuterie,404637.31
+2025-12-01,Inventory,Cheese & Dairy,381388.55
+2025-12-01,Accounts payable,,2636317.30
+2026-01-01,Accounts receivable,,3542836.88
+2026-01-01,Inventory,Beef,379065.46
+2026-01-01,Inventory,Pork,184053.80
+2026-01-01,Inventory,Poultry,109304.94
+2026-01-01,Inventory,Seafood,41425.61
+2026-01-01,Inventory,Charcuterie,276562.03
+2026-01-01,Inventory,Cheese & Dairy,300522.01
+2026-01-01,Accounts payable,,2250847.95
+2026-02-01,Accounts receivable,,3802872.68
+2026-02-01,Inventory,Beef,401918.28
+2026-02-01,Inventory,Pork,180812.44
+2026-02-01,Inventory,Poultry,116737.01
+2026-02-01,Inventory,Seafood,43867.74
+2026-02-01,Inventory,Charcuterie,277737.50
+2026-02-01,Inventory,Cheese & Dairy,316380.82
+2026-02-01,Accounts payable,,2337128.27
+2026-03-01,Accounts receivable,,3963240.33
+2026-03-01,Inventory,Beef,442917.41
+2026-03-01,Inventory,Pork,187686.26
+2026-03-01,Inventory,Poultry,120378.77
+2026-03-01,Inventory,Seafood,49580.68
+2026-03-01,Inventory,Charcuterie,292414.70
+2026-03-01,Inventory,Cheese & Dairy,353467.22
+2026-03-01,Accounts payable,,2515054.63
+2026-04-01,Accounts receivable,,4357740.55
+2026-04-01,Inventory,Beef,473895.91
+2026-04-01,Inventory,Pork,206392.90
+2026-04-01,Inventory,Poultry,120904.78
+2026-04-01,Inventory,Seafood,56109.89
+2026-04-01,Inventory,Charcuterie,301132.09
+2026-04-01,Inventory,Cheese & Dairy,372781.30
+2026-04-01,Accounts payable,,2621185.95
+2026-05-01,Accounts receivable,,4469282.68
+2026-05-01,Inventory,Beef,544800.54
+2026-05-01,Inventory,Pork,213391.66
+2026-05-01,Inventory,Poultry,123311.41
+2026-05-01,Inventory,Seafood,68569.59
+2026-05-01,Inventory,Charcuterie,302186.80
+2026-05-01,Inventory,Cheese & Dairy,378767.06
+2026-05-01,Accounts payable,,2808769.02
+2026-06-01,Accounts receivable,,4839796.95
+2026-06-01,Inventory,Beef,598236.87
+2026-06-01,Inventory,Pork,209427.35
+2026-06-01,Inventory,Poultry,122798.01
+2026-06-01,Inventory,Seafood,71174.39
+2026-06-01,Inventory,Charcuterie,313113.19
+2026-06-01,Inventory,Cheese & Dairy,394347.43
+2026-06-01,Accounts payable,,3016110.12
+2026-07-01,Accounts receivable,,4578512.40
+2026-07-01,Inventory,Beef,609939.06
+2026-07-01,Inventory,Pork,215960.32
+2026-07-01,Inventory,Poultry,122764.39
+2026-07-01,Inventory,Seafood,65608.79
+2026-07-01,Inventory,Charcuterie,299342.92
+2026-07-01,Inventory,Cheese & Dairy,408230.71
+2026-07-01,Accounts payable,,2957237.64
+2026-08-01,Accounts receivable,,4501878.38
+2026-08-01,Inventory,Beef,587386.99
+2026-08-01,Inventory,Pork,210669.57
+2026-08-01,Inventory,Poultry,123603.09
+2026-08-01,Inventory,Seafood,59765.46
+2026-08-01,Inventory,Charcuterie,299748.79
+2026-08-01,Inventory,Cheese & Dairy,433880.72
+2026-08-01,Accounts payable,,2903700.30

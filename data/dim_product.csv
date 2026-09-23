@@ -1,0 +1,25 @@
+sku,product,category,case_description,shelf_life_days
+B01,Striploin AAA,Beef,12 kg case,35
+B02,Ground Chuck,Beef,10 kg case,35
+B03,Beef Short Rib,Beef,10 kg case,35
+B04,Beef Tenderloin,Beef,8 kg case,35
+P01,Pork Belly,Pork,10 kg case,30
+P02,Pork Tenderloin,Pork,8 kg case,30
+P03,Back Ribs,Pork,10 kg case,30
+P04,Pork Shoulder,Pork,12 kg case,30
+C01,Whole Chicken,Poultry,12 pc case,14
+C02,Chicken Breast,Poultry,10 kg case,14
+C03,Chicken Thigh,Poultry,10 kg case,14
+C04,Duck Breast,Poultry,5 kg case,14
+S01,Atlantic Salmon,Seafood,10 kg case,10
+S02,Halibut Fillet,Seafood,5 kg case,10
+S03,Spot Prawns,Seafood,5 kg case,10
+S04,Ling Cod,Seafood,5 kg case,10
+H01,Prosciutto,Charcuterie,6 kg case,120
+H02,Soppressata,Charcuterie,5 kg case,120
+H03,Bresaola,Charcuterie,4 kg case,120
+H04,Country Pate,Charcuterie,3 kg case,120
+D01,Aged Cheddar,Cheese & Dairy,10 kg case,90
+D02,Double Cream Brie,Cheese & Dairy,6 kg case,90
+D03,Parmigiano Reggiano,Cheese & Dairy,10 kg case,90
+D04,Cultured Butter,Cheese & Dairy,12 x 454 g,90
