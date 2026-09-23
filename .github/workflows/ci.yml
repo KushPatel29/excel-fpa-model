@@ -22,8 +22,10 @@ jobs:
           python-version: "3.12"
           cache: pip
 
+      # ruff is pinned to the release the code was linted with: an unpinned
+      # install picked up 0.16, whose wider default rule set failed a green build.
       - name: Install
-        run: pip install -r requirements.txt ruff
+        run: pip install -r requirements.txt ruff==0.15.21
 
       - name: Lint
         run: ruff check .
