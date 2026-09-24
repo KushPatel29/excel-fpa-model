@@ -1,0 +1,111 @@
+class,year,weather,model,months,wape,bias
+residential,2022,actual,seasonal naive,12,0.0709851893222,-0.00231054710223
+residential,2022,actual,weather regression,12,0.0595368820705,0.0177660163807
+residential,2022,actual,"linear, same inputs",12,0.0573614106558,0.0486453393371
+residential,2022,actual,gradient boosting,12,0.0355652505198,0.0159791898727
+residential,2022,normal,seasonal naive,12,0.0709851893222,-0.00231054710223
+residential,2022,normal,weather regression,12,0.0572405896501,-0.0217761074826
+residential,2022,normal,"linear, same inputs",12,0.0498921697312,0.0211878546604
+residential,2022,normal,gradient boosting,12,0.0485835149079,0.00131345529245
+residential,2023,actual,seasonal naive,12,0.059089920237,0.0252011842774
+residential,2023,actual,weather regression,12,0.0479293700616,0.0166938747398
+residential,2023,actual,"linear, same inputs",12,0.0500318770973,0.041842244659
+residential,2023,actual,gradient boosting,12,0.0411386909545,0.0320778058549
+residential,2023,normal,seasonal naive,12,0.059089920237,0.0252011842774
+residential,2023,normal,weather regression,12,0.0401263943338,-0.00325059129809
+residential,2023,normal,"linear, same inputs",12,0.0487485635516,0.0279185759208
+residential,2023,normal,gradient boosting,12,0.049377540737,0.0209598833207
+residential,2024,actual,seasonal naive,12,0.0719960714065,0.0446034609505
+residential,2024,actual,weather regression,12,0.0662154453872,0.032218746383
+residential,2024,actual,"linear, same inputs",12,0.0659017554979,0.0456419559567
+residential,2024,actual,gradient boosting,12,0.0518062991827,0.0269267299789
+residential,2024,normal,seasonal naive,12,0.0719960714065,0.0446034609505
+residential,2024,normal,weather regression,12,0.0714959179978,0.0313794149942
+residential,2024,normal,"linear, same inputs",12,0.0731915754469,0.0450339956134
+residential,2024,normal,gradient boosting,12,0.0549119705774,0.032005546199
+residential,2025,actual,seasonal naive,12,0.0644601546354,0.032156179389
+residential,2025,actual,weather regression,12,0.0664141622831,0.0497360297544
+residential,2025,actual,"linear, same inputs",12,0.0528633621237,0.0416888590215
+residential,2025,actual,gradient boosting,12,0.0394900242428,0.0177602957783
+residential,2025,normal,seasonal naive,12,0.0644601546354,0.032156179389
+residential,2025,normal,weather regression,12,0.0827293661466,0.0448832049555
+residential,2025,normal,"linear, same inputs",12,0.0641537954551,0.0387821013482
+residential,2025,normal,gradient boosting,12,0.0623243227372,0.0364684589963
+residential,2026,actual,seasonal naive,6,0.0459866465697,0.0419065795641
+residential,2026,actual,weather regression,6,0.0722948988375,0.0134488659702
+residential,2026,actual,"linear, same inputs",6,0.043895735708,-0.00104626540209
+residential,2026,actual,gradient boosting,6,0.0334549318637,0.00586992213579
+residential,2026,normal,seasonal naive,6,0.0459866465697,0.0419065795641
+residential,2026,normal,weather regression,6,0.109484229238,0.0658752551374
+residential,2026,normal,"linear, same inputs",6,0.0687798953933,0.0390311716817
+residential,2026,normal,gradient boosting,6,0.0837187085536,0.0702244254666
+commercial,2022,actual,seasonal naive,12,0.0547718424663,0.00824595886099
+commercial,2022,actual,weather regression,12,0.0507357072448,-0.023399806433
+commercial,2022,actual,"linear, same inputs",12,0.0517780088304,-0.0279526387026
+commercial,2022,actual,gradient boosting,12,0.0428885722489,0.0398788299877
+commercial,2022,normal,seasonal naive,12,0.0547718424663,0.00824595886099
+commercial,2022,normal,weather regression,12,0.0606671437789,-0.0380117809341
+commercial,2022,normal,"linear, same inputs",12,0.0662666137364,-0.0513284183289
+commercial,2022,normal,gradient boosting,12,0.0451106757263,0.0268939170305
+commercial,2023,actual,seasonal naive,12,0.0391422419845,0.00266688704022
+commercial,2023,actual,weather regression,12,0.0389931114344,-0.028787513357
+commercial,2023,actual,"linear, same inputs",12,0.0434086899928,-0.0277243208702
+commercial,2023,actual,gradient boosting,12,0.0327017202629,0.00687523164626
+commercial,2023,normal,seasonal naive,12,0.0391422419845,0.00266688704022
+commercial,2023,normal,weather regression,12,0.0407593983376,-0.0369964486781
+commercial,2023,normal,"linear, same inputs",12,0.0472349297302,-0.0370512366899
+commercial,2023,normal,gradient boosting,12,0.0431423690495,-0.00936156253883
+commercial,2024,actual,seasonal naive,12,0.03263612872,0.0227427295901
+commercial,2024,actual,weather regression,12,0.0239747010536,-0.014116904927
+commercial,2024,actual,"linear, same inputs",12,0.0198896163937,-0.00498217380143
+commercial,2024,actual,gradient boosting,12,0.0139505273487,0.0057310096573
+commercial,2024,normal,seasonal naive,12,0.03263612872,0.0227427295901
+commercial,2024,normal,weather regression,12,0.0235762718188,-0.0143693960282
+commercial,2024,normal,"linear, same inputs",12,0.0199069607078,-0.00529330096473
+commercial,2024,normal,gradient boosting,12,0.0329706652393,0.00830550893651
+commercial,2025,actual,seasonal naive,12,0.0339355719922,0.0162168625072
+commercial,2025,actual,weather regression,12,0.0400893345455,0.000629252510679
+commercial,2025,actual,"linear, same inputs",12,0.0423655804594,0.00664631442059
+commercial,2025,actual,gradient boosting,12,0.0331839049433,0.0212188036526
+commercial,2025,normal,seasonal naive,12,0.0339355719922,0.0162168625072
+commercial,2025,normal,weather regression,12,0.0383340055161,-0.00608942966642
+commercial,2025,normal,"linear, same inputs",12,0.0366981443971,0.00294722852614
+commercial,2025,normal,gradient boosting,12,0.0434208725822,0.0188181032023
+commercial,2026,actual,seasonal naive,6,0.0314473768908,0.0196431935496
+commercial,2026,actual,weather regression,6,0.0448914456457,-0.0122348843612
+commercial,2026,actual,"linear, same inputs",6,0.0353666827103,-0.0181261932606
+commercial,2026,actual,gradient boosting,6,0.0281063939388,-0.00864405504045
+commercial,2026,normal,seasonal naive,6,0.0314473768908,0.0196431935496
+commercial,2026,normal,weather regression,6,0.0451125727985,-0.00620172075741
+commercial,2026,normal,"linear, same inputs",6,0.0337533693761,-0.00570875382315
+commercial,2026,normal,gradient boosting,6,0.0203300547744,-0.00673223679171
+industrial,2022,actual,seasonal naive,12,0.104229868092,-0.104229868092
+industrial,2022,actual,"linear, same inputs",12,0.113190862049,-0.113190862049
+industrial,2022,actual,gradient boosting,12,0.0962823563239,-0.0869075952757
+industrial,2022,normal,seasonal naive,12,0.104229868092,-0.104229868092
+industrial,2022,normal,"linear, same inputs",12,0.112216867333,-0.112216867333
+industrial,2022,normal,gradient boosting,12,0.0956085636649,-0.0839950629783
+industrial,2023,actual,seasonal naive,12,0.109647487521,-0.10060267745
+industrial,2023,actual,"linear, same inputs",12,0.085537761073,-0.0697450593176
+industrial,2023,actual,gradient boosting,12,0.0793754802845,-0.0660109744807
+industrial,2023,normal,seasonal naive,12,0.109647487521,-0.10060267745
+industrial,2023,normal,"linear, same inputs",12,0.0865321567305,-0.0724519166584
+industrial,2023,normal,gradient boosting,12,0.0778134815617,-0.0628946344781
+industrial,2024,actual,seasonal naive,12,0.0769964962399,-0.0754093635647
+industrial,2024,actual,"linear, same inputs",12,0.0585844277787,-0.025147809602
+industrial,2024,actual,gradient boosting,12,0.0790469766576,-0.0542138329534
+industrial,2024,normal,seasonal naive,12,0.0769964962399,-0.0754093635647
+industrial,2024,normal,"linear, same inputs",12,0.0547836177657,-0.0250273255371
+industrial,2024,normal,gradient boosting,12,0.0833960251987,-0.0532621502283
+industrial,2025,actual,seasonal naive,12,0.14137104948,-0.14137104948
+industrial,2025,actual,"linear, same inputs",12,0.083477721558,-0.083477721558
+industrial,2025,actual,gradient boosting,12,0.106141331649,-0.106141331649
+industrial,2025,normal,seasonal naive,12,0.14137104948,-0.14137104948
+industrial,2025,normal,"linear, same inputs",12,0.0890799816741,-0.0890799816741
+industrial,2025,normal,gradient boosting,12,0.107188675771,-0.107188675771
+industrial,2026,actual,seasonal naive,6,0.100332157774,-0.100332157774
+industrial,2026,actual,"linear, same inputs",6,0.0404698170791,-0.0250680215707
+industrial,2026,actual,gradient boosting,6,0.0310706131307,0.00982284169875
+industrial,2026,normal,seasonal naive,6,0.100332157774,-0.100332157774
+industrial,2026,normal,"linear, same inputs",6,0.0456268406058,-0.0389025436651
+industrial,2026,normal,gradient boosting,6,0.0315256978739,0.00920230164958

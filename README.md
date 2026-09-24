@@ -1,7 +1,7 @@
 # Finance decision models in Excel and Power BI
 
 [![CI](https://github.com/KushPatel29/excel-fpa-model/actions/workflows/ci.yml/badge.svg)](https://github.com/KushPatel29/excel-fpa-model/actions/workflows/ci.yml)
-![Tests](https://img.shields.io/badge/tests-1%2C211%20collected-3B8C6E)
+![Tests](https://img.shields.io/badge/tests-1%2C218%20collected-3B8C6E)
 ![Excel](https://img.shields.io/badge/Excel-Power%20Query%20%C2%B7%20Power%20Pivot%20%C2%B7%20DAX-217346?logo=microsoftexcel&logoColor=white)
 ![Power BI](https://img.shields.io/badge/Power%20BI-PBIP%20%C2%B7%20TMDL%20%C2%B7%207%20pages-F2C811?logo=powerbi&logoColor=black)
 ![Checks](https://img.shields.io/badge/in--workbook%20checks-31%20of%2031%20pass-1E7B34)
@@ -32,7 +32,7 @@ The same analysis is also a seven-page **Power BI report** (a PBIP project with 
 It reads tables written by that same reference model, and a test reads the workbook's own cells
 against them, so the two cannot publish different numbers. The repository also preserves the
 synthetic Kestrel Bay distributor workbook and adds a real-data B.C. local-government finance
-model. 1,211 tests in all.
+model. 1,218 tests in all.
 
 **[Download the workbook](workbook/PGE_Utility_FPA_Model.xlsx)** (Microsoft 365 Excel) ·
 **[Board pack PDF](docs/board_pack.pdf)** (13 pages, exported by Excel) ·
@@ -93,6 +93,35 @@ year-ends (one Excel data table over the plan year), gave these results:
 
 Volume is forecastable from history within about 4%. Price is not, because it moves with rate
 cases. A real plan should take price from the rate-case calendar, not from trend.
+
+**7. Machine learning helps where weather drives the load, and only a little.**
+[`model/forecast_ml.py`](model/forecast_ml.py) asks whether gradient boosting (scikit-learn)
+forecasts monthly load better than the workbook's `LINEST` regression.
+- **The test.** An expanding-window backtest over 2022–2026, each year forecast only from the
+  months before it. A test fails if a test month is ever trained on.
+- **The contenders.** A seasonal-naive baseline, the workbook's regression, and a linear model
+  given the same inputs as the boosted one, so the comparison is about the learner.
+- **Two conditions.** Each model is scored with the weather that happened, and with normal
+  weather, which is what a December plan actually knows.
+
+Monthly error (WAPE) over the five years:
+
+| Class | Weather | Gradient boosting | Weather regression | Linear, same inputs | Seasonal naive |
+|---|---|---:|---:|---:|---:|
+| Residential | as it happened | **4.1%** | 6.1% | 5.5% | 6.4% |
+| Residential | normal (a plan's view) | **5.7%** | 6.8% | 6.0% | 6.4% |
+| Commercial | normal | **3.9%** | 4.1% | 4.2% | 3.9% |
+| Industrial | normal | 8.4% | – | **8.1%** | 10.7% |
+
+- **Residential:** boosting cuts the error by about a third when the weather is known. Once the
+  weather has to be assumed, that shrinks to about a sixth, because the forecast's biggest unknown
+  is the weather, not the model.
+- **Commercial:** boosting ties the seasonal baseline.
+- **Industrial:** a plain linear model does as well as boosting. Industrial load is not
+  weather-driven, and trend and last year carry it.
+- **Intervals:** split-conformal 80% intervals, calibrated each year on the previous year's
+  out-of-sample errors, covered 97% of months. They are safe but wide (about ±15% for
+  residential), because twelve calibration points a year cannot make them tighter.
 
 The Dashboard writes points 1 to 5 itself. The summary is a set of formulas (`LET`, named `MONEY`
 and `SIGNMONEY` LAMBDAs), so changing the scenario or the as-of month rewrites the sentences. A
@@ -353,7 +382,7 @@ model/export_tables.py       the reference model's output as tables for Power BI
 examples/kestrel-bay/        the earlier synthetic-distributor workbook (code at tag kestrel-bay-v1)
 tables/                      those tables, committed
 powerbi/                     the PBIP generator, its model and report specs, and the project
-tests/                       1,211 collected tests: workbook tie-out and features, data, Power BI model,
+tests/                       1,218 collected tests: workbook tie-out and features, data, Power BI model,
                              report and cross-surface tie-out, badge
 ```
 
