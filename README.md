@@ -1,11 +1,11 @@
 # Finance decision models in Excel and Power BI
 
 [![CI](https://github.com/KushPatel29/excel-fpa-model/actions/workflows/ci.yml/badge.svg)](https://github.com/KushPatel29/excel-fpa-model/actions/workflows/ci.yml)
-![Tests](https://img.shields.io/badge/tests-1%2C218%20collected-3B8C6E)
+![Tests](https://img.shields.io/badge/tests-1%2C190%20collected-3B8C6E)
 ![Excel](https://img.shields.io/badge/Excel-Power%20Query%20%C2%B7%20Power%20Pivot%20%C2%B7%20DAX-217346?logo=microsoftexcel&logoColor=white)
 ![Power BI](https://img.shields.io/badge/Power%20BI-PBIP%20%C2%B7%20TMDL%20%C2%B7%207%20pages-F2C811?logo=powerbi&logoColor=black)
 ![Checks](https://img.shields.io/badge/in--workbook%20checks-31%20of%2031%20pass-1E7B34)
-![Data](https://img.shields.io/badge/data-EIA%20%C2%B7%20FERC%20%C2%B7%20NOAA%20%C2%B7%20B.C.-1F3A5F)
+![Data](https://img.shields.io/badge/data-EIA%20%C2%B7%20FERC%20%C2%B7%20NOAA-1F3A5F)
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
 
 The flagship is an FP&A workbook for Oregon's largest electric utility, built from the filings a real
@@ -31,13 +31,13 @@ independent pandas model holds the saved workbook to the cent.
 The same analysis is also a seven-page **Power BI report** (a PBIP project with a TMDL model).
 It reads tables written by that same reference model, and a test reads the workbook's own cells
 against them, so the two cannot publish different numbers. The repository also preserves the
-synthetic Kestrel Bay distributor workbook and adds a real-data B.C. local-government finance
-model. 1,218 tests in all.
+synthetic Kestrel Bay distributor workbook. 1,190 tests in all. The B.C. local-government
+finance model that briefly lived here now has
+[its own repository](https://github.com/KushPatel29/bc-local-government-finance).
 
 **[Download the workbook](workbook/PGE_Utility_FPA_Model.xlsx)** (Microsoft 365 Excel) ·
 **[Board pack PDF](docs/board_pack.pdf)** (13 pages, exported by Excel) ·
-**[Power BI project](powerbi/pbip/)** ([how to open it](powerbi/pbip/OPEN_ME_FIRST.md)) ·
-**[B.C. local-government model](examples/bc-local-government/BC_Local_Government_Finance_Model.xlsx)**
+**[Power BI project](powerbi/pbip/)** ([how to open it](powerbi/pbip/OPEN_ME_FIRST.md))
 
 > Independent analysis of public regulatory data. Not affiliated with or endorsed by Portland
 > General Electric.
@@ -217,15 +217,9 @@ here pins the kept workbook to the tagged, tested file.
 
 [![Kestrel Bay dashboard: revenue ahead of budget, EBITDA behind, the bridge and the scenarios](examples/kestrel-bay/img/dashboard.png)](examples/kestrel-bay/)
 
-[`examples/bc-local-government/`](examples/bc-local-government/) adds a public-sector finance
-model built from 66 official Province of British Columbia workbooks across 11 schedules and six
-years. Select any of 161 municipalities to review the history, compare it with a transparent peer
-group, and run a five-year Base, Upside or Downside operating, capital, debt and reserves plan.
-The normalized layer handles source-header drift, municipal renames, Mission's type change and
-Jumbo Glacier's dissolution. Twenty-eight automated checks hold the source contracts, accounting
-identities, asset roll-up, workbook structure and scenario surfaces in place.
-
-[![B.C. local-government dashboard: peer benchmark and six-year trends](examples/bc-local-government/img/dashboard.png)](examples/bc-local-government/)
+The B.C. local-government finance model has moved to its own repository,
+[bc-local-government-finance](https://github.com/KushPatel29/bc-local-government-finance), with a
+contracted pipeline, a dbt project and 181 tests.
 
 ## The data
 
@@ -382,7 +376,7 @@ model/export_tables.py       the reference model's output as tables for Power BI
 examples/kestrel-bay/        the earlier synthetic-distributor workbook (code at tag kestrel-bay-v1)
 tables/                      those tables, committed
 powerbi/                     the PBIP generator, its model and report specs, and the project
-tests/                       1,218 collected tests: workbook tie-out and features, data, Power BI model,
+tests/                       1,190 collected tests: workbook tie-out and features, data, Power BI model,
                              report and cross-surface tie-out, badge
 ```
 
