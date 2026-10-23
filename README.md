@@ -1,7 +1,7 @@
 # Finance decision models in Excel and Power BI
 
 [![CI](https://github.com/KushPatel29/excel-fpa-model/actions/workflows/ci.yml/badge.svg)](https://github.com/KushPatel29/excel-fpa-model/actions/workflows/ci.yml)
-![Tests](https://img.shields.io/badge/tests-1%2C263%20collected-3B8C6E)
+![Tests](https://img.shields.io/badge/tests-1%2C313%20collected-3B8C6E)
 ![Excel](https://img.shields.io/badge/Excel-Power%20Query%20%C2%B7%20Power%20Pivot%20%C2%B7%20DAX-217346?logo=microsoftexcel&logoColor=white)
 ![Power BI](https://img.shields.io/badge/Power%20BI-PBIP%20%C2%B7%20TMDL%20%C2%B7%207%20pages-F2C811?logo=powerbi&logoColor=black)
 ![Checks](https://img.shields.io/badge/in--workbook%20checks-31%20of%2031%20pass-1E7B34)
@@ -33,7 +33,8 @@ It reads tables written by that same reference model, and a test reads the workb
 against them, so the two cannot publish different numbers. The repository also preserves the
 synthetic Kestrel Bay distributor workbook, and takes Kestrel Bay through its
 [FY2027 budget cycle](budget_cycle/): top-down targets, bottom-up submissions, a challenge round,
-three linked monthly statements and a 3+9 reforecast. 1,263 tests in all. The B.C. local-government
+three linked monthly statements and a 3+9 reforecast. A [DCF valuation of lululemon](valuation/)
+works from its SEC filings, every figure traced to the 10-K it came from. 1,313 tests in all. The B.C. local-government
 finance model that briefly lived here now has
 [its own repository](https://github.com/KushPatel29/bc-local-government-finance).
 
@@ -223,6 +224,17 @@ The B.C. local-government finance model has moved to its own repository,
 [bc-local-government-finance](https://github.com/KushPatel29/bc-local-government-finance), with a
 contracted pipeline, a dbt project and 181 tests.
 
+## A DCF valuation from SEC filings
+
+[`valuation/`](valuation/) values lululemon athletica (Vancouver) as of the day it filed its FY2025
+10-K. Five years of figures come from SEC EDGAR's XBRL data, each with the accession number of its
+10-K; the 10-year Treasury, Damodaran's January 2026 apparel beta and US equity risk premium name
+their sources; bear, base and bull cases state their stories. The base case is **$278 a share**
+(bear $171, bull $369) at a 7.72% cost of equity, 79% of it terminal value at an implied 9.9x
+FY2030 EBITDA, and $189 to $435 across the WACC-by-growth grid. Every output is a formula, and 50
+tests hold the workbook to a Python twin and to the filings' own arithmetic.
+[Read the valuation](valuation/README.md) · [download the workbook](valuation/Lululemon_DCF_FY2025.xlsx).
+
 ## The data
 
 | Source | What | Licence |
@@ -378,8 +390,10 @@ model/export_tables.py       the reference model's output as tables for Power BI
 examples/kestrel-bay/        the earlier synthetic-distributor workbook (code at tag kestrel-bay-v1)
 tables/                      those tables, committed
 powerbi/                     the PBIP generator, its model and report specs, and the project
-tests/                       1,190 collected tests: workbook tie-out and features, data, Power BI model,
-                             report and cross-surface tie-out, badge
+budget_cycle/                the Kestrel Bay FY2027 budget cycle: extract, pandas twin, workbook builder
+valuation/                   the lululemon DCF: EDGAR facts, market inputs, twin, workbook builder
+tests/                       1,313 collected tests: workbook tie-out and features, data, Power BI model,
+                             report and cross-surface tie-out, the budget cycle, the DCF, badge
 ```
 
 ## Limits

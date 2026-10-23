@@ -1,0 +1,761 @@
+{
+ "company": "lululemon athletica inc.",
+ "cik": "0001397187",
+ "source": "SEC EDGAR XBRL company facts, https://data.sec.gov/api/xbrl/companyfacts/CIK0001397187.json",
+ "retrieved": "2026-10-24",
+ "rule": "For each fiscal year end, the value as presented in the latest 10-K that reports that period (so a recast comparative wins over the original); durations of 350 to 380 days only. The accession number is the filing the value was taken from.",
+ "fiscal_years": {
+  "FY2021": "2022-01-30",
+  "FY2022": "2023-01-29",
+  "FY2023": "2024-01-28",
+  "FY2024": "2025-02-02",
+  "FY2025": "2026-02-01"
+ },
+ "transcription_check": "SHA-256 b716a209\u2026fed78 over the compact JSON of these facts, identical in the browser that read EDGAR and in this file",
+ "facts": {
+  "revenue": {
+   "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+   "unit": "USD",
+   "values": {
+    "FY2021": {
+     "value": 6256617000,
+     "accession": "0001397187-24-000010",
+     "filed": "2024-03-21"
+    },
+    "FY2022": {
+     "value": 8110518000,
+     "accession": "0001397187-25-000013",
+     "filed": "2025-03-27"
+    },
+    "FY2023": {
+     "value": 9619278000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2024": {
+     "value": 10588126000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2025": {
+     "value": 11102600000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    }
+   }
+  },
+  "cost_of_goods_sold": {
+   "tag": "CostOfGoodsAndServicesSold",
+   "unit": "USD",
+   "values": {
+    "FY2021": {
+     "value": 2648052000,
+     "accession": "0001397187-24-000010",
+     "filed": "2024-03-21"
+    },
+    "FY2022": {
+     "value": 3618178000,
+     "accession": "0001397187-25-000013",
+     "filed": "2025-03-27"
+    },
+    "FY2023": {
+     "value": 4009873000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2024": {
+     "value": 4317315000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2025": {
+     "value": 4818468000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    }
+   }
+  },
+  "gross_profit": {
+   "tag": "GrossProfit",
+   "unit": "USD",
+   "values": {
+    "FY2021": {
+     "value": 3608565000,
+     "accession": "0001397187-24-000010",
+     "filed": "2024-03-21"
+    },
+    "FY2022": {
+     "value": 4492340000,
+     "accession": "0001397187-25-000013",
+     "filed": "2025-03-27"
+    },
+    "FY2023": {
+     "value": 5609405000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2024": {
+     "value": 6270811000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2025": {
+     "value": 6284132000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    }
+   }
+  },
+  "sga": {
+   "tag": "SellingGeneralAndAdministrativeExpense",
+   "unit": "USD",
+   "values": {
+    "FY2021": {
+     "value": 2225034000,
+     "accession": "0001397187-24-000010",
+     "filed": "2024-03-21"
+    },
+    "FY2022": {
+     "value": 2757447000,
+     "accession": "0001397187-25-000013",
+     "filed": "2025-03-27"
+    },
+    "FY2023": {
+     "value": 3397218000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2024": {
+     "value": 3762379000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2025": {
+     "value": 4066556000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    }
+   }
+  },
+  "impairment_and_restructuring": {
+   "tag": "RestructuringCostsAndAssetImpairmentCharges",
+   "unit": "USD",
+   "values": {
+    "FY2021": {
+     "value": 0,
+     "accession": "0001397187-24-000010",
+     "filed": "2024-03-21"
+    },
+    "FY2022": {
+     "value": 407913000,
+     "accession": "0001397187-25-000013",
+     "filed": "2025-03-27"
+    },
+    "FY2023": {
+     "value": 74501000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2024": {
+     "value": 0,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2025": {
+     "value": 0,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    }
+   }
+  },
+  "operating_income": {
+   "tag": "OperatingIncomeLoss",
+   "unit": "USD",
+   "values": {
+    "FY2021": {
+     "value": 1333355000,
+     "accession": "0001397187-24-000010",
+     "filed": "2024-03-21"
+    },
+    "FY2022": {
+     "value": 1328408000,
+     "accession": "0001397187-25-000013",
+     "filed": "2025-03-27"
+    },
+    "FY2023": {
+     "value": 2132676000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2024": {
+     "value": 2505697000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2025": {
+     "value": 2210615000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    }
+   }
+  },
+  "pretax_income": {
+   "tag": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+   "unit": "USD",
+   "values": {
+    "FY2021": {
+     "value": 1333869000,
+     "accession": "0001397187-24-000010",
+     "filed": "2024-03-21"
+    },
+    "FY2022": {
+     "value": 1332571000,
+     "accession": "0001397187-25-000013",
+     "filed": "2025-03-27"
+    },
+    "FY2023": {
+     "value": 2175735000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2024": {
+     "value": 2576077000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2025": {
+     "value": 2238967000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    }
+   }
+  },
+  "income_tax": {
+   "tag": "IncomeTaxExpenseBenefit",
+   "unit": "USD",
+   "values": {
+    "FY2021": {
+     "value": 358547000,
+     "accession": "0001397187-24-000010",
+     "filed": "2024-03-21"
+    },
+    "FY2022": {
+     "value": 477771000,
+     "accession": "0001397187-25-000013",
+     "filed": "2025-03-27"
+    },
+    "FY2023": {
+     "value": 625545000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2024": {
+     "value": 761461000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2025": {
+     "value": 659784000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    }
+   }
+  },
+  "net_income": {
+   "tag": "NetIncomeLoss",
+   "unit": "USD",
+   "values": {
+    "FY2021": {
+     "value": 975322000,
+     "accession": "0001397187-24-000010",
+     "filed": "2024-03-21"
+    },
+    "FY2022": {
+     "value": 854800000,
+     "accession": "0001397187-25-000013",
+     "filed": "2025-03-27"
+    },
+    "FY2023": {
+     "value": 1550190000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2024": {
+     "value": 1814616000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2025": {
+     "value": 1579183000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    }
+   }
+  },
+  "depreciation_and_amortization": {
+   "tag": "DepreciationDepletionAndAmortization",
+   "unit": "USD",
+   "values": {
+    "FY2021": {
+     "value": 224206000,
+     "accession": "0001397187-24-000010",
+     "filed": "2024-03-21"
+    },
+    "FY2022": {
+     "value": 291791000,
+     "accession": "0001397187-25-000013",
+     "filed": "2025-03-27"
+    },
+    "FY2023": {
+     "value": 379384000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2024": {
+     "value": 446524000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2025": {
+     "value": 496228000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    }
+   }
+  },
+  "share_based_compensation": {
+   "tag": "ShareBasedCompensation",
+   "unit": "USD",
+   "values": {
+    "FY2021": {
+     "value": 69137000,
+     "accession": "0001397187-24-000010",
+     "filed": "2024-03-21"
+    },
+    "FY2022": {
+     "value": 78075000,
+     "accession": "0001397187-25-000013",
+     "filed": "2025-03-27"
+    },
+    "FY2023": {
+     "value": 93560000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2024": {
+     "value": 90011000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2025": {
+     "value": 62203000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    }
+   }
+  },
+  "cash_from_operations": {
+   "tag": "NetCashProvidedByUsedInOperatingActivities",
+   "unit": "USD",
+   "values": {
+    "FY2021": {
+     "value": 1389108000,
+     "accession": "0001397187-24-000010",
+     "filed": "2024-03-21"
+    },
+    "FY2022": {
+     "value": 966463000,
+     "accession": "0001397187-25-000013",
+     "filed": "2025-03-27"
+    },
+    "FY2023": {
+     "value": 2296164000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2024": {
+     "value": 2272713000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2025": {
+     "value": 1602477000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    }
+   }
+  },
+  "capital_expenditure": {
+   "tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+   "unit": "USD",
+   "values": {
+    "FY2021": {
+     "value": 394502000,
+     "accession": "0001397187-24-000010",
+     "filed": "2024-03-21"
+    },
+    "FY2022": {
+     "value": 638657000,
+     "accession": "0001397187-25-000013",
+     "filed": "2025-03-27"
+    },
+    "FY2023": {
+     "value": 651865000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2024": {
+     "value": 689232000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2025": {
+     "value": 680802000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    }
+   }
+  },
+  "share_repurchases": {
+   "tag": "PaymentsForRepurchaseOfCommonStock",
+   "unit": "USD",
+   "values": {
+    "FY2021": {
+     "value": 812602000,
+     "accession": "0001397187-24-000010",
+     "filed": "2024-03-21"
+    },
+    "FY2022": {
+     "value": 444001000,
+     "accession": "0001397187-25-000013",
+     "filed": "2025-03-27"
+    },
+    "FY2023": {
+     "value": 558652000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2024": {
+     "value": 1636879000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2025": {
+     "value": 1178349000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    }
+   }
+  },
+  "diluted_shares": {
+   "tag": "WeightedAverageNumberOfDilutedSharesOutstanding",
+   "unit": "shares",
+   "values": {
+    "FY2021": {
+     "value": 130295000,
+     "accession": "0001397187-24-000010",
+     "filed": "2024-03-21"
+    },
+    "FY2022": {
+     "value": 128017000,
+     "accession": "0001397187-25-000013",
+     "filed": "2025-03-27"
+    },
+    "FY2023": {
+     "value": 127060000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2024": {
+     "value": 123935000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2025": {
+     "value": 119068000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    }
+   }
+  },
+  "cash": {
+   "tag": "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents",
+   "unit": "USD",
+   "values": {
+    "FY2021": {
+     "value": 1259871000,
+     "accession": "0001397187-25-000013",
+     "filed": "2025-03-27"
+    },
+    "FY2022": {
+     "value": 1154867000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2023": {
+     "value": 2243971000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2024": {
+     "value": 1984336000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2025": {
+     "value": 1807202000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    }
+   }
+  },
+  "receivables": {
+   "tag": "ReceivablesNetCurrent",
+   "unit": "USD",
+   "values": {
+    "FY2021": {
+     "value": 77001000,
+     "accession": "0001397187-23-000012",
+     "filed": "2023-03-28"
+    },
+    "FY2022": {
+     "value": 132906000,
+     "accession": "0001397187-24-000010",
+     "filed": "2024-03-21"
+    },
+    "FY2023": {
+     "value": 124769000,
+     "accession": "0001397187-25-000013",
+     "filed": "2025-03-27"
+    },
+    "FY2024": {
+     "value": 120173000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2025": {
+     "value": 190657000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    }
+   }
+  },
+  "inventory": {
+   "tag": "InventoryNet",
+   "unit": "USD",
+   "values": {
+    "FY2021": {
+     "value": 966481000,
+     "accession": "0001397187-23-000012",
+     "filed": "2023-03-28"
+    },
+    "FY2022": {
+     "value": 1447367000,
+     "accession": "0001397187-24-000010",
+     "filed": "2024-03-21"
+    },
+    "FY2023": {
+     "value": 1323602000,
+     "accession": "0001397187-25-000013",
+     "filed": "2025-03-27"
+    },
+    "FY2024": {
+     "value": 1442081000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2025": {
+     "value": 1700753000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    }
+   }
+  },
+  "prepaid_and_other_current": {
+   "tag": "PrepaidExpenseAndOtherAssetsCurrent",
+   "unit": "USD",
+   "values": {
+    "FY2021": {
+     "value": 192572000,
+     "accession": "0001397187-23-000012",
+     "filed": "2023-03-28"
+    },
+    "FY2022": {
+     "value": 238672000,
+     "accession": "0001397187-24-000010",
+     "filed": "2024-03-21"
+    },
+    "FY2023": {
+     "value": 184502000,
+     "accession": "0001397187-25-000013",
+     "filed": "2025-03-27"
+    },
+    "FY2024": {
+     "value": 251459000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2025": {
+     "value": 211620000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    }
+   }
+  },
+  "accounts_payable": {
+   "tag": "AccountsPayableCurrent",
+   "unit": "USD",
+   "values": {
+    "FY2021": {
+     "value": 289728000,
+     "accession": "0001397187-23-000012",
+     "filed": "2023-03-28"
+    },
+    "FY2022": {
+     "value": 172732000,
+     "accession": "0001397187-24-000010",
+     "filed": "2024-03-21"
+    },
+    "FY2023": {
+     "value": 348441000,
+     "accession": "0001397187-25-000013",
+     "filed": "2025-03-27"
+    },
+    "FY2024": {
+     "value": 271406000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2025": {
+     "value": 331421000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    }
+   }
+  },
+  "accrued_liabilities": {
+   "tag": "AccruedLiabilitiesCurrent",
+   "unit": "USD",
+   "values": {
+    "FY2021": {
+     "value": 330800000,
+     "accession": "0001397187-23-000012",
+     "filed": "2023-03-28"
+    },
+    "FY2022": {
+     "value": 399223000,
+     "accession": "0001397187-24-000010",
+     "filed": "2024-03-21"
+    },
+    "FY2023": {
+     "value": 348555000,
+     "accession": "0001397187-25-000013",
+     "filed": "2025-03-27"
+    },
+    "FY2024": {
+     "value": 559463000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2025": {
+     "value": 662982000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    }
+   }
+  },
+  "income_taxes_payable": {
+   "tag": "AccruedIncomeTaxesCurrent",
+   "unit": "USD",
+   "values": {
+    "FY2021": {
+     "value": 133852000,
+     "accession": "0001397187-23-000012",
+     "filed": "2023-03-28"
+    },
+    "FY2022": {
+     "value": 174221000,
+     "accession": "0001397187-24-000010",
+     "filed": "2024-03-21"
+    },
+    "FY2023": {
+     "value": 12098000,
+     "accession": "0001397187-25-000013",
+     "filed": "2025-03-27"
+    },
+    "FY2024": {
+     "value": 183126000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2025": {
+     "value": 43948000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    }
+   }
+  },
+  "lease_liabilities_current": {
+   "tag": "OperatingLeaseLiabilityCurrent",
+   "unit": "USD",
+   "values": {
+    "FY2021": {
+     "value": 188996000,
+     "accession": "0001397187-23-000012",
+     "filed": "2023-03-28"
+    },
+    "FY2022": {
+     "value": 207972000,
+     "accession": "0001397187-24-000010",
+     "filed": "2024-03-21"
+    },
+    "FY2023": {
+     "value": 249270000,
+     "accession": "0001397187-25-000013",
+     "filed": "2025-03-27"
+    },
+    "FY2024": {
+     "value": 275154000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2025": {
+     "value": 298724000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    }
+   }
+  },
+  "lease_liabilities_noncurrent": {
+   "tag": "OperatingLeaseLiabilityNoncurrent",
+   "unit": "USD",
+   "values": {
+    "FY2021": {
+     "value": 692056000,
+     "accession": "0001397187-23-000012",
+     "filed": "2023-03-28"
+    },
+    "FY2022": {
+     "value": 862362000,
+     "accession": "0001397187-24-000010",
+     "filed": "2024-03-21"
+    },
+    "FY2023": {
+     "value": 1154012000,
+     "accession": "0001397187-25-000013",
+     "filed": "2025-03-27"
+    },
+    "FY2024": {
+     "value": 1300637000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    },
+    "FY2025": {
+     "value": 1499717000,
+     "accession": "0001397187-26-000020",
+     "filed": "2026-03-17"
+    }
+   }
+  }
+ }
+}

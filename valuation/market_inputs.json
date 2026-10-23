@@ -1,0 +1,35 @@
+{
+ "valuation_date": "2026-03-17",
+ "why_that_date": "the day lululemon filed its FY2025 10-K (accession 0001397187-26-000020): the first day the market had the full year",
+ "risk_free_rate": {
+  "value": 0.042,
+  "what": "10-year US Treasury par yield, 17 March 2026",
+  "source": "U.S. Department of the Treasury, Daily Treasury Par Yield Curve Rates, March 2026 (home.treasury.gov)"
+ },
+ "equity_risk_premium": {
+  "value": 0.0446,
+  "what": "implied equity risk premium for the United States, January 2026",
+  "source": "Aswath Damodaran, Country Default Spreads and Risk Premiums, January 2026 (pages.stern.nyu.edu/~adamodar, ctryprem.html)"
+ },
+ "beta": {
+  "value": 0.79,
+  "what": "Apparel industry (US, 35 firms), unlevered beta corrected for cash, January 2026",
+  "alternative": {
+   "value": 1.0,
+   "what": "Retail (Special Lines), the same measure, for the sensitivity"
+  },
+  "source": "Aswath Damodaran, Betas by Sector (US), January 2026 (pages.stern.nyu.edu/~adamodar, Betas.html)"
+ },
+ "debt": {
+  "value": 0,
+  "what": "no borrowings at FY2025 year end (OtherBorrowings 0; the revolving facility undrawn)",
+  "source": "FY2025 10-K, accession 0001397187-26-000020"
+ },
+ "shares": {
+  "common": 110482671,
+  "exchangeable": 5115961,
+  "as_of": "2026-03-11",
+  "what": "common stock plus exchangeable shares of Lulu Canadian Holding, which convert one for one",
+  "source": "FY2025 10-K cover page, accession 0001397187-26-000020"
+ }
+}

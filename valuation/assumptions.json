@@ -1,0 +1,119 @@
+{
+ "explicit_years": [
+  "FY2026",
+  "FY2027",
+  "FY2028",
+  "FY2029",
+  "FY2030"
+ ],
+ "first_forecast_midpoint": "2026-08-02",
+ "tax_rate_note": "FY2024 and FY2025 effective rates were 29.6% and 29.5%",
+ "scenarios": {
+  "bear": {
+   "revenue_growth": [
+    -0.01,
+    0.01,
+    0.02,
+    0.03,
+    0.03
+   ],
+   "ebit_margin": [
+    0.16,
+    0.155,
+    0.155,
+    0.155,
+    0.155
+   ],
+   "capex_pct": [
+    0.06,
+    0.06,
+    0.06,
+    0.06,
+    0.06
+   ],
+   "da_pct": 0.045,
+   "nwc_pct": 0.1,
+   "tax_rate": 0.295,
+   "terminal_growth": 0.02,
+   "terminal_return_on_new_capital": 0.12,
+   "story": "the margin reset of FY2025 keeps going: markdowns and tariffs take another 50 bps, growth stalls in the Americas"
+  },
+  "base": {
+   "revenue_growth": [
+    0.03,
+    0.05,
+    0.06,
+    0.06,
+    0.05
+   ],
+   "ebit_margin": [
+    0.185,
+    0.19,
+    0.195,
+    0.2,
+    0.2
+   ],
+   "capex_pct": [
+    0.06,
+    0.06,
+    0.0575,
+    0.055,
+    0.055
+   ],
+   "da_pct": 0.045,
+   "nwc_pct": 0.09,
+   "tax_rate": 0.295,
+   "terminal_growth": 0.025,
+   "terminal_return_on_new_capital": 0.2,
+   "story": "FY2025's 4.9% growth and 19.9% operating margin hold roughly where they are: growth recovers to mid-single digits on international stores, the margin climbs back to 20%"
+  },
+  "bull": {
+   "revenue_growth": [
+    0.06,
+    0.08,
+    0.09,
+    0.08,
+    0.07
+   ],
+   "ebit_margin": [
+    0.2,
+    0.21,
+    0.215,
+    0.22,
+    0.22
+   ],
+   "capex_pct": [
+    0.06,
+    0.06,
+    0.0575,
+    0.055,
+    0.055
+   ],
+   "da_pct": 0.045,
+   "nwc_pct": 0.085,
+   "tax_rate": 0.295,
+   "terminal_growth": 0.03,
+   "terminal_return_on_new_capital": 0.25,
+   "story": "international keeps compounding and the margin recovers most of the way to FY2024's 23.7%"
+  }
+ },
+ "sensitivity": {
+  "wacc": [
+   0.065,
+   0.07,
+   0.075,
+   0.08,
+   0.085,
+   0.09,
+   0.095,
+   0.1
+  ],
+  "terminal_growth": [
+   0.015,
+   0.02,
+   0.025,
+   0.03,
+   0.035
+  ]
+ }
+}
