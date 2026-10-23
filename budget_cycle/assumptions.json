@@ -1,0 +1,39 @@
+{
+  "fiscal_year": 2027,
+  "targets": {"revenue_growth": 0.06, "ebitda_margin": 0.06},
+  "categories": ["Beef", "Pork", "Poultry", "Seafood", "Charcuterie", "Cheese & Dairy"],
+  "channels": ["Restaurants", "Grocery Retail", "Hotels & Institutions", "Online Direct"],
+  "departments": ["Sales & Marketing", "Warehouse & Logistics", "General & Admin", "Technology"],
+  "v1_submissions": {
+    "volume_growth": {"Restaurants": 0.02, "Grocery Retail": 0.09, "Hotels & Institutions": 0.01, "Online Direct": 0.18},
+    "price_increase": {"Beef": 0.04, "Pork": 0.025, "Poultry": 0.02, "Seafood": 0.03, "Charcuterie": 0.02, "Cheese & Dairy": 0.015},
+    "price_effective_month": 2,
+    "cost_inflation": {"Beef": 0.06, "Pork": 0.03, "Poultry": 0.025, "Seafood": 0.035, "Charcuterie": 0.02, "Cheese & Dairy": 0.02},
+    "freight_inflation": 0.04,
+    "opex_growth": {"Sales & Marketing": 0.05, "Warehouse & Logistics": 0.06, "General & Admin": 0.03, "Technology": 0.08},
+    "hires": [
+      {"dept": "Sales & Marketing", "fte": 1, "annual_cost": 95000, "start_month": 4},
+      {"dept": "Warehouse & Logistics", "fte": 2, "annual_cost": 68000, "start_month": 3}
+    ]
+  },
+  "v2_challenge": {
+    "foodservice_channels": ["Restaurants", "Hotels & Institutions"],
+    "foodservice_extra_price": {"Beef": 0.015, "Seafood": 0.015},
+    "hire_start_month": {"Sales & Marketing": 7},
+    "opex_growth_cap": {"Technology": 0.05},
+    "opex_base_cut": {"Warehouse & Logistics": 0.03}
+  },
+  "balance_sheet": {
+    "opening_cash": 500000, "minimum_cash": 400000, "opening_revolver": 1200000, "revolver_rate": 0.072,
+    "opening_ppe": 2400000, "existing_da_per_month": 38000, "useful_life_months": 60, "tax_rate": 0.27,
+    "dso": 34, "dio": 17, "dpo": 31,
+    "capex": {"3": 250000, "6": 150000, "9": 200000}
+  },
+  "q1_actuals": {
+    "volume": {"Grocery Retail": 0.06, "Restaurants": -0.04},
+    "unit_cost": {"Beef": 0.03},
+    "opex": {"Warehouse & Logistics": 0.05},
+    "noise_sd": 0.01,
+    "seed": 2027
+  }
+}

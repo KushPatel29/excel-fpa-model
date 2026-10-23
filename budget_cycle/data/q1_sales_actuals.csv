@@ -1,0 +1,73 @@
+month,category,channel,cases,revenue,cogs,freight
+1,Beef,Restaurants,2113.9,414351.28,343878.6,5757.1
+2,Beef,Restaurants,2073.6,430449.14,337875.04,5647.46
+3,Beef,Restaurants,2259.5,466595.31,367982.65,6153.82
+1,Beef,Grocery Retail,1891.3,322683.7,309919.83,5136.58
+2,Beef,Grocery Retail,1913.3,340066.07,311115.01,5196.32
+3,Beef,Grocery Retail,2067.9,366073.23,337965.49,5616.12
+1,Beef,Hotels & Institutions,884.2,164570.7,144224.28,2409.98
+2,Beef,Hotels & Institutions,899.6,178060.91,146323.69,2452.04
+3,Beef,Hotels & Institutions,955.3,186970.42,156093.91,2603.85
+1,Beef,Online Direct,464.0,102558.65,76594.94,5357.42
+2,Beef,Online Direct,471.1,108010.93,77387.49,5439.18
+3,Beef,Online Direct,494.6,113985.42,80911.84,5709.83
+1,Pork,Restaurants,2088.8,257391.01,187409.43,5659.89
+2,Pork,Restaurants,2012.1,255183.1,179676.08,5452.07
+3,Pork,Restaurants,2104.6,264810.65,188337.25,5702.78
+1,Pork,Grocery Retail,1897.1,203052.8,167325.68,5151.78
+2,Pork,Grocery Retail,1779.7,195636.16,158142.62,4832.76
+3,Pork,Grocery Retail,1870.4,205202.48,165627.49,5079.06
+1,Pork,Hotels & Institutions,888.2,103934.03,78295.64,2411.87
+2,Pork,Hotels & Institutions,838.4,100175.32,74331.56,2276.64
+3,Pork,Hotels & Institutions,882.0,106053.22,78330.09,2395.09
+1,Pork,Online Direct,455.8,63046.8,40674.94,5275.89
+2,Pork,Online Direct,440.1,62116.01,39119.7,5094.93
+3,Pork,Online Direct,457.2,64769.05,40471.47,5292.12
+1,Poultry,Restaurants,3022.3,329038.23,242057.84,8225.8
+2,Poultry,Restaurants,3029.9,336431.97,243481.94,8246.48
+3,Poultry,Restaurants,3132.6,348466.53,252169.93,8526.07
+1,Poultry,Grocery Retail,2834.6,269740.94,229701.27,7702.17
+2,Poultry,Grocery Retail,2708.6,262255.84,216221.72,7359.92
+3,Poultry,Grocery Retail,2809.6,272167.98,227936.22,7634.31
+1,Poultry,Hotels & Institutions,1307.9,135279.81,104469.81,3548.96
+2,Poultry,Hotels & Institutions,1257.4,132608.16,100860.84,3412.13
+3,Poultry,Hotels & Institutions,1312.8,138280.69,104643.46,3562.33
+1,Poultry,Online Direct,678.5,82798.32,54720.04,7847.05
+2,Poultry,Online Direct,665.4,83152.91,53951.96,7696.16
+3,Poultry,Online Direct,679.1,84722.87,54544.92,7854.7
+1,Seafood,Restaurants,917.8,187515.4,143838.53,2500.98
+2,Seafood,Restaurants,876.7,187658.21,136683.75,2389.08
+3,Seafood,Restaurants,1037.7,221678.31,162424.29,2827.6
+1,Seafood,Grocery Retail,817.3,145197.59,126067.38,2231.18
+2,Seafood,Grocery Retail,792.6,145473.01,124087.18,2164.0
+3,Seafood,Grocery Retail,908.5,166464.74,141440.13,2480.34
+1,Seafood,Hotels & Institutions,387.2,75121.72,60411.45,1057.46
+2,Seafood,Hotels & Institutions,378.1,76741.81,59246.61,1032.6
+3,Seafood,Hotels & Institutions,424.1,86445.39,66453.74,1158.33
+1,Seafood,Online Direct,198.9,45690.08,30936.56,2301.08
+2,Seafood,Online Direct,191.9,45431.36,30013.4,2220.72
+3,Seafood,Online Direct,216.5,50912.93,33739.2,2504.57
+1,Charcuterie,Restaurants,835.0,138155.72,81679.56,2257.41
+2,Charcuterie,Restaurants,761.7,129140.0,74589.73,2059.16
+3,Charcuterie,Restaurants,817.6,138577.66,80300.49,2210.25
+1,Charcuterie,Grocery Retail,717.3,103703.26,70163.8,1943.62
+2,Charcuterie,Grocery Retail,684.6,100706.82,67167.23,1854.82
+3,Charcuterie,Grocery Retail,733.9,108307.95,72077.85,1988.38
+1,Charcuterie,Hotels & Institutions,353.3,55585.57,34692.98,956.81
+2,Charcuterie,Hotels & Institutions,337.9,54177.76,33195.6,915.1
+3,Charcuterie,Hotels & Institutions,349.3,56181.03,34300.75,946.03
+1,Charcuterie,Online Direct,183.5,34070.11,17901.59,2120.73
+2,Charcuterie,Online Direct,170.4,32283.25,16483.67,1969.54
+3,Charcuterie,Online Direct,179.9,34118.62,17466.4,2078.87
+1,Cheese & Dairy,Restaurants,1221.8,164157.41,104550.28,3310.12
+2,Cheese & Dairy,Restaurants,1145.1,156198.68,97140.85,3102.33
+3,Cheese & Dairy,Restaurants,1227.7,168132.7,104462.63,3326.15
+1,Cheese & Dairy,Grocery Retail,1085.1,127195.69,92951.95,2955.97
+2,Cheese & Dairy,Grocery Retail,1043.4,124083.7,88840.51,2842.23
+3,Cheese & Dairy,Grocery Retail,1101.6,131046.86,94070.33,3000.68
+1,Cheese & Dairy,Hotels & Institutions,521.6,66755.59,44949.07,1411.39
+2,Cheese & Dairy,Hotels & Institutions,489.4,63532.36,41689.34,1324.09
+3,Cheese & Dairy,Hotels & Institutions,522.8,67878.65,45043.72,1414.67
+1,Cheese & Dairy,Online Direct,267.6,40519.79,22865.77,3089.08
+2,Cheese & Dairy,Online Direct,252.5,38536.33,21620.89,2915.02
+3,Cheese & Dairy,Online Direct,271.5,41538.02,23146.91,3134.28

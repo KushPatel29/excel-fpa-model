@@ -1,7 +1,7 @@
 # Finance decision models in Excel and Power BI
 
 [![CI](https://github.com/KushPatel29/excel-fpa-model/actions/workflows/ci.yml/badge.svg)](https://github.com/KushPatel29/excel-fpa-model/actions/workflows/ci.yml)
-![Tests](https://img.shields.io/badge/tests-1%2C190%20collected-3B8C6E)
+![Tests](https://img.shields.io/badge/tests-1%2C263%20collected-3B8C6E)
 ![Excel](https://img.shields.io/badge/Excel-Power%20Query%20%C2%B7%20Power%20Pivot%20%C2%B7%20DAX-217346?logo=microsoftexcel&logoColor=white)
 ![Power BI](https://img.shields.io/badge/Power%20BI-PBIP%20%C2%B7%20TMDL%20%C2%B7%207%20pages-F2C811?logo=powerbi&logoColor=black)
 ![Checks](https://img.shields.io/badge/in--workbook%20checks-31%20of%2031%20pass-1E7B34)
@@ -31,7 +31,9 @@ independent pandas model holds the saved workbook to the cent.
 The same analysis is also a seven-page **Power BI report** (a PBIP project with a TMDL model).
 It reads tables written by that same reference model, and a test reads the workbook's own cells
 against them, so the two cannot publish different numbers. The repository also preserves the
-synthetic Kestrel Bay distributor workbook. 1,190 tests in all. The B.C. local-government
+synthetic Kestrel Bay distributor workbook, and takes Kestrel Bay through its
+[FY2027 budget cycle](budget_cycle/): top-down targets, bottom-up submissions, a challenge round,
+three linked monthly statements and a 3+9 reforecast. 1,263 tests in all. The B.C. local-government
 finance model that briefly lived here now has
 [its own repository](https://github.com/KushPatel29/bc-local-government-finance).
 
