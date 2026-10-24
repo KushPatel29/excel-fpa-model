@@ -111,8 +111,8 @@ def consolidation(i: dict, b: pd.DataFrame) -> dict:
     return out
 
 
-def statements(i: dict, b: pd.DataFrame) -> pd.DataFrame:
-    bs = A["balance_sheet"]
+def statements(i: dict, b: pd.DataFrame, balance_sheet: dict | None = None) -> pd.DataFrame:
+    bs = A["balance_sheet"] if balance_sheet is None else balance_sheet
     ox = opex(i, "v2").sum(axis=1)
     rev = b.groupby("month").revenue_v2.sum()
     cogs = b.groupby("month").cogs.sum()

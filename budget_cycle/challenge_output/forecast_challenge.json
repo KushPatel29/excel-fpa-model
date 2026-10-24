@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "classification": "synthetic_budget_sensitivity",
+  "basis": "Approved FY2027 budget; shocks affect April\u2013December, working-capital day changes affect all modeled months. This is separate from the existing actuals-based 3+9 reforecast.",
+  "input_sha256": {
+    "assumptions.json": "6052bef32fdb6846e5d67ade6196eaac0201b36776319b57ab947ae77be6389e",
+    "data/base_segments.csv": "d8cf7fc7ab8d8881f388eec02899a3893d47685654691dda76cf702a3652138b",
+    "data/opening_wc.csv": "0546b265612b592f47c80b9e94c36b70c8a9bdeb34e2f0bab48d3785bf9d986a",
+    "data/opex_base.csv": "365e4d1871e5b1c818b819c3ba5599eb732e587a84e01e85b5a89aad93f2258a",
+    "data/q1_opex_actuals.csv": "ccc8304e7ee223b5c4f1c8322728bf80b0ae169941c834014a75d520afb3652f",
+    "data/q1_sales_actuals.csv": "d5dfe09269fdc2f4c83816a03e442a94f110454a90ecbaa33819d270382ec34f",
+    "data/seasonality.csv": "581d633068105a5f20e34d7e99c54592060e39a37f5fd8a0b4a305a604a32108"
+  },
+  "scenarios": [
+    {
+      "scenario": "approved_budget",
+      "drivers": {},
+      "revenue": 49736611.718610846,
+      "ebitda": 2326594.7983655124,
+      "net_income": 1286991.603655483,
+      "interest": 45092.60157717936,
+      "closing_revolver": 0.0,
+      "peak_revolver": 1004494.5104721311,
+      "closing_cash": 405081.23431701516,
+      "closing_receivables": 4893863.093507009,
+      "closing_inventory": 1797410.029347513,
+      "maximum_balance_residual": 3.725290298461914e-09,
+      "remaining_volume_multiplier": 1.0,
+      "ebitda_vs_budget": 0.0,
+      "closing_revolver_vs_budget": 0.0
+    },
+    {
+      "scenario": "combined_downside",
+      "drivers": {
+        "cost_inflation": 0.02,
+        "dso_days": 7,
+        "dio_days": 5
+      },
+      "revenue": 49736611.718610846,
+      "ebitda": 1753360.443616664,
+      "net_income": 790139.6670025912,
+      "interest": 152477.33813366256,
+      "closing_revolver": 2008949.359319968,
+      "peak_revolver": 2782297.894930049,
+      "closing_cash": 400000.0,
+      "closing_receivables": 5901423.142170216,
+      "closing_inventory": 2372581.2387387175,
+      "maximum_balance_residual": 2.7939677238464355e-09,
+      "remaining_volume_multiplier": 1.0,
+      "ebitda_vs_budget": -573234.3547488484,
+      "closing_revolver_vs_budget": 2008949.359319968
+    },
+    {
+      "scenario": "pricing_response",
+      "drivers": {
+        "cost_inflation": 0.02,
+        "dso_days": 7,
+        "dio_days": 5,
+        "price_change": 0.01,
+        "elasticity": -1.5
+      },
+      "revenue": 49545159.80732893,
+      "ebitda": 2008513.4730979167,
+      "net_income": 980242.3712996317,
+      "interest": 147215.70419431166,
+      "closing_revolver": 1803938.147514842,
+      "peak_revolver": 2703225.776274883,
+      "closing_cash": 400000.0,
+      "closing_receivables": 5872135.501625256,
+      "closing_inventory": 2337432.246870801,
+      "maximum_balance_residual": 1.862645149230957e-09,
+      "remaining_volume_multiplier": 0.9851853368415734,
+      "ebitda_vs_budget": -318081.3252675957,
+      "closing_revolver_vs_budget": 1803938.147514842
+    },
+    {
+      "scenario": "working_capital_response",
+      "drivers": {
+        "cost_inflation": 0.02,
+        "dso_days": 4,
+        "dio_days": 3
+      },
+      "revenue": 49736611.718610846,
+      "ebitda": 1753360.443616664,
+      "net_income": 820257.035398758,
+      "interest": 111220.6690978173,
+      "closing_revolver": 1331331.3379750093,
+      "peak_revolver": 2084529.343707849,
+      "closing_cash": 400000.0,
+      "closing_receivables": 5469611.692743126,
+      "closing_inventory": 2156892.035217016,
+      "maximum_balance_residual": 1.862645149230957e-09,
+      "remaining_volume_multiplier": 1.0,
+      "ebitda_vs_budget": -573234.3547488484,
+      "closing_revolver_vs_budget": 1331331.3379750093
+    }
+  ],
+  "decision": "CHALLENGE REQUIRED; no budget or management approval recorded",
+  "owner_questions": {
+    "Sales": "Does the 1% price response retain the modeled demand under the assumed -1.5 elasticity?",
+    "Operations": "Can inventory days fall without increasing stockouts or expiry costs?",
+    "Finance": "Are collection timing, tax-loss treatment and financing capacity acceptable?"
+  },
+  "limits": [
+    "Elasticity is an assumption, not estimated causal demand response",
+    "No facility limit or lender covenant is supplied; peak debt is exposure, not confirmed funding",
+    "Existing tax-loss credit and opening-balance interest conventions are unchanged",
+    "No real business-partner challenge session has occurred"
+  ]
+}
