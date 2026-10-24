@@ -8,8 +8,7 @@
 ![Data](https://img.shields.io/badge/data-EIA%20%C2%B7%20FERC%20%C2%B7%20NOAA-1F3A5F)
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
 
-The flagship is an FP&A workbook for Oregon's largest electric utility, built from the filings a real
-utility FP&A team works with:
+The flagship is an independent FP&A workbook for Oregon's largest electric utility. Its plan is modelled from prior public records, **not PGE's internal budget**. It uses the filings a utility FP&A team works with:
 - **EIA-861M**: monthly retail sales by customer class.
 - **FERC Form 1**: the audited annual report every major US utility files with its federal regulator.
 - **NOAA degree days**: heating and cooling degree days for the service territory.
@@ -51,7 +50,7 @@ finance model that briefly lived here now has
 
 Actuals run through June 2026 (EIA) and the 2025 FERC filing.
 
-**1. The first half of 2026 came in $100.9M (6.4%) under plan.** Retail revenue was $1,470.0M
+**1. H1 2026 revenue was $100.9M (6.4%) below an independently modelled plan.** Retail revenue was $1,470.0M
 against a plan of $1,570.9M. The plan was built only from data through December 2025. The
 variance bridge splits the gap exactly:
 
@@ -81,7 +80,7 @@ Industrial MWh grew 10.9% a year, the fastest of the five peers. Power costs gre
 revenue, and operating margin fell 2.0 points to 15.3%.
 
 **5. Where 2026 lands.** On normal weather for the open months, full-year retail revenue is
-**$3.01B, +2.7% on 2025 and $184.2M under plan**. One point of rate on the open months is worth
+**$3.01B, +2.7% on 2025 and $184.2M below the independently modelled plan**. One point of rate on the open months is worth
 $15.4M. Fifty megawatts of new data-center load is worth $21.1M. A mild autumn would cost $26.5M.
 
 **6. What the backtest teaches.** The same plan method, re-run as of each of the last four
