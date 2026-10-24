@@ -1,7 +1,7 @@
 # Finance decision models in Excel and Power BI
 
 [![CI](https://github.com/KushPatel29/excel-fpa-model/actions/workflows/ci.yml/badge.svg)](https://github.com/KushPatel29/excel-fpa-model/actions/workflows/ci.yml)
-![Tests](https://img.shields.io/badge/tests-1%2C313%20collected-3B8C6E)
+![Tests](https://img.shields.io/badge/tests-1%2C320%20collected-3B8C6E)
 ![Excel](https://img.shields.io/badge/Excel-Power%20Query%20%C2%B7%20Power%20Pivot%20%C2%B7%20DAX-217346?logo=microsoftexcel&logoColor=white)
 ![Power BI](https://img.shields.io/badge/Power%20BI-PBIP%20%C2%B7%20TMDL%20%C2%B7%207%20pages-F2C811?logo=powerbi&logoColor=black)
 ![Checks](https://img.shields.io/badge/in--workbook%20checks-31%20of%2031%20pass-1E7B34)
@@ -45,6 +45,8 @@ finance model that briefly lived here now has
 > General Electric.
 
 ![Dashboard: KPI tiles, written summary, revenue by month, plan-to-actual bridge, long-view price-volume-mix bridge, peer industrial growth](docs/img/dashboard.png)
+
+**Challenge the forecast decision:** [four driver/cash scenarios and their decision memo](budget_cycle/challenge_output/DECISION_MEMO.md) connect price and cost assumptions to working capital, interest, debt and all three statements. [Reproduce the challenge](budget_cycle/forecast_challenge.py) with `python -m budget_cycle.forecast_challenge`. The existing workbooks are preserved; these are synthetic budget sensitivities, separate from the actuals-based 3+9 reforecast.
 
 ## What the model found
 

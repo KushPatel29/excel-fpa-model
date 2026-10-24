@@ -38,6 +38,11 @@ jobs:
       - name: Run the pandas reference model
         run: python model/reference.py
 
+      - name: Reconcile the budget challenge and cash consequences
+        run: |
+          python -m budget_cycle.forecast_challenge
+          git diff --exit-code -- budget_cycle/challenge_output/
+
       # Excel does not run on Linux, so CI cannot rebuild the workbook. It does
       # the next best thing: reads the committed workbook's cached values and
       # holds every published figure to the reference model, to the cent.
