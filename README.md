@@ -33,7 +33,7 @@ against them, so the two cannot publish different numbers. The repository also p
 synthetic Kestrel Bay distributor workbook, and takes Kestrel Bay through its
 [FY2027 budget cycle](budget_cycle/): top-down targets, bottom-up submissions, a challenge round,
 three linked monthly statements and a 3+9 reforecast. A [DCF valuation of lululemon](valuation/)
-works from its SEC filings, every figure traced to the 10-K it came from. 1,313 tests in all. The B.C. local-government
+works from its SEC filings, every figure traced to the 10-K it came from. The test-count badge above is checked against collection. The B.C. local-government
 finance model that briefly lived here now has
 [its own repository](https://github.com/KushPatel29/bc-local-government-finance).
 
@@ -393,7 +393,7 @@ tables/                      those tables, committed
 powerbi/                     the PBIP generator, its model and report specs, and the project
 budget_cycle/                the Kestrel Bay FY2027 budget cycle: extract, pandas twin, workbook builder
 valuation/                   the lululemon DCF: EDGAR facts, market inputs, twin, workbook builder
-tests/                       1,313 collected tests: workbook tie-out and features, data, Power BI model,
+tests/                       workbook tie-out and features, data, Power BI model,
                              report and cross-surface tie-out, the budget cycle, the DCF, badge
 ```
 
